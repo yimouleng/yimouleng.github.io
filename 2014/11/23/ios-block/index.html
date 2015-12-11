@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>ios Block | Yi&#39;mouleng-即便世界与我为敌，只要心还透明，就能折射希望。</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="何为BlockBlock 是iOS在4.0之后新增的程式语法，严格来说block的概念并不算是基础程式设计的范围，对初学者来说也不是很容易了解，但是在iOS SDK 4.0之后，block几乎出现在所有新版的API之中，换句话说，如果不了解block这个概念就无法使用SDK 4.0版本以后的新功能，因此虽然block本身的语法有点难度，但为了使用iOS的新功能我们还是得硬着头皮去了解这个新的程式概">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ios Block">
+<meta property="og:url" content="http://yimouleng.com/2014/11/23/ios-block/index.html">
+<meta property="og:site_name" content="Yi'mouleng-即便世界与我为敌，只要心还透明，就能折射希望。">
+<meta property="og:description" content="何为BlockBlock 是iOS在4.0之后新增的程式语法，严格来说block的概念并不算是基础程式设计的范围，对初学者来说也不是很容易了解，但是在iOS SDK 4.0之后，block几乎出现在所有新版的API之中，换句话说，如果不了解block这个概念就无法使用SDK 4.0版本以后的新功能，因此虽然block本身的语法有点难度，但为了使用iOS的新功能我们还是得硬着头皮去了解这个新的程式概">
+<meta property="og:updated_time" content="2015-12-09T09:16:39.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ios Block">
+<meta name="twitter:description" content="何为BlockBlock 是iOS在4.0之后新增的程式语法，严格来说block的概念并不算是基础程式设计的范围，对初学者来说也不是很容易了解，但是在iOS SDK 4.0之后，block几乎出现在所有新版的API之中，换句话说，如果不了解block这个概念就无法使用SDK 4.0版本以后的新功能，因此虽然block本身的语法有点难度，但为了使用iOS的新功能我们还是得硬着头皮去了解这个新的程式概">
+  
+    <link rel="alternative" href="/atom.xml" title="Yi&#39;mouleng-即便世界与我为敌，只要心还透明，就能折射希望。" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.jpg">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/resources/avatar.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Yi&#39;mouleng</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">知止安能定,定而知静,静方可虑,虑而后能得。---iOS交流群67784110</p>
+		
+				
+
+		
+			<div class="switch-btn" id="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area" id="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/archives">目录</a></li>
+				        
+							<li><a href="/categories/iOS开发">iOS开发</a></li>
+				        
+							<li><a href="/categories/二三事">二三事</a></li>
+				        
+							<li><a href="/tags/">标签云</a></li>
+				        
+							<li><a href="/about/">关于</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/yimouleng" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/yimouleng" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+					        
+								<a class="QQ" target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=ac73346414b7bc620d16a1553318221a96d0fb90832d39995c539098731e21b6" title="QQ">QQ</a>
+					        
+								<a class="mail" target="_blank" href="mailto:yimouleng@gamil.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/AFNetworking/" style="font-size: 10px;">AFNetworking</a> <a href="/tags/ASIHTTPRequest/" style="font-size: 10px;">ASIHTTPRequest</a> <a href="/tags/Animation/" style="font-size: 10px;">Animation</a> <a href="/tags/AsyncSocket/" style="font-size: 10px;">AsyncSocket</a> <a href="/tags/CALayer/" style="font-size: 10px;">CALayer</a> <a href="/tags/CoreGraphics/" style="font-size: 10px;">CoreGraphics</a> <a href="/tags/Dota2/" style="font-size: 10px;">Dota2</a> <a href="/tags/GCD/" style="font-size: 10px;">GCD</a> <a href="/tags/HTTPS/" style="font-size: 10px;">HTTPS</a> <a href="/tags/IOS-9/" style="font-size: 10px;">IOS 9</a> <a href="/tags/KVC/" style="font-size: 10px;">KVC</a> <a href="/tags/KVO/" style="font-size: 10px;">KVO</a> <a href="/tags/LLPictureShow/" style="font-size: 10px;">LLPictureShow</a> <a href="/tags/MKNetworkingKit/" style="font-size: 10px;">MKNetworkingKit</a> <a href="/tags/Socket/" style="font-size: 10px;">Socket</a> <a href="/tags/UIActionSheet/" style="font-size: 10px;">UIActionSheet</a> <a href="/tags/UIAlertview/" style="font-size: 10px;">UIAlertview</a> <a href="/tags/UIBezierPath/" style="font-size: 10px;">UIBezierPath</a> <a href="/tags/UIKeyboardType/" style="font-size: 10px;">UIKeyboardType</a> <a href="/tags/UITextField/" style="font-size: 10px;">UITextField</a> <a href="/tags/WOW/" style="font-size: 10px;">WOW</a> <a href="/tags/block/" style="font-size: 20px;">block</a> <a href="/tags/iOS/" style="font-size: 20px;">iOS</a> <a href="/tags/ios/" style="font-size: 10px;">ios</a> <a href="/tags/runtime/" style="font-size: 10px;">runtime</a> <a href="/tags/scrollView/" style="font-size: 10px;">scrollView</a> <a href="/tags/动画/" style="font-size: 10px;">动画</a> <a href="/tags/即时通讯/" style="font-size: 10px;">即时通讯</a> <a href="/tags/四舍五入/" style="font-size: 10px;">四舍五入</a> <a href="/tags/多线程/" style="font-size: 10px;">多线程</a> <a href="/tags/字符串/" style="font-size: 10px;">字符串</a> <a href="/tags/撕裂效果/" style="font-size: 10px;">撕裂效果</a> <a href="/tags/正则/" style="font-size: 10px;">正则</a> <a href="/tags/网络框架/" style="font-size: 10px;">网络框架</a> <a href="/tags/语法/" style="font-size: 10px;">语法</a> <a href="/tags/键盘/" style="font-size: 10px;">键盘</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://yimouleng.com/">我的博客</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Yi&#39;mouleng</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="/resources/avatar.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Yi&#39;mouleng</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">知止安能定,定而知静,静方可虑,虑而后能得。---iOS交流群67784110</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/archives">目录</a></li>
+		        
+					<li><a href="/categories/iOS开发">iOS开发</a></li>
+		        
+					<li><a href="/categories/二三事">二三事</a></li>
+		        
+					<li><a href="/tags/">标签云</a></li>
+		        
+					<li><a href="/about/">关于</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/yimouleng" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/yimouleng" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+			        
+						<a class="QQ" target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=ac73346414b7bc620d16a1553318221a96d0fb90832d39995c539098731e21b6" title="QQ">QQ</a>
+			        
+						<a class="mail" target="_blank" href="mailto:yimouleng@gamil.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-ios-block" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/11/23/ios-block/" class="article-date">
+  	<time datetime="2014-11-23T12:34:38.000Z" itemprop="datePublished">2014-11-23</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      ios Block
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/block/">block</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/语法/">语法</a></li></ul>
+	</div>
+
+        
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/iOS开发/">iOS开发</a>
+	</div>
+
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+        <h2 id="u4F55_u4E3ABlock"><a href="#u4F55_u4E3ABlock" class="headerlink" title="何为Block"></a>何为Block</h2><p>Block 是iOS在4.0之后新增的程式语法，严格来说block的概念并不算是基础程式设计的范围，对初学者来说也不是很容易了解，但是在iOS SDK 4.0之后，block几乎出现在所有新版的API之中，换句话说，如果不了解block这个概念就无法使用SDK 4.0版本以后的新功能，因此虽然block本身的语法有点难度，但为了使用iOS的新功能我们还是得硬着头皮去了解这个新的程式概念。</p>
+<a id="more"></a>
+<h3 id="u64CD_u86CB_u7684Block_u8BED_u6CD5"><a href="#u64CD_u86CB_u7684Block_u8BED_u6CD5" class="headerlink" title="操蛋的Block语法"></a>操蛋的Block语法</h3><p>Block 首先复制<a href="http://fuckingblocksyntax.com" target="_blank" rel="external">操蛋的Block语法</a>上面的代码<br>1、作为一个本地变量（local variable）</p>
+<p><code>returnType (^blockName)(parameterTypes) = ^returnType(parameters) {…};</code></p>
+<p>2、作为@property</p>
+<p><code>@property (nonatomic, copy) returnType (^blockName)(parameterTypes);</code></p>
+<p>3、作为方法的参数（method parameter）</p>
+<p><code>- (void)someMethodThatTakesABlock:(returnType (^)(parameterTypes))blockName;</code></p>
+<p>4、作为方法参数的时候被调用</p>
+<p><code>[someObject someMethodThatTakesABlock: ^returnType (parameters) {...}];</code></p>
+<p>5、使用typedef来定义block，可以事半功倍</p>
+<p><code>typedef returnType (^TypeName)(parameterTypes);
+TypeName blockName = ^returnType(parameters) {…};</code></p>
+<p>这篇可能会比较长，先列个提纲</p>
+<blockquote>
+<ul>
+<li>一个最简单的 Block</li>
+<li>有参数无返回值的 Block</li>
+<li>有参数有返回值的 Block</li>
+<li>Block 中的 typedef</li>
+<li>Block 到底（比函数）优越在哪里</li>
+<li>Block 的进阶使用</li>
+</ul>
+</blockquote>
+<p>Objective-C 的 Block 非常神奇，相当于一个类，里面保存的是一段代码（代码块），别的语言可能还没有这个特性，同时，Apple 官方也推荐开发者使用 Block 来写程序。</p>
+<h3 id="u4E00_u4E2A_u6700_u7B80_u5355_u7684_Block"><a href="#u4E00_u4E2A_u6700_u7B80_u5355_u7684_Block" class="headerlink" title="一个最简单的 Block"></a>一个最简单的 Block</h3><p>Block 跟函数挺像的，不过用法比函数要高大上。举个栗子：</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 函数是这样写</span></span><br><span class="line"><span class="keyword">void</span> blockTest() &#123;  </span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"Hello, World!"</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这样调用</span></span><br><span class="line">blockTest();</span><br><span class="line"></span><br><span class="line"><span class="comment">// block 这样写</span></span><br><span class="line"><span class="keyword">void</span> (^blockTest)() = ^&#123;  </span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"Hello, World!"</span>);</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这样调用</span></span><br><span class="line">blockTest();</span><br></pre></td></tr></table></figure>
+<p>两个调用是完全一样的，不过 Block 的声明有点难理解，来分析下</p>
+<p><code>void</code> 说明函数没有返回值，跟函数的写法完全一样的，</p>
+<p><code>(^blockTest)</code> 拆成三部分，<code>blockTest</code> 是 Block 的名字，前面加一个<code>^</code>说明这是个 Block 类型，然后再用括号括住，这是固定写法，</p>
+<p><code>()</code> 说明无参数，</p>
+<p><code>^{}</code> 这个就是 Block 内容的固定写法了，当然前提是<strong>没有参数</strong>，另一种情况稍后补充慢慢来~</p>
+<h3 id="u6709_u53C2_u6570_u65E0_u8FD4_u56DE_u503C_u7684_Block"><a href="#u6709_u53C2_u6570_u65E0_u8FD4_u56DE_u503C_u7684_Block" class="headerlink" title="有参数无返回值的 Block"></a>有参数无返回值的 Block</h3><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> (^blockTest)(<span class="keyword">int</span>, <span class="built_in">NSString</span> *) = ^(<span class="keyword">int</span> count, <span class="built_in">NSString</span> *word)&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i&lt;count; i++) &#123;</span><br><span class="line">        <span class="built_in">NSLog</span>(<span class="string">@"%@"</span>, word);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">blockTest(<span class="number">5</span>, <span class="string">@"Hello, World!"</span>);</span><br></pre></td></tr></table></figure>
+<p>大括号内的东西大概都明白，不再细说，上面提到，<code>()</code> 代表无参数，那么这次里面有一个 int, NSString *，说明有两个类型的参数，后面原本是<code>^{}</code>，现在中间多了个 <code>()</code>，道理同上。</p>
+<h3 id="u6709_u53C2_u6570_u6709_u8FD4_u56DE_u503C_u7684_Block"><a href="#u6709_u53C2_u6570_u6709_u8FD4_u56DE_u503C_u7684_Block" class="headerlink" title="有参数有返回值的 Block"></a>有参数有返回值的 Block</h3><figure class="highlight axapta"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> (^<span class="keyword">sum</span>)(<span class="keyword">int</span>, <span class="keyword">int</span>) = ^(<span class="keyword">int</span> x, <span class="keyword">int</span> y)&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> x + y;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">NSLog(@<span class="string">"%d"</span>, <span class="keyword">sum</span>(<span class="number">13</span>, <span class="number">14</span>));</span><br></pre></td></tr></table></figure>
+<p>这个其实我不想多说了，以大家聪明的程度肯定自己能看懂。</p>
+<h3 id="Block__u4E2D_u7684_typedef"><a href="#Block__u4E2D_u7684_typedef" class="headerlink" title="Block 中的 typedef"></a>Block 中的 typedef</h3><p>大家都知道 typedef 可以这么用</p>
+<p><code>typedef int BlockInt;</code></p>
+<p>相同的，可以推理到 Block 中</p>
+<p><code>typedef int (^MyBlock)(int);</code></p>
+<p><strong>注意写法，跟普通的不太一样</strong></p>
+<p>之后想用的时候，可以直接把 MyBlock 当成一个类型，举个栗子<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">MyBlock square = ^(<span class="keyword">int</span> x)&#123;  </span><br><span class="line">    <span class="keyword">return</span> x * x;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">square(<span class="number">6</span>);</span><br></pre></td></tr></table></figure></p>
+<h3 id="Block__u5230_u5E95_uFF08_u6BD4_u51FD_u6570_uFF09_u4F18_u8D8A_u5728_u54EA_u91CC"><a href="#Block__u5230_u5E95_uFF08_u6BD4_u51FD_u6570_uFF09_u4F18_u8D8A_u5728_u54EA_u91CC" class="headerlink" title="Block 到底（比函数）优越在哪里"></a>Block 到底（比函数）优越在哪里</h3><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> getSomeInfo(<span class="built_in">NSString</span> *info) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"%@"</span>, info);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>用函数写的话，可以这么玩，传入一个已知类型的变量，由这个函数来决定如何处置变量。</p>
+<p>我们写程序讲究低耦合，这个函数关心的东西越少越好，这么做管的太宽了，但是我们有 Block，来看一个神奇的效果：<br><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">void <span class="function">getSomeInfo</span>(<span class="function">void</span>(^blockFunc)()) &#123;</span><br><span class="line"></span><br><span class="line">    <span class="function">NSLog</span>(<span class="at_rule">@<span class="string">"Before Block"</span>);</span></span><br><span class="line">    <span class="function">blockFunc</span>();</span><br><span class="line">    <span class="function">NSLog</span>(<span class="at_rule">@<span class="string">"After Block"</span>);</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>main 函数中<br><figure class="highlight scss"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">getSomeInfo</span>(^&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function">NSLog</span>(<span class="at_rule">@<span class="string">"%@"</span>, @<span class="string">"You can do anything here"</span>);</span></span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>结果是<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="number">2015</span>-<span class="number">05</span>-<span class="number">21</span> <span class="number">22</span>:<span class="number">52</span>:<span class="number">23.498</span> Block-Test[<span class="number">5427</span>:<span class="number">277676</span>] Before Block  </span><br><span class="line"><span class="number">2015</span>-<span class="number">05</span>-<span class="number">21</span> <span class="number">22</span>:<span class="number">52</span>:<span class="number">23.499</span> Block-Test[<span class="number">5427</span>:<span class="number">277676</span>] You can <span class="keyword">do</span> anything here  </span><br><span class="line"><span class="number">2015</span>-<span class="number">05</span>-<span class="number">21</span> <span class="number">22</span>:<span class="number">52</span>:<span class="number">23.499</span> Block-Test[<span class="number">5427</span>:<span class="number">277676</span>] After Block</span><br></pre></td></tr></table></figure></p>
+<p>当然这么搞不太严谨的，如果传进去一个空，程序会报错（坏访问），解决方法也很简单，判断一下是否为空即可，我就不写了 </p>
+<h3 id="Block__u7684_u8FDB_u9636_u4F7F_u7528"><a href="#Block__u7684_u8FDB_u9636_u4F7F_u7528" class="headerlink" title="Block 的进阶使用"></a>Block 的进阶使用</h3><p>  1.修改外部变量的时候，外部变量需要加一个 __block 来修饰</p>
+<p>  __block int a = 50;</p>
+<p>  2.为什么加上 __block 就能修改了</p>
+<p>先贴 main.m 的代码<br><figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//  main.m</span></span><br><span class="line"><span class="comment">//  Block-Test</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"><span class="comment">//  Created by JieLee on 15/5/21.</span></span><br><span class="line"><span class="comment">//  Copyright (c) 2015年 PUPBOSS. All rights reserved.</span></span><br><span class="line"><span class="comment">//</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#import &lt;Foundation/Foundation.h&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">const</span> <span class="keyword">char</span> * argv[])</span> </span>&#123;  </span><br><span class="line">    @autoreleasepool &#123;</span><br><span class="line"></span><br><span class="line">        __block <span class="keyword">int</span> a = <span class="number">10</span>;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">void</span> (^blockTest)() = ^&#123;</span><br><span class="line"></span><br><span class="line">            a = <span class="number">50</span>;</span><br><span class="line">            NSLog(@<span class="string">"%d"</span>, a);</span><br><span class="line">        &#125;;</span><br><span class="line"></span><br><span class="line">        blockTest();</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在 Terminal 中，输入 <code>clang -rewrite-objc main.m</code>，居然转换了 10 万多行 C++ 代码，拉到最下面分析</p>
+<p>有一段是这样的<br><figure class="highlight delphi"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">int main(int argc, <span class="keyword">const</span> char * argv[]) <span class="comment">&#123;  </span><br><span class="line">    /* @autoreleasepool */ &#123; __AtAutoreleasePool __autoreleasepool; </span><br><span class="line">        __attribute__((__blocks__(byref))) __Block_byref_a_0 a = &#123;(void*)0,(__Block_byref_a_0 *)&amp;a, 0, sizeof(__Block_byref_a_0), 10&#125;</span>;</span><br><span class="line"></span><br><span class="line">        void <span class="comment">(*blockTest)() = (void (*)</span>())&amp;__main_block_impl_0((void *)__main_block_func_0, &amp;__main_block_desc_0_DATA, (__Block_byref_a_0 *)&amp;a, <span class="number">570425344</span>);</span><br><span class="line"></span><br><span class="line">        ((void <span class="comment">(*)(__block_impl *)</span>)((__block_impl *)blockTest)-&gt;FuncPtr)((__block_impl *)blockTest);</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    return <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>来分析下，一般括号内的东西是强转，那就好办了，重点看这句<br><figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">void <span class="list">(<span class="keyword">*blockTest</span>)</span><span class="list">()</span> = <span class="list">(<span class="keyword">void</span> <span class="list">(<span class="keyword">*</span>)</span><span class="list">()</span>)</span>&amp;__main_block_impl_0<span class="list">(<span class="list">(<span class="keyword">void</span> <span class="variable">*)__main_block_func_0, &amp;__main_block_desc_0_DATA, (__Block_byref_a_0 *</span>)</span><span class="keyword">&amp;a</span>, <span class="number">570425344</span>)</span><span class="comment">;</span></span><br></pre></td></tr></table></figure></p>
+<p>删掉各种括号，就变成了<br><figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">void <span class="list">(<span class="keyword">*blockTest</span>)</span><span class="list">()</span> = &amp;__main_block_impl_0<span class="list">(<span class="keyword">__main_block_func_0</span>, <span class="keyword">&amp;__main_block_desc_0_DATA</span>, <span class="keyword">&amp;a</span>, <span class="number">570425344</span>)</span><span class="comment">;</span></span><br></pre></td></tr></table></figure></p>
+<p><code>__main_block_impl_0</code> 应该是一个类，或者结构体，我们往上找，还真有一个</p>
+<figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">struct __main_block_impl_0 &#123;  </span><br><span class="line">  struct __block_impl impl;</span><br><span class="line">  struct __main_block_desc_0* <span class="type">Desc</span>;</span><br><span class="line">  __Block_byref_a_0 *a; // by <span class="keyword">ref</span></span><br><span class="line">  __main_block_impl_0(<span class="type">void</span> *fp, struct __main_block_desc_0 *desc, __Block_byref_a_0 *_a, <span class="type">int</span> flags=<span class="number">0</span>) : a(_a-&gt;__forwarding) &#123;</span><br><span class="line">    impl.isa = &amp;_NSConcreteStackBlock;</span><br><span class="line">    impl.<span class="type">Flags</span> = flags;</span><br><span class="line">    impl.<span class="type">FuncPtr</span> = fp;</span><br><span class="line">    <span class="type">Desc</span> = desc;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>C++ 的结构体比较有意思，他可以调用自己的 <code>__main_block_impl_0</code>函数，然后把需要的东西传进去，最后 <code>Desc = desc</code>; 返回一个结构体。</p>
+<p>再转回来<code>&amp;__main_block_impl_0(__main_block_func_0, &amp;__main_block_desc_0_DATA,&amp;a,570425344)</code>; 是什么意思呢，返回一个结构体，然后取地址，所以 block 的本质，就是一个结构体！</p>
+<p>至于为什么能改变 a 的值，我贴段代码，大家自己理解吧，我是有点蒙。反正就是各种地址各种传进去，然后就把值给改了。<br><figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">__attribute__((__blocks__(byref))) __Block_byref_a_0 a = &#123;(<span class="type">void</span>*)<span class="number">0</span>,(__Block_byref_a_0 *)&amp;a, <span class="number">0</span>, sizeof(__Block_byref_a_0), <span class="number">10</span>&#125;;</span><br><span class="line"></span><br><span class="line">struct __Block_byref_a_0 &#123;  </span><br><span class="line">  <span class="type">void</span> *__isa;</span><br><span class="line">__Block_byref_a_0 *__forwarding;  </span><br><span class="line"> <span class="type">int</span> __flags;</span><br><span class="line"> <span class="type">int</span> __size;</span><br><span class="line"> <span class="type">int</span> a;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">struct __main_block_impl_0 &#123;  </span><br><span class="line">  struct __block_impl impl;</span><br><span class="line">  struct __main_block_desc_0* <span class="type">Desc</span>;</span><br><span class="line">  __Block_byref_a_0 *a; // by <span class="keyword">ref</span></span><br><span class="line">  __main_block_impl_0(<span class="type">void</span> *fp, struct __main_block_desc_0 *desc, __Block_byref_a_0 *_a, <span class="type">int</span> flags=<span class="number">0</span>) : a(_a-&gt;__forwarding) &#123;</span><br><span class="line">    impl.isa = &amp;_NSConcreteStackBlock;</span><br><span class="line">    impl.<span class="type">Flags</span> = flags;</span><br><span class="line">    impl.<span class="type">FuncPtr</span> = fp;</span><br><span class="line">    <span class="type">Desc</span> = desc;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line"><span class="keyword">static</span> <span class="type">void</span> __main_block_func_0(struct __main_block_impl_0 *__cself) &#123;  </span><br><span class="line">  __Block_byref_a_0 *a = __cself-&gt;a; // bound by <span class="keyword">ref</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">            (a-&gt;__forwarding-&gt;a) = <span class="number">50</span>;</span><br><span class="line">            <span class="type">NSLog</span>((<span class="type">NSString</span> *)&amp;__NSConstantStringImpl__var_folders_f__kvyhp79j5wbcb2d7t24v3v_c0000gn_T_main_f979f0_mi_2, (a-&gt;__forwarding-&gt;a));</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure></p>
+<p>文章最后有完整的代码，想研究的可以去<a href="https://gist.githubusercontent.com/pupboss/0cf42d6114816ef2fdb8/raw/390a5e4117fac5da18878e91416a90b4eb796ef6/main.cpp" target="_blank" rel="external">pupboss的github</a></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<div class="copyright">
+  <p><span>本文标题:</span><a href="/2014/11/23/ios-block/">ios Block</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 Yi&#39;mouleng 的个人博客">Yi&#39;mouleng</a></p>
+  <p><span>发布时间:</span>2014年11月23日 - 20时34分</p>
+  <p><span>最后更新:</span>2015年12月09日 - 17时16分</p>
+  <p>
+    <span>原始链接:</span><a class="post-url" href="/2014/11/23/ios-block/" title="ios Block">http://yimouleng.com/2014/11/23/ios-block/</a>
+    <span class="copy-path" data-clipboard-text="原文: http://yimouleng.com/2014/11/23/ios-block/　　作者: Yi&#39;mouleng" title="点击复制文章链接">
+        <i class="fa fa-clipboard"></i>
+    </span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。</p>
+  <script src="/js/clipboard.min.js"></script>
+  <script> var clipboard = new Clipboard('.copy-path'); </script>
+</div>
+
+
+
+<nav id="article-nav">
+  
+    <a href="/2015/02/04/Socket-AsyncSocket/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          iOS开发 Socket - AsyncSocket
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/11/23/CALayer-Animation/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">iOS开发 - 动画-CALayer-Core Animation-UIView封装</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+  <strong class="toc-title">文章目录</strong>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#u4F55_u4E3ABlock"><span class="toc-number">1.</span> <span class="toc-text">何为Block</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#u64CD_u86CB_u7684Block_u8BED_u6CD5"><span class="toc-number">1.1.</span> <span class="toc-text">操蛋的Block语法</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u4E00_u4E2A_u6700_u7B80_u5355_u7684_Block"><span class="toc-number">1.2.</span> <span class="toc-text">一个最简单的 Block</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u6709_u53C2_u6570_u65E0_u8FD4_u56DE_u503C_u7684_Block"><span class="toc-number">1.3.</span> <span class="toc-text">有参数无返回值的 Block</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u6709_u53C2_u6570_u6709_u8FD4_u56DE_u503C_u7684_Block"><span class="toc-number">1.4.</span> <span class="toc-text">有参数有返回值的 Block</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Block__u4E2D_u7684_typedef"><span class="toc-number">1.5.</span> <span class="toc-text">Block 中的 typedef</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Block__u5230_u5E95_uFF08_u6BD4_u51FD_u6570_uFF09_u4F18_u8D8A_u5728_u54EA_u91CC"><span class="toc-number">1.6.</span> <span class="toc-text">Block 到底（比函数）优越在哪里</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Block__u7684_u8FDB_u9636_u4F7F_u7528"><span class="toc-number">1.7.</span> <span class="toc-text">Block 的进阶使用</span></a></li></ol></li></ol>
+</div>
+
+<style>
+  .left-col .switch-btn {
+    display: none;
+  }
+  .left-col .switch-area {
+    display: none;
+  }
+</style>
+
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+<script>
+  var toc_button= document.getElementById("tocButton");
+  var toc_div= document.getElementById("toc");
+  toc_button.onclick=function(){
+    if(toc_div.style.display=="none"){
+      toc_div.style.display="block";
+      toc_button.value="隐藏目录";
+      document.getElementById("switch-btn").style.display="none";
+      document.getElementById("switch-area").style.display="none";
+    }
+    else{
+      toc_div.style.display="none";
+      toc_button.value="显示目录";
+      document.getElementById("switch-btn").style.display="block";
+      document.getElementById("switch-area").style.display="block";
+    }
+  }
+</script>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="ios-block" data-title="ios Block" data-url="http://yimouleng.com/2014/11/23/ios-block/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"yimouleng"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//yimouleng.com/js/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0]
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2015 本站由 <a href="https://weibo.com/yimouleng" target="_blank">@yimouleng</a> 创建，采用
+        <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> 作为主题并加以修改
+    	</div>
+      	<div class="footer-right">
+      		感谢 <a href="https://pages.github.com/" target="_blank">Github Pages</a> 提供稳定的空间服务
+      	</div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>

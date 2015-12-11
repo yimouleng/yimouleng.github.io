@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>UITextField限制输入中文字数 | Yi&#39;mouleng-即便世界与我为敌，只要心还透明，就能折射希望。</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="UITextField限制输入中文字数前言在开发中，经常遇到限制字符串长度，比如输入用户名，签名等，系统的截取方法，会有各种各样的问题， 比如在使用第三方输入法连续打出超过长度的字符串，直接添加，并不会自动限制等，本文对限制字符做出一些分析，尤其师输入中文字符的时候。
+采用了UITextField作为我的输入框控件，并且在委托方法
+12- (BOOL)textField:(UITextField">
+<meta property="og:type" content="article">
+<meta property="og:title" content="UITextField限制输入中文字数">
+<meta property="og:url" content="http://yimouleng.com/2014/08/28/ios-UITextField-zifu/index.html">
+<meta property="og:site_name" content="Yi'mouleng-即便世界与我为敌，只要心还透明，就能折射希望。">
+<meta property="og:description" content="UITextField限制输入中文字数前言在开发中，经常遇到限制字符串长度，比如输入用户名，签名等，系统的截取方法，会有各种各样的问题， 比如在使用第三方输入法连续打出超过长度的字符串，直接添加，并不会自动限制等，本文对限制字符做出一些分析，尤其师输入中文字符的时候。
+采用了UITextField作为我的输入框控件，并且在委托方法
+12- (BOOL)textField:(UITextField">
+<meta property="og:updated_time" content="2015-12-09T08:25:36.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="UITextField限制输入中文字数">
+<meta name="twitter:description" content="UITextField限制输入中文字数前言在开发中，经常遇到限制字符串长度，比如输入用户名，签名等，系统的截取方法，会有各种各样的问题， 比如在使用第三方输入法连续打出超过长度的字符串，直接添加，并不会自动限制等，本文对限制字符做出一些分析，尤其师输入中文字符的时候。
+采用了UITextField作为我的输入框控件，并且在委托方法
+12- (BOOL)textField:(UITextField">
+  
+    <link rel="alternative" href="/atom.xml" title="Yi&#39;mouleng-即便世界与我为敌，只要心还透明，就能折射希望。" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.jpg">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/resources/avatar.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Yi&#39;mouleng</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">知止安能定,定而知静,静方可虑,虑而后能得。---iOS交流群67784110</p>
+		
+				
+
+		
+			<div class="switch-btn" id="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area" id="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/archives">目录</a></li>
+				        
+							<li><a href="/categories/iOS开发">iOS开发</a></li>
+				        
+							<li><a href="/categories/二三事">二三事</a></li>
+				        
+							<li><a href="/tags/">标签云</a></li>
+				        
+							<li><a href="/about/">关于</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/yimouleng" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/yimouleng" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+					        
+								<a class="QQ" target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=ac73346414b7bc620d16a1553318221a96d0fb90832d39995c539098731e21b6" title="QQ">QQ</a>
+					        
+								<a class="mail" target="_blank" href="mailto:yimouleng@gamil.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/AFNetworking/" style="font-size: 10px;">AFNetworking</a> <a href="/tags/ASIHTTPRequest/" style="font-size: 10px;">ASIHTTPRequest</a> <a href="/tags/Animation/" style="font-size: 10px;">Animation</a> <a href="/tags/AsyncSocket/" style="font-size: 10px;">AsyncSocket</a> <a href="/tags/CALayer/" style="font-size: 10px;">CALayer</a> <a href="/tags/CoreGraphics/" style="font-size: 10px;">CoreGraphics</a> <a href="/tags/Dota2/" style="font-size: 10px;">Dota2</a> <a href="/tags/GCD/" style="font-size: 10px;">GCD</a> <a href="/tags/HTTPS/" style="font-size: 10px;">HTTPS</a> <a href="/tags/IOS-9/" style="font-size: 10px;">IOS 9</a> <a href="/tags/KVC/" style="font-size: 10px;">KVC</a> <a href="/tags/KVO/" style="font-size: 10px;">KVO</a> <a href="/tags/LLPictureShow/" style="font-size: 10px;">LLPictureShow</a> <a href="/tags/MKNetworkingKit/" style="font-size: 10px;">MKNetworkingKit</a> <a href="/tags/Socket/" style="font-size: 10px;">Socket</a> <a href="/tags/UIActionSheet/" style="font-size: 10px;">UIActionSheet</a> <a href="/tags/UIAlertview/" style="font-size: 10px;">UIAlertview</a> <a href="/tags/UIBezierPath/" style="font-size: 10px;">UIBezierPath</a> <a href="/tags/UIKeyboardType/" style="font-size: 10px;">UIKeyboardType</a> <a href="/tags/UITextField/" style="font-size: 10px;">UITextField</a> <a href="/tags/WOW/" style="font-size: 10px;">WOW</a> <a href="/tags/block/" style="font-size: 20px;">block</a> <a href="/tags/iOS/" style="font-size: 20px;">iOS</a> <a href="/tags/ios/" style="font-size: 10px;">ios</a> <a href="/tags/runtime/" style="font-size: 10px;">runtime</a> <a href="/tags/scrollView/" style="font-size: 10px;">scrollView</a> <a href="/tags/动画/" style="font-size: 10px;">动画</a> <a href="/tags/即时通讯/" style="font-size: 10px;">即时通讯</a> <a href="/tags/四舍五入/" style="font-size: 10px;">四舍五入</a> <a href="/tags/多线程/" style="font-size: 10px;">多线程</a> <a href="/tags/字符串/" style="font-size: 10px;">字符串</a> <a href="/tags/撕裂效果/" style="font-size: 10px;">撕裂效果</a> <a href="/tags/正则/" style="font-size: 10px;">正则</a> <a href="/tags/网络框架/" style="font-size: 10px;">网络框架</a> <a href="/tags/语法/" style="font-size: 10px;">语法</a> <a href="/tags/键盘/" style="font-size: 10px;">键盘</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://yimouleng.com/">我的博客</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Yi&#39;mouleng</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="/resources/avatar.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Yi&#39;mouleng</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">知止安能定,定而知静,静方可虑,虑而后能得。---iOS交流群67784110</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/archives">目录</a></li>
+		        
+					<li><a href="/categories/iOS开发">iOS开发</a></li>
+		        
+					<li><a href="/categories/二三事">二三事</a></li>
+		        
+					<li><a href="/tags/">标签云</a></li>
+		        
+					<li><a href="/about/">关于</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/yimouleng" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/yimouleng" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+			        
+						<a class="QQ" target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=ac73346414b7bc620d16a1553318221a96d0fb90832d39995c539098731e21b6" title="QQ">QQ</a>
+			        
+						<a class="mail" target="_blank" href="mailto:yimouleng@gamil.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-ios-UITextField-zifu" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/08/28/ios-UITextField-zifu/" class="article-date">
+  	<time datetime="2014-08-27T16:00:00.000Z" itemprop="datePublished">2014-08-28</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      UITextField限制输入中文字数
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UITextField/">UITextField</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/字符串/">字符串</a></li></ul>
+	</div>
+
+        
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/iOS开发/">iOS开发</a>
+	</div>
+
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+        <h2 id="UITextField_u9650_u5236_u8F93_u5165_u4E2D_u6587_u5B57_u6570"><a href="#UITextField_u9650_u5236_u8F93_u5165_u4E2D_u6587_u5B57_u6570" class="headerlink" title="UITextField限制输入中文字数"></a>UITextField限制输入中文字数</h2><p></p><h2 id="intro">前言</h2>在开发中，经常遇到限制字符串长度，比如输入用户名，签名等，系统的截取方法，会有各种各样的问题， 比如在使用第三方输入法连续打出超过长度的字符串，直接添加，并不会自动限制等，本文对限制字符做出一些分析，尤其师输入中文字符的时候。<p></p>
+<p>采用了UITextField作为我的输入框控件，并且在委托方法</p>
+<figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="pp">- <span class="params">(<span class="variable">BOOL</span>)</span>textField:<span class="params">(<span class="variable">UITextField</span> *)</span>textField shouldChangeCharactersInRange:<span class="params">(<span class="variable">NSRange</span>)</span>range replacementString:<span class="params">(<span class="variable">NSString</span> *)</span>string</span></span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<p>中实现了对字符串的长度限制，实现如下</p>
+<figure class="highlight mel"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#define kMaxLength <span class="number">20</span></span><br><span class="line"></span><br><span class="line">- (BOOL)<span class="keyword">textField</span>:(UITextField <span class="variable">*)</span><span class="keyword">textField</span> shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString <span class="variable">*)</span><span class="keyword">string</span>&#123;</span><br><span class="line"></span><br><span class="line">   NSString * toBeString = [<span class="keyword">textField</span>.<span class="keyword">text</span> stringByReplacingCharactersInRange:range withString:<span class="keyword">string</span>];</span><br><span class="line"></span><br><span class="line">   <span class="keyword">if</span> (toBeString.length &gt; kMaxLength &amp;&amp; range.length!=<span class="number">1</span>)&#123;</span><br><span class="line">       <span class="keyword">textField</span>.<span class="keyword">text</span> = [toBeString substringToIndex:kMaxLength];</span><br><span class="line">       <span class="keyword">return</span> NO;</span><br><span class="line"></span><br><span class="line">  &#125;</span><br><span class="line">   <span class="keyword">return</span> YES;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这样实现的结果是：对于纯字符的统计没有什么问题，当输入的字符超过限制时输入框便截取最大限制长度的字符串。但是，有个问题，当使用拼音输入法时，该委托方法中的最后一个参数string接受的是输入的字母，而不是选择的汉字，造成的结果是，当想输入文字“我在编程”，输入拼音“wozaibiancheng”，每输入一个字母便会进入委托方法，统计的字符长度是字母的长度，实际上汉字还未超过限制长度，但是字母的长度超过了导致无法继续输入。</p>
+<p>而且，致命的是，这个委托方法并不响应，选中候选汉字的过程，这就没有办法重新修正字符长度的统计了。</p>
+<p>网上查了一些方法，有个叫Onyx的博主写了篇文章：iOS中UITextView/UITextField 输入英文和拼音状态下如何正确的统计输入的文字字数 看起来似乎是和我同样的问题，但是当我把他的代码搬到我的类里时，实现的结果并不理想，我没有得到想要的结果，而且他的方法看起来似乎复杂了点，我也没有研究清楚这个方法的问题出在哪。之所以把他的这篇博文引进来，是因为他的文章后来给了我些启发。</p>
+<p>我刚开始时候并没有发现</p>
+<figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="pp">- <span class="params">(<span class="variable">BOOL</span>)</span>textField:<span class="params">(<span class="variable">UITextField</span> *)</span>textField shouldChangeCharactersInRange:<span class="params">(<span class="variable">NSRange</span>)</span>range replacementString:<span class="params">(<span class="variable">NSString</span> *)</span>string</span></span><br></pre></td></tr></table></figure>
+<p>这个委托方法没有响应最后拼音到汉字的过程，当我发现这个问题时，问题便也差不多得到了解决。因为在之前向微博上的一个朋友咨询时，他告诉我可以注册这个观察者 <code>UITextInputCurrentInputModeDidChangeNotification</code><br>在它的监听下可以得到中文。我刚开始时候理解错了他的意思，以为得到的就是最终选中的汉字，而中间输入的拼音并不会被得到。但其实这个监听，比以上的委托方法多了最后一步而已，即从拼音到中文的过程。</p>
+<p>所以实现的代码如下。</p>
+<p><strong><1>在init时候注册notification：</1></strong></p>
+<figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="collection">[<span class="collection">[NSNotificationCenter defaultCenter]</span>addObserver:self selector:@selector<span class="list">(<span class="keyword">textFiledEditChanged:</span>)</span></span><br><span class="line">                                           name:@<span class="string">"UITextFieldTextDidChangeNotification"</span></span><br><span class="line">                                         object:myTextField]</span><span class="comment">;`</span></span><br></pre></td></tr></table></figure>
+<p><strong><2>实现监听方法：</2></strong></p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">-(<span class="keyword">void</span>)textFiledEditChanged:(<span class="built_in">NSNotification</span> *)obj&#123;</span><br><span class="line">   <span class="built_in">UITextField</span> *textField = (<span class="built_in">UITextField</span> *)obj<span class="variable">.object</span>;</span><br><span class="line"></span><br><span class="line">   <span class="built_in">NSString</span> *toBeString = textField<span class="variable">.text</span>;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">   <span class="built_in">NSString</span> *lang = [[<span class="built_in">UITextInputMode</span> currentInputMode] primaryLanguage]; <span class="comment">// 键盘输入模式</span></span><br><span class="line"></span><br><span class="line">   <span class="keyword">if</span> ([lang isEqualToString:<span class="string">@"zh-Hans"</span>]) &#123; <span class="comment">// 简体中文输入，包括简体拼音，健体五笔，简体手写`</span></span><br><span class="line"></span><br><span class="line">       <span class="built_in">UITextRange</span> *selectedRange = [textField markedTextRange];</span><br><span class="line"></span><br><span class="line">       <span class="comment">//获取高亮部分</span></span><br><span class="line">       <span class="built_in">UITextPosition</span> *position = [textField positionFromPosition:selectedRange<span class="variable">.start</span> offset:<span class="number">0</span>];</span><br><span class="line"></span><br><span class="line">       <span class="comment">// 没有高亮选择的字，则对已输入的文字进行字数统计和限制</span></span><br><span class="line">       <span class="keyword">if</span> (!position) &#123;</span><br><span class="line">           <span class="keyword">if</span> (toBeString<span class="variable">.length</span> &gt; kMaxLength) &#123;</span><br><span class="line">               textField<span class="variable">.text</span> = [toBeString substringToIndex:kMaxLength];</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">       <span class="comment">// 有高亮选择的字符串，则暂不对文字进行统计和限制</span></span><br><span class="line">       <span class="keyword">else</span>&#123;</span><br><span class="line">         </span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">   <span class="comment">// 中文输入法以外的直接对其统计限制即可，不考虑其他语种情况</span></span><br><span class="line"></span><br><span class="line">   <span class="keyword">else</span>&#123;</span><br><span class="line">       <span class="keyword">if</span> (toBeString<span class="variable">.length</span> &gt; kMaxLength) &#123;</span><br><span class="line">           textField<span class="variable">.text</span> = [toBeString substringToIndex:kMaxLength];</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><strong><3>在dealloc里注销掉监听方法，切记！</3></strong></p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">-(<span class="keyword">void</span>)dealloc&#123;</span><br><span class="line">   [[<span class="built_in">NSNotificationCenter</span> defaultCenter]removeObserver:<span class="keyword">self</span></span><br><span class="line">                                           name:<span class="string">@"UITextFieldTextDidChangeNotification"</span></span><br><span class="line">                                         object:_albumNameTextField];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>==注：本文主要提供思路，代码仅供参考，不为其百分百正确负责，若有不足之处欢迎讨论。==</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<div class="copyright">
+  <p><span>本文标题:</span><a href="/2014/08/28/ios-UITextField-zifu/">UITextField限制输入中文字数</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 Yi&#39;mouleng 的个人博客">Yi&#39;mouleng</a></p>
+  <p><span>发布时间:</span>2014年08月28日 - 00时00分</p>
+  <p><span>最后更新:</span>2015年12月09日 - 16时25分</p>
+  <p>
+    <span>原始链接:</span><a class="post-url" href="/2014/08/28/ios-UITextField-zifu/" title="UITextField限制输入中文字数">http://yimouleng.com/2014/08/28/ios-UITextField-zifu/</a>
+    <span class="copy-path" data-clipboard-text="原文: http://yimouleng.com/2014/08/28/ios-UITextField-zifu/　　作者: Yi&#39;mouleng" title="点击复制文章链接">
+        <i class="fa fa-clipboard"></i>
+    </span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。</p>
+  <script src="/js/clipboard.min.js"></script>
+  <script> var clipboard = new Clipboard('.copy-path'); </script>
+</div>
+
+
+
+<nav id="article-nav">
+  
+    <a href="/2014/09/29/UIKeyboardType-style/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          UIKeyboardType样式
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/08/24/WOW-skill/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">你可能不知道的魔兽世界小技巧</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+  <strong class="toc-title">文章目录</strong>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#UITextField_u9650_u5236_u8F93_u5165_u4E2D_u6587_u5B57_u6570"><span class="toc-number">1.</span> <span class="toc-text">UITextField限制输入中文字数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#intro"><span class="toc-number">2.</span> <span class="toc-text">前言</span></a></li></ol>
+</div>
+
+<style>
+  .left-col .switch-btn {
+    display: none;
+  }
+  .left-col .switch-area {
+    display: none;
+  }
+</style>
+
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+<script>
+  var toc_button= document.getElementById("tocButton");
+  var toc_div= document.getElementById("toc");
+  toc_button.onclick=function(){
+    if(toc_div.style.display=="none"){
+      toc_div.style.display="block";
+      toc_button.value="隐藏目录";
+      document.getElementById("switch-btn").style.display="none";
+      document.getElementById("switch-area").style.display="none";
+    }
+    else{
+      toc_div.style.display="none";
+      toc_button.value="显示目录";
+      document.getElementById("switch-btn").style.display="block";
+      document.getElementById("switch-area").style.display="block";
+    }
+  }
+</script>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="ios-UITextField-zifu" data-title="UITextField限制输入中文字数" data-url="http://yimouleng.com/2014/08/28/ios-UITextField-zifu/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"yimouleng"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//yimouleng.com/js/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0]
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2015 本站由 <a href="https://weibo.com/yimouleng" target="_blank">@yimouleng</a> 创建，采用
+        <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> 作为主题并加以修改
+    	</div>
+      	<div class="footer-right">
+      		感谢 <a href="https://pages.github.com/" target="_blank">Github Pages</a> 提供稳定的空间服务
+      	</div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>

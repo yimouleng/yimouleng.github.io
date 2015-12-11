@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>block的循环引用 ------ Weak-Strong Dance | Yi&#39;mouleng-即便世界与我为敌，只要心还透明，就能折射希望。</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="RAC设计模式在应用中大量使用了block，由于Objective-C语言的内存管理是基于引用计数的，为了避免循环引用问题，在block中如果要引用self，需要使用@weakify(self)和@strongify(self)来避免强引用。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="block的循环引用 ------ Weak-Strong Dance">
+<meta property="og:url" content="http://yimouleng.com/2015/07/20/block-Weak-Strong/index.html">
+<meta property="og:site_name" content="Yi'mouleng-即便世界与我为敌，只要心还透明，就能折射希望。">
+<meta property="og:description" content="RAC设计模式在应用中大量使用了block，由于Objective-C语言的内存管理是基于引用计数的，为了避免循环引用问题，在block中如果要引用self，需要使用@weakify(self)和@strongify(self)来避免强引用。">
+<meta property="og:updated_time" content="2015-12-09T09:20:52.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="block的循环引用 ------ Weak-Strong Dance">
+<meta name="twitter:description" content="RAC设计模式在应用中大量使用了block，由于Objective-C语言的内存管理是基于引用计数的，为了避免循环引用问题，在block中如果要引用self，需要使用@weakify(self)和@strongify(self)来避免强引用。">
+  
+    <link rel="alternative" href="/atom.xml" title="Yi&#39;mouleng-即便世界与我为敌，只要心还透明，就能折射希望。" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.jpg">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/resources/avatar.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Yi&#39;mouleng</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">知止安能定,定而知静,静方可虑,虑而后能得。---iOS交流群67784110</p>
+		
+				
+
+		
+			<div class="switch-btn" id="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area" id="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/archives">目录</a></li>
+				        
+							<li><a href="/categories/iOS开发">iOS开发</a></li>
+				        
+							<li><a href="/categories/二三事">二三事</a></li>
+				        
+							<li><a href="/tags/">标签云</a></li>
+				        
+							<li><a href="/about/">关于</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/yimouleng" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/yimouleng" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+					        
+								<a class="QQ" target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=ac73346414b7bc620d16a1553318221a96d0fb90832d39995c539098731e21b6" title="QQ">QQ</a>
+					        
+								<a class="mail" target="_blank" href="mailto:yimouleng@gamil.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/AFNetworking/" style="font-size: 10px;">AFNetworking</a> <a href="/tags/ASIHTTPRequest/" style="font-size: 10px;">ASIHTTPRequest</a> <a href="/tags/Animation/" style="font-size: 10px;">Animation</a> <a href="/tags/AsyncSocket/" style="font-size: 10px;">AsyncSocket</a> <a href="/tags/CALayer/" style="font-size: 10px;">CALayer</a> <a href="/tags/CoreGraphics/" style="font-size: 10px;">CoreGraphics</a> <a href="/tags/Dota2/" style="font-size: 10px;">Dota2</a> <a href="/tags/GCD/" style="font-size: 10px;">GCD</a> <a href="/tags/HTTPS/" style="font-size: 10px;">HTTPS</a> <a href="/tags/IOS-9/" style="font-size: 10px;">IOS 9</a> <a href="/tags/KVC/" style="font-size: 10px;">KVC</a> <a href="/tags/KVO/" style="font-size: 10px;">KVO</a> <a href="/tags/LLPictureShow/" style="font-size: 10px;">LLPictureShow</a> <a href="/tags/MKNetworkingKit/" style="font-size: 10px;">MKNetworkingKit</a> <a href="/tags/Socket/" style="font-size: 10px;">Socket</a> <a href="/tags/UIActionSheet/" style="font-size: 10px;">UIActionSheet</a> <a href="/tags/UIAlertview/" style="font-size: 10px;">UIAlertview</a> <a href="/tags/UIBezierPath/" style="font-size: 10px;">UIBezierPath</a> <a href="/tags/UIKeyboardType/" style="font-size: 10px;">UIKeyboardType</a> <a href="/tags/UITextField/" style="font-size: 10px;">UITextField</a> <a href="/tags/WOW/" style="font-size: 10px;">WOW</a> <a href="/tags/block/" style="font-size: 20px;">block</a> <a href="/tags/iOS/" style="font-size: 20px;">iOS</a> <a href="/tags/ios/" style="font-size: 10px;">ios</a> <a href="/tags/runtime/" style="font-size: 10px;">runtime</a> <a href="/tags/scrollView/" style="font-size: 10px;">scrollView</a> <a href="/tags/动画/" style="font-size: 10px;">动画</a> <a href="/tags/即时通讯/" style="font-size: 10px;">即时通讯</a> <a href="/tags/四舍五入/" style="font-size: 10px;">四舍五入</a> <a href="/tags/多线程/" style="font-size: 10px;">多线程</a> <a href="/tags/字符串/" style="font-size: 10px;">字符串</a> <a href="/tags/撕裂效果/" style="font-size: 10px;">撕裂效果</a> <a href="/tags/正则/" style="font-size: 10px;">正则</a> <a href="/tags/网络框架/" style="font-size: 10px;">网络框架</a> <a href="/tags/语法/" style="font-size: 10px;">语法</a> <a href="/tags/键盘/" style="font-size: 10px;">键盘</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://yimouleng.com/">我的博客</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Yi&#39;mouleng</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="/resources/avatar.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Yi&#39;mouleng</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">知止安能定,定而知静,静方可虑,虑而后能得。---iOS交流群67784110</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/archives">目录</a></li>
+		        
+					<li><a href="/categories/iOS开发">iOS开发</a></li>
+		        
+					<li><a href="/categories/二三事">二三事</a></li>
+		        
+					<li><a href="/tags/">标签云</a></li>
+		        
+					<li><a href="/about/">关于</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/yimouleng" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/yimouleng" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+			        
+						<a class="QQ" target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=ac73346414b7bc620d16a1553318221a96d0fb90832d39995c539098731e21b6" title="QQ">QQ</a>
+			        
+						<a class="mail" target="_blank" href="mailto:yimouleng@gamil.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-block-Weak-Strong" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/07/20/block-Weak-Strong/" class="article-date">
+  	<time datetime="2015-07-19T16:00:00.000Z" itemprop="datePublished">2015-07-20</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      block的循环引用 ------ Weak-Strong Dance
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/block/">block</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+        
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/iOS开发/">iOS开发</a>
+	</div>
+
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+        <p>RAC设计模式在应用中大量使用了block，由于Objective-C语言的内存管理是基于引用计数的，为了避免循环引用问题，在block中如果要引用self，需要使用<code>@weakify(self)</code>和<code>@strongify(self)</code>来避免强引用。</p>
+<a id="more"></a>
+<h4 id="u4E00_u3001block_u7684_u5FAA_u73AF_u5F15_u7528_u95EE_u9898"><a href="#u4E00_u3001block_u7684_u5FAA_u73AF_u5F15_u7528_u95EE_u9898" class="headerlink" title="一、block的循环引用问题"></a>一、block的循环引用问题</h4><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)loadView  </span><br><span class="line">&#123;  </span><br><span class="line">  [superloadView];  </span><br><span class="line">             </span><br><span class="line">  _observer = [[<span class="built_in">NSNotificationCenter</span> defaultCenter] addObserverForName:<span class="string">@"testKey"</span>  </span><br><span class="line">                                                                object:<span class="literal">nil</span>  </span><br><span class="line">                                                                 queue:<span class="literal">nil</span>  </span><br><span class="line">                                                            usingBlock:^(<span class="built_in">NSNotification</span> *note) &#123;  </span><br><span class="line">      [<span class="keyword">self</span> dismissModalViewControllerAnimated:<span class="literal">YES</span>];    </span><br><span class="line">  &#125;];  </span><br><span class="line">&#125;  </span><br><span class="line">- (<span class="keyword">void</span>)dealloc  </span><br><span class="line">&#123;  </span><br><span class="line">  [[<span class="built_in">NSNotificationCenter</span> defaultCenter] removeObserver:_observer];  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>代码分析：<br>在上面代码中，我们添加向通知中心注册了一个观察者，然后在 dealloc 时解除该注册，一切看起来正常。但这里有两个问题：</p>
+<p>这段代码中涉及到的对象包括：<code>notificationcenter, _observer, block, self</code>.</p>
+<p>a) 在消息通知 block 中引用到了 self，所以这里 self 对象被 block retain；而 _observer 又对该 block 进行retain，通知中心 notificationcentre 又持有 _observer。因此只要 _observer 对象还没有被解除注册，block 就会一直被持有，从而 self 就不会被释放，那么 dealloc 就不会被调用。而我们却又期望在 dealloc 中通过 removeObserver 来解除注册以消除通知中心 notificationcenter 对 _observer 的 retain。</p>
+<p>小结：<code>notificationcenter --&gt; _observer --&gt; block --&gt; self</code> 只有在 self 释放，dealloc 调用的时候，notificationcenter 才会释放 _observer，显然其中存在循环引用。</p>
+<p>b) 同时，_observer 是在 self 所在类中定义赋值，因此是被 self retain 的，这样就形成了循环引用。<br>小结：<strong> self –&gt; _observer –&gt; block –&gt; self 显然这也是一个循环引用</strong>。</p>
+<h4 id="u4E8C_u3001Weak-Strong_Dance"><a href="#u4E8C_u3001Weak-Strong_Dance" class="headerlink" title="二、Weak-Strong Dance"></a>二、Weak-Strong Dance</h4><p>对于在block中的retain cycle，在2011 WWDC Session #322 (Objective-C Advancements in Depth)有一个解决方案weak-strong dance，很漂亮的名字。其实现如下：<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)dealloc  </span><br><span class="line">&#123;  </span><br><span class="line">  [[<span class="built_in">NSNotificationCenter</span> defaultCenter] removeObserver:_observer];  </span><br><span class="line">&#125;  </span><br><span class="line">   </span><br><span class="line">- (<span class="keyword">void</span>)loadView  </span><br><span class="line">&#123;  </span><br><span class="line">  [superloadView];  </span><br><span class="line">             </span><br><span class="line">  __<span class="keyword">weak</span> TestViewController *wself = <span class="keyword">self</span>;  </span><br><span class="line">  _observer = [[<span class="built_in">NSNotificationCenter</span> defaultCenter] addObserverForName:<span class="string">@"testKey"</span>  </span><br><span class="line">                                                                object:<span class="literal">nil</span>  </span><br><span class="line">                                                                 queue:<span class="literal">nil</span>  </span><br><span class="line">                                                            usingBlock:^(<span class="built_in">NSNotification</span> *note) &#123;  </span><br><span class="line">      TestViewController *sself = wself;  </span><br><span class="line">      [sself dismissModalViewControllerAnimated:<span class="literal">YES</span>];  </span><br><span class="line">  &#125;];  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>在 block 使用 self 之前先用 <strong>weak 修饰 self 创建一个 self 弱引用变量 ，然后在 block 中使用 self 之前先用 </strong>strong 修饰创建一个 对该弱引用 self 的强引用，防止 self 被提前释放。<br>这样的话就可以打破循环引用了。</p>
+<p>当然，<strong>weak 和 </strong>strong 只在 ARC 情形下有效；对于非 ARC ，就需要用到 __block 了，效果相同，如下：</p>
+<figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="atom">void</span>)<span class="atom">dealloc</span>  </span><br><span class="line">&#123;  </span><br><span class="line">  [[<span class="name">NSNotificationCenter</span> <span class="atom">defaultCenter</span>] <span class="atom">removeObserver</span>:<span class="name">_observer</span>];  </span><br><span class="line">  [<span class="name">_observer</span> <span class="atom">release</span>];  </span><br><span class="line">   </span><br><span class="line">  [<span class="atom">superdealloc</span>];  </span><br><span class="line">&#125;  </span><br><span class="line">   </span><br><span class="line">- (<span class="atom">void</span>)<span class="atom">loadView</span>  </span><br><span class="line">&#123;  </span><br><span class="line">  [<span class="atom">superloadView</span>];  </span><br><span class="line">             </span><br><span class="line">  <span class="name">__block</span> <span class="name">TestViewController</span> *<span class="atom">bself</span> = <span class="atom">self</span>;  </span><br><span class="line">  <span class="name">_observer</span> = [[<span class="name">NSNotificationCenter</span> <span class="atom">defaultCenter</span>] <span class="atom">addObserverForName</span>:@<span class="string">"testKey"</span>  </span><br><span class="line">                                                                <span class="atom">object</span>:<span class="atom">nil</span>  </span><br><span class="line">                                                                 <span class="atom">queue</span>:<span class="atom">nil</span>  </span><br><span class="line">                                                               <span class="atom">ngBlock</span>:^(<span class="name">NSNotification</span> *<span class="atom">note</span>) &#123;  </span><br><span class="line">      [<span class="atom">bself</span> <span class="atom">retain</span>];  </span><br><span class="line">      [<span class="atom">bself</span> <span class="atom">dismissModalViewControllerAnimated</span>:<span class="name">YES</span>];  </span><br><span class="line">      [<span class="atom">bself</span> <span class="atom">release</span>];  </span><br><span class="line">  &#125;];  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="u4E09_u3001ReactiveCocoa_u4E2D_u7684Weak-Strong_Dance"><a href="#u4E09_u3001ReactiveCocoa_u4E2D_u7684Weak-Strong_Dance" class="headerlink" title="三、ReactiveCocoa中的Weak-Strong Dance"></a>三、ReactiveCocoa中的Weak-Strong Dance</h4><blockquote>
+<p>例如：</p>
+</blockquote>
+<figure class="highlight crystal"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">@weakify</span>(<span class="keyword">self</span>);  </span><br><span class="line">[<span class="constant">RACObserve</span>(<span class="keyword">self</span>,photosArray) <span class="symbol">subscribeNext:</span>^(id x)&#123;  </span><br><span class="line">    <span class="variable">@strongify</span>(<span class="keyword">self</span>);  </span><br><span class="line">    [<span class="keyword">self</span>.collectionView reloadData];  </span><br><span class="line">&#125;];</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>RACObserver is a C macro that takes two parameters: an object and a key path on that object. It returns a signal whose values are sent whenever the key path’s value changes. A completion value is sent when the object, in this case self, is deallocated. –&gt; ? We subscribe to this signal in order to reload our collection view whenever our photosArray property is changed.</p>
+</blockquote>
+<p>译注：RACObserver 是一个宏定义，有两个参数：<code>an object and a key path on that object</code>。当 <code>object key path value</code> 变化时，就会返回一个 <code>signal</code>。</p>
+<p>我们对这个 signal 进行订阅，一旦 <code>photoArray</code> 属性发送变化，返回signal，就可以 <code>reload collection view</code>。</p>
+<blockquote>
+<p>The weakify/strongify dance is all too common in Objective-C under ARC.Weakify creates a new, weak variable assigned to self. Strongify then creates a new, strong variable in its scope assigned to the weak self. When strongify does this, it’s using what’s called a “shadow variable” – so named because the new, strong variable is called self, replacing the former strong reference to self.</p>
+<p>Basically, the subscribeNext: block is going to capture self in its lexical scope, causing a reference cycle between self and the block. The block is strongly referenced by the return value of subscribeNext:, a RACSubscriber instance. This is then captured by the RACObserver macro, which will be automatically deallocated once its first parameter, self is deallocated. Without the weakify/strongify invocations, self would never be deallocated.</p>
+</blockquote>
+<p>译注：分析一下其中可能存在的 block 循环引用问题。</p>
+<p><code>self --&gt; RACObserver macro --&gt; RACSubscriber instance --&gt; block --&gt; self</code>. 假如不使用<code>weakify/strongify</code> 那么现实其中的循环引用导致 self 始终无法释放。</p>
+<p>最后友情提示：在使用时应该注意block的嵌套层数，不恰当的滥用多层嵌套block可能给程序的可维护性带来灾难。</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<div class="copyright">
+  <p><span>本文标题:</span><a href="/2015/07/20/block-Weak-Strong/">block的循环引用 ------ Weak-Strong Dance</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 Yi&#39;mouleng 的个人博客">Yi&#39;mouleng</a></p>
+  <p><span>发布时间:</span>2015年07月20日 - 00时00分</p>
+  <p><span>最后更新:</span>2015年12月09日 - 17时20分</p>
+  <p>
+    <span>原始链接:</span><a class="post-url" href="/2015/07/20/block-Weak-Strong/" title="block的循环引用 ------ Weak-Strong Dance">http://yimouleng.com/2015/07/20/block-Weak-Strong/</a>
+    <span class="copy-path" data-clipboard-text="原文: http://yimouleng.com/2015/07/20/block-Weak-Strong/　　作者: Yi&#39;mouleng" title="点击复制文章链接">
+        <i class="fa fa-clipboard"></i>
+    </span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。</p>
+  <script src="/js/clipboard.min.js"></script>
+  <script> var clipboard = new Clipboard('.copy-path'); </script>
+</div>
+
+
+
+<nav id="article-nav">
+  
+    <a href="/2015/07/21/ASIHTTPRequest-AFNetworking-MKNetworkingKit/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          ASIHTTPRequest, AFNetworking, MKNetworkingKit网络框架get和post请求
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/06/04/ios-UIAlertview-UIActionSheet/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">iOS开发 警告试图和日期选择器</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+  <strong class="toc-title">文章目录</strong>
+  <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#u4E00_u3001block_u7684_u5FAA_u73AF_u5F15_u7528_u95EE_u9898"><span class="toc-number">1.</span> <span class="toc-text">一、block的循环引用问题</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#u4E8C_u3001Weak-Strong_Dance"><span class="toc-number">2.</span> <span class="toc-text">二、Weak-Strong Dance</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#u4E09_u3001ReactiveCocoa_u4E2D_u7684Weak-Strong_Dance"><span class="toc-number">3.</span> <span class="toc-text">三、ReactiveCocoa中的Weak-Strong Dance</span></a></li></ol>
+</div>
+
+<style>
+  .left-col .switch-btn {
+    display: none;
+  }
+  .left-col .switch-area {
+    display: none;
+  }
+</style>
+
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+<script>
+  var toc_button= document.getElementById("tocButton");
+  var toc_div= document.getElementById("toc");
+  toc_button.onclick=function(){
+    if(toc_div.style.display=="none"){
+      toc_div.style.display="block";
+      toc_button.value="隐藏目录";
+      document.getElementById("switch-btn").style.display="none";
+      document.getElementById("switch-area").style.display="none";
+    }
+    else{
+      toc_div.style.display="none";
+      toc_button.value="显示目录";
+      document.getElementById("switch-btn").style.display="block";
+      document.getElementById("switch-area").style.display="block";
+    }
+  }
+</script>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="block-Weak-Strong" data-title="block的循环引用 ------ Weak-Strong Dance" data-url="http://yimouleng.com/2015/07/20/block-Weak-Strong/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"yimouleng"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//yimouleng.com/js/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0]
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2015 本站由 <a href="https://weibo.com/yimouleng" target="_blank">@yimouleng</a> 创建，采用
+        <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> 作为主题并加以修改
+    	</div>
+      	<div class="footer-right">
+      		感谢 <a href="https://pages.github.com/" target="_blank">Github Pages</a> 提供稳定的空间服务
+      	</div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>

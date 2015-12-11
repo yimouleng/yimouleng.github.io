@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>iOS安全系列之一：IOS 9 - HTTPS | Yi&#39;mouleng-即便世界与我为敌，只要心还透明，就能折射希望。</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="如何打造一个安全的App？这是每一个移动开发者必须面对的问题。在移动App开发领域，开发工程师对于安全方面的考虑普遍比较欠缺，而由于iOS平台的封闭性，遭遇到的安全问题相比于Android来说要少得多，这就导致了许多iOS开发人员对于安全性方面没有太多的深入，但对于一个合格的软件开发者来说，安全知识是必备知识之一。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS安全系列之一：IOS 9 - HTTPS">
+<meta property="og:url" content="http://yimouleng.com/2015/11/04/IOS9-HTTPS/index.html">
+<meta property="og:site_name" content="Yi'mouleng-即便世界与我为敌，只要心还透明，就能折射希望。">
+<meta property="og:description" content="如何打造一个安全的App？这是每一个移动开发者必须面对的问题。在移动App开发领域，开发工程师对于安全方面的考虑普遍比较欠缺，而由于iOS平台的封闭性，遭遇到的安全问题相比于Android来说要少得多，这就导致了许多iOS开发人员对于安全性方面没有太多的深入，但对于一个合格的软件开发者来说，安全知识是必备知识之一。">
+<meta property="og:image" content="http://yimouleng.com/image/ios91.png">
+<meta property="og:image" content="http://yimouleng.com/image/ios92.png">
+<meta property="og:image" content="http://yimouleng.com/image/ios93.png">
+<meta property="og:image" content="http://yimouleng.com/image/ios94.png">
+<meta property="og:updated_time" content="2015-12-09T10:08:46.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS安全系列之一：IOS 9 - HTTPS">
+<meta name="twitter:description" content="如何打造一个安全的App？这是每一个移动开发者必须面对的问题。在移动App开发领域，开发工程师对于安全方面的考虑普遍比较欠缺，而由于iOS平台的封闭性，遭遇到的安全问题相比于Android来说要少得多，这就导致了许多iOS开发人员对于安全性方面没有太多的深入，但对于一个合格的软件开发者来说，安全知识是必备知识之一。">
+  
+    <link rel="alternative" href="/atom.xml" title="Yi&#39;mouleng-即便世界与我为敌，只要心还透明，就能折射希望。" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.jpg">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/resources/avatar.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Yi&#39;mouleng</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">知止安能定,定而知静,静方可虑,虑而后能得。---iOS交流群67784110</p>
+		
+				
+
+		
+			<div class="switch-btn" id="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area" id="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/archives">目录</a></li>
+				        
+							<li><a href="/categories/iOS开发">iOS开发</a></li>
+				        
+							<li><a href="/categories/二三事">二三事</a></li>
+				        
+							<li><a href="/tags/">标签云</a></li>
+				        
+							<li><a href="/about/">关于</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/yimouleng" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/yimouleng" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+					        
+								<a class="QQ" target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=ac73346414b7bc620d16a1553318221a96d0fb90832d39995c539098731e21b6" title="QQ">QQ</a>
+					        
+								<a class="mail" target="_blank" href="mailto:yimouleng@gamil.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/AFNetworking/" style="font-size: 10px;">AFNetworking</a> <a href="/tags/ASIHTTPRequest/" style="font-size: 10px;">ASIHTTPRequest</a> <a href="/tags/Animation/" style="font-size: 10px;">Animation</a> <a href="/tags/AsyncSocket/" style="font-size: 10px;">AsyncSocket</a> <a href="/tags/CALayer/" style="font-size: 10px;">CALayer</a> <a href="/tags/CoreGraphics/" style="font-size: 10px;">CoreGraphics</a> <a href="/tags/Dota2/" style="font-size: 10px;">Dota2</a> <a href="/tags/GCD/" style="font-size: 10px;">GCD</a> <a href="/tags/HTTPS/" style="font-size: 10px;">HTTPS</a> <a href="/tags/IOS-9/" style="font-size: 10px;">IOS 9</a> <a href="/tags/KVC/" style="font-size: 10px;">KVC</a> <a href="/tags/KVO/" style="font-size: 10px;">KVO</a> <a href="/tags/LLPictureShow/" style="font-size: 10px;">LLPictureShow</a> <a href="/tags/MKNetworkingKit/" style="font-size: 10px;">MKNetworkingKit</a> <a href="/tags/Socket/" style="font-size: 10px;">Socket</a> <a href="/tags/UIActionSheet/" style="font-size: 10px;">UIActionSheet</a> <a href="/tags/UIAlertview/" style="font-size: 10px;">UIAlertview</a> <a href="/tags/UIBezierPath/" style="font-size: 10px;">UIBezierPath</a> <a href="/tags/UIKeyboardType/" style="font-size: 10px;">UIKeyboardType</a> <a href="/tags/UITextField/" style="font-size: 10px;">UITextField</a> <a href="/tags/WOW/" style="font-size: 10px;">WOW</a> <a href="/tags/block/" style="font-size: 20px;">block</a> <a href="/tags/iOS/" style="font-size: 20px;">iOS</a> <a href="/tags/ios/" style="font-size: 10px;">ios</a> <a href="/tags/runtime/" style="font-size: 10px;">runtime</a> <a href="/tags/scrollView/" style="font-size: 10px;">scrollView</a> <a href="/tags/动画/" style="font-size: 10px;">动画</a> <a href="/tags/即时通讯/" style="font-size: 10px;">即时通讯</a> <a href="/tags/四舍五入/" style="font-size: 10px;">四舍五入</a> <a href="/tags/多线程/" style="font-size: 10px;">多线程</a> <a href="/tags/字符串/" style="font-size: 10px;">字符串</a> <a href="/tags/撕裂效果/" style="font-size: 10px;">撕裂效果</a> <a href="/tags/正则/" style="font-size: 10px;">正则</a> <a href="/tags/网络框架/" style="font-size: 10px;">网络框架</a> <a href="/tags/语法/" style="font-size: 10px;">语法</a> <a href="/tags/键盘/" style="font-size: 10px;">键盘</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://yimouleng.com/">我的博客</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Yi&#39;mouleng</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="/resources/avatar.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Yi&#39;mouleng</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">知止安能定,定而知静,静方可虑,虑而后能得。---iOS交流群67784110</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/archives">目录</a></li>
+		        
+					<li><a href="/categories/iOS开发">iOS开发</a></li>
+		        
+					<li><a href="/categories/二三事">二三事</a></li>
+		        
+					<li><a href="/tags/">标签云</a></li>
+		        
+					<li><a href="/about/">关于</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/yimouleng" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/yimouleng" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+			        
+						<a class="QQ" target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=ac73346414b7bc620d16a1553318221a96d0fb90832d39995c539098731e21b6" title="QQ">QQ</a>
+			        
+						<a class="mail" target="_blank" href="mailto:yimouleng@gamil.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-IOS9-HTTPS" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/11/04/IOS9-HTTPS/" class="article-date">
+  	<time datetime="2015-11-03T16:00:00.000Z" itemprop="datePublished">2015-11-04</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      iOS安全系列之一：IOS 9 - HTTPS
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTPS/">HTTPS</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/IOS-9/">IOS 9</a></li></ul>
+	</div>
+
+        
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/iOS开发/">iOS开发</a>
+	</div>
+
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+        <p>如何打造一个安全的App？这是每一个移动开发者必须面对的问题。在移动App开发领域，开发工程师对于安全方面的考虑普遍比较欠缺，而由于iOS平台的封闭性，遭遇到的安全问题相比于Android来说要少得多，这就导致了许多iOS开发人员对于安全性方面没有太多的深入，但对于一个合格的软件开发者来说，安全知识是必备知识之一。</p><br><a id="more"></a><br><p>对于未越狱的iOS设备来说，由于强大的沙箱和授权机制，以及Apple自己掌控的App Store， 基本上杜绝了恶意软件的入侵（非越狱）。但除系统安全之外，我们还是面临很多的安全问题：网络安全、数据安全等，每一项涉及也非常广，安全是非常大的课题，本人并非专业的安全专家，只是从开发者的角度，分析我们常遇到的各项安全问题，并提出通常的解决方法，与各位同学交流学习。</p>
+
+<p>每一个软件工程师都有义务保护用户数据的隐私和安全。</p>
+
+<p><br><br></p>
+
+<p>首先是网络安全，OSI模型各层都会面临相应的网络安全问题，涉及宽广，而网络安全也是安全领域发展最为繁荣的领域。本文我们只是从移动应用开发角度，以尽量简单的方式，讲解HTTPS核心概念知识，以及在iOS平台上的实现。建议现在还在使用HTTP的应用都升级到HTTPS。</p>
+
+<p>引读：<a href="http://get.jobdeer.com/1607.get" target="_blank" rel="external">互联网全站HTTPS的时代已经到来</a></p>
+
+<p><br></p>
+
+<h1>1. <a href="http://en.wikipedia.org/wiki/HTTP_Secure" target="_blank" rel="external">HTTPS</a></h1>
+
+<p>其实HTTPS从最终的数据解析的角度，与HTTP没有任何的区别，HTTPS就是将HTTP协议数据包放到SSL/TSL层加密后，在TCP/IP层组成IP数据报去传输，以此保证传输数据的安全；而对于接收端，在SSL/TSL将接收的数据包解密之后，将数据传给HTTP协议层，就是普通的HTTP数据。HTTP和SSL/TSL都处于OSI模型的应用层。从HTTP切换到HTTPS是一个非常简单的过程，在做具体的切换操作之前，我们需要了解几个概念：</p>
+
+<p><br><br></p>
+
+<h2><a href="http://en.wikipedia.org/wiki/Transport_Layer_Security" target="_blank" rel="external">SSL/TSL</a></h2>
+
+<p>关于SSL/TSL，阮一峰的两篇博客文章做了很好的介绍：</p>
+
+<ul><br><li><a href="http://www.ruanyifeng.com/blog/2014/02/ssl_tls.html" target="_blank" rel="external">SSL/TLS协议运行机制的概述</a></li><br><li><a href="http://www.ruanyifeng.com/blog/2014/09/illustration-ssl.html" target="_blank" rel="external">图解SSL/TLS协议</a></li><br></ul>
+
+
+<p>简单的来说，SSL/TSL通过四次握手，主要交换三个信息：</p>
+
+<ol><br><li><strong>数字证书</strong>：该证书包含了公钥等信息，一般是由服务器发给客户端，接收方通过验证这个证书是不是由信赖的CA签发，或者与本地的证书相对比，来判断证书是否可信；假如需要双向验证，则服务器和客户端都需要发送数字证书给对方验证；</li><br><li><p><strong>三个随机数</strong>：这三个随机数构成了后续通信过程中用来对数据进行对称加密解密的<strong>“对话密钥”</strong>。</p><br><br><p> 首先客户端先发第一个随机数N1，然后服务器回了第二个随机数N2（这个过程同时把之前提到的证书发给客户端），这两个随机数都是明文的；而第三个随机数N3（这个随机数被称为Premaster secret），客户端用数字证书的公钥进行非对称加密，发给服务器；而服务器用只有自己知道的私钥来解密，获取第三个随机数。这样，服务端和客户端都有了三个随机数N1+N2+N3，然后两端就使用这三个随机数来生成“对话密钥”，在此之后的通信都是使用这个“对话密钥”来进行对称加密解密。因为这个过程中，服务端的私钥只用来解密第三个随机数，从来没有在网络中传输过，这样的话，只要私钥没有被泄露，那么数据就是安全的。</p></li><br><li><p><strong>加密通信协议</strong>：就是双方商量使用哪一种加密方式，假如两者支持的加密方式不匹配，则无法进行通信；</p></li><br></ol>
+
+
+<p>有个常见的问题，关于随机数为什么要三个？只最后一个随机数N3不可以么？</p>
+
+<p>这是由于SSL/TLS设计，就假设服务器不相信所有的客户端都能够提供完全随机数，假如某个客户端提供的随机数不随机的话，就大大增加了“对话密钥”被破解的风险，所以由三组随机数组成最后的随机数，保证了随机数的随机性，以此来保证每次生成的“对话密钥”安全性。</p>
+
+<p><br><br></p>
+
+<h2><a href="http://en.wikipedia.org/wiki/Public_key_certificate" target="_blank" rel="external">数字证书</a></h2>
+
+<p>数字证书是一个电子文档，其中包含了持有者的信息、公钥以及证明该证书有效的数字签名。而数字证书以及相关的公钥管理和验证等技术组成了<a href="http://en.wikipedia.org/wiki/Public-key_infrastructure" target="_blank" rel="external">PKI</a>（公钥基础设施）规范体系。一般来说，数字证书是由数字证书认证机构(Certificate authority，即CA)来负责签发和管理，并承担PKI体系中公钥合法性的检验责任；数字证书的类型有很多，而HTTPS使用的是SSL证书。</p>
+
+<p>怎么来验证数字证书是由CA签发的，而不是第三方伪造的呢？<br>在回答这个问题前，我们需要先了解CA的组织结构。首先，CA组织结构中，最顶层的就是根CA，根CA下可以授权给多个二级CA，而二级CA又可以授权多个三级CA，所以CA的组织结构是一个树结构。对于SSL证书市场来说，主要被Symantec(旗下有VeriSign和GeoTrust)、Comodo SSL、Go Daddy 和 GlobalSign 瓜分。<br>了解了CA的组织结构后，来看看数字证书的签发流程：</p>
+
+<p><br><br><img src="/image/ios91.png" alt="数字证书的签发流程"><br><br></p>
+
+<p>数字证书的签发机构CA，在接收到申请者的资料后进行核对并确定信息的真实有效，然后就会制作一份符合<a href="http://tools.ietf.org/html/rfc5280" target="_blank" rel="external">X.509</a>标准的文件。证书中的证书内容包含的持有者信息和公钥等都是由申请者提供的，而数字签名则是CA机构对证书内容进行hash加密后得到的，而这个数字签名就是我们验证证书是否是有可信CA签发的数据。</p>
+
+<p><br><br><img src="/image/ios92.png" alt="数字证书的验证流程"><br><br></p>
+
+<p>假设上图证书是由证书签发机构CA1签发的。</p>
+
+<p>1）接收端接到一份数字证书Cer1后，对证书的内容做Hash得到H1；</p>
+
+<p>2）从签发该证书的机构CA1的数字证书中找到公钥，对证书上数字签名进行解密，得到证书Cer1签名的Hash摘要H2；</p>
+
+<p>3）对比H1和H2，如相等，则表示证书没有被篡改。</p>
+
+<p>4）但这个时候还是不知道CA是否是合法的，我们看到上图中有CA机构的数字证书，这个证书是公开的，所有人都可以获取到。而这个证书中的数字签名是上一级生成的，所以可以这样一直递归验证下去，直到根CA。根CA是自验证的，即他的数字签名是由自己的私钥来生成的。合法的根CA会被浏览器和操作系统加入到权威信任CA列表中，这样就完成了最终的验证。所以，一定要保护好自己环境（浏览器/操作系统）中根CA信任列表，信任了根CA就表示信任所有根CA下所有子级CA所签发的证书，不要随便添加根CA证书。</p>
+
+<p>一般操作系统和浏览器只包含根CA机构的证书，而在配置Web服务器的HTTPS时，也会将配置整个证书链，所以整个校验流程是从最后的叶子节点证书开始，用父节点校验子节点，一层层校验整个证书链的可信性。</p>
+
+<p>打个比喻：父（根CA数字证书）-子（CA数字证书）-孙（数字证书）三代人，假设父没有其他兄弟（相当于根CA机构是唯一的），假如子与父进行DNA亲子鉴定，检测DNA位点（即证书签名）相同，那就基本确定子是由父所生；孙与子一样。这样就能够确定孙肯定是源于父一脉，是父（根CA数字证书）的合法继承人。数字证书的验证就是基于同样的原理。</p>
+
+<p><br><br></p>
+
+<h2><a href="https://tools.ietf.org/html/rfc5280#section-4.2.1.9" target="_blank" rel="external">Basic Constraint</a>校验漏洞</h2>
+
+<p>那是否不管多少层都可以这样一直信任下去呢？理论上是可行的，但会遇到一个问题。假设我从可信CA机构购买了一张证书，使用这张证书签发的证书是否也会被操作系统和浏览器信任呢？明显是不应该相信的，因为我并不是CA机构，假如我签发的证书也被信任的话，那我完全可以自己签发任何域名的证书来进行伪造攻击。这就是著名的<a href="https://tools.ietf.org/html/rfc5280#section-4.2.1.9" target="_blank" rel="external">Basic Constraint</a>校验漏洞，X.509证书中的Basic Constraint包含了这是不是一个CA机构，以及有效证书路径的最大深度（即，这个CA还能否继续签发CA机构证书及其签发子CA证书的路径深度）。但在几年前，包括微软和Apple都爆出了没有正确校验这些信息的漏洞。</p>
+
+<p>Basic Constraint信息请看下图：</p>
+
+<p><br><br><img src="/image/ios93.png" alt="Google Internet Authority G2"></p>
+
+<p>上图是Google Internet Authority G2的证书，该证书是个CA机构证书；路径深度为0，表示该证书无法再签发CA证书，只能签发客户证书(client certificate)。</p>
+
+<p><br><br><img src="/image/ios94.png" alt="google.com"></p>
+
+<p>上图是google.com的证书，这是个客户证书(client certificate)，不可再签发子证书，所以由该证书签发的子证书是不会被信任的。</p>
+
+<p>了解了上面关于SSL/TSL通信加密策略以及数字证书的概念之后，对HTTPS的安全机制就有了个初步的了解，下面我们看如何在iOS上实现对HTTPS的支持。</p>
+
+<p><br><br></p>
+
+<h1>2. 实现支持HTTPS</h1>
+
+<p>首先，需要明确你使用HTTP/HTTPS的用途，因为OSX和iOS平台提供了多种API，来支持不同的用途，官方文档<a href="https://developer.apple.com/library/ios/documentation/NetworkingInternetWeb/Conceptual/NetworkingOverview/WorkingWithHTTPAndHTTPSRequests/WorkingWithHTTPAndHTTPSRequests.html" target="_blank" rel="external">《Making HTTP and HTTPS Requests》</a>有详细的说明，而文档<a href="https://developer.apple.com/library/ios/technotes/tn2232/_index.html" target="_blank" rel="external">《HTTPS Server Trust Evaluation》</a>则详细讲解了HTTPS验证相关知识，这里就不多说了。本文主要讲解我们最常用的NSURLConnection支持HTTPS的实现（NSURLSession的实现方法类似，只是要求授权证明的回调不一样而已），以及怎么样使用AFNetworking这个非常流行的第三方库来支持HTTPS。本文假设你对HTTP以及NSURLConnection的接口有了足够的了解。</p>
+
+<p><br></p>
+
+<h2>验证证书的API</h2>
+
+<p>相关的Api在<a href="https://developer.apple.com/library/ios/documentation/Security/Reference/SecurityFrameworkReference/_index.html" target="_blank" rel="external">Security Framework</a>中，验证流程如下：</p>
+
+<p>1). 第一步，先获取需要验证的信任对象(Trust Object)。这个Trust Object在不同的应用场景下获取的方式都不一样，对于NSURLConnection来说，是从delegate方法<code>-connection:willSendRequestForAuthenticationChallenge:</code>回调回来的参数challenge中获取(<code>[challenge.protectionSpace serverTrust]</code>)。</p>
+
+<p>2). 使用系统默认验证方式验证Trust Object。<a href="https://developer.apple.com/library/ios/documentation/Security/Reference/certifkeytrustservices/#//apple_ref/c/func/SecTrustEvaluate" target="_blank" rel="external"><code>SecTrustEvaluate</code></a>会根据Trust Object的验证策略，一级一级往上，验证证书链上每一级数字签名的有效性（上一部分有讲解），从而评估证书的有效性。</p>
+
+<p>3). 如第二步验证通过了，一般的安全要求下，就可以直接验证通过，进入到下一步：使用Trust Object生成一份凭证(<code>[NSURLCredential credentialForTrust:serverTrust]</code>)，传入challenge的sender中(<code>[challenge.sender useCredential:cred forAuthenticationChallenge:challenge]</code>)处理，建立连接。</p>
+
+<p>4). 假如有更强的安全要求，可以继续对Trust Object进行更严格的验证。常用的方式是在本地导入证书，验证Trust Object与导入的证书是否匹配。更多的方法可以查看<a href="https://developer.apple.com/library/ios/technotes/tn2232/_index.html#//apple_ref/doc/uid/DTS40012884-CH1-SECSTRICTER" target="_blank" rel="external">Enforcing Stricter Server Trust Evaluation</a>，这一部分在讲解AFNetworking源码中会讲解到。</p>
+
+<p>5). 假如验证失败，取消此次<a href="http://en.wikipedia.org/wiki/Challenge%E2%80%93response_authentication" target="_blank" rel="external">Challenge-Response Authentication</a>验证流程，拒绝连接请求。</p>
+
+<p>ps: 假如是自建证书的，则不使用第二步系统默认的验证方式，因为自建证书的根CA的数字签名未在操作系统的信任列表中。</p>
+
+<p>iOS授权验证的API和流程大概了解了，下面，我们看看在NSURLConnection中的代码实现：</p>
+
+<p><br></p>
+
+<h2>使用NSURLConnection支持HTTPS的实现</h2>
+
+<p><br></p>
+
+<div class="highlight"><pre><code class="language-objective-c" data-lang="objective-c"><span class="c1">// Now start the connection</span><br><span class="bp">NSURL</span> <span class="o"><em></em></span> <span class="n">httpsURL</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSURL</span> <span class="nl">URLWithString</span><span class="p">:</span><span class="s">@&quot;<a href="https://www.google.com&amp;quot" target="_blank" rel="external">https://www.google.com&amp;quot</a>;</span><span class="p">];</span><br><span class="nb">self</span><span class="p">.</span><span class="n">connection</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSURLConnection</span> <span class="nl">connectionWithRequest</span><span class="p">:[</span><span class="bp">NSURLRequest</span> <span class="nl">requestWithURL</span><span class="p">:</span><span class="n">httpsURL</span><span class="p">]</span> <span class="nl">delegate</span><span class="p">:</span><span class="nb">self</span><span class="p">];</span><br><br><br><span class="c1">//回调</span><br><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">connection:</span><span class="p">(</span><span class="bp">NSURLConnection</span> <span class="o"></span><span class="p">)</span><span class="nv">connection</span> <span class="nf">willSendRequestForAuthenticationChallenge:</span><span class="p">(</span><span class="bp">NSURLAuthenticationChallenge</span> <span class="o"><em></em></span><span class="p">)</span><span class="nv">challenge</span> <span class="p">{</span><br>    <span class="c1">//1)获取trust object</span><br>    <span class="n">SecTrustRef</span> <span class="n">trust</span> <span class="o">=</span> <span class="n">challenge</span><span class="p">.</span><span class="n">protectionSpace</span><span class="p">.</span><span class="n">serverTrust</span><span class="p">;</span><br>    <span class="n">SecTrustResultType</span> <span class="n">result</span><span class="p">;</span><br><br>    <span class="c1">//2)SecTrustEvaluate对trust进行验证</span><br>    <span class="n">OSStatus</span> <span class="n">status</span> <span class="o">=</span> <span class="n">SecTrustEvaluate</span><span class="p">(</span><span class="n">trust</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">result</span><span class="p">);</span><br>    <span class="k">if</span> <span class="p">(</span><span class="n">status</span> <span class="o">==</span> <span class="n">errSecSuccess</span> <span class="o">&amp;&amp;</span><br>        <span class="p">(</span><span class="n">result</span> <span class="o">==</span> <span class="n">kSecTrustResultProceed</span> <span class="o">||</span><br>        <span class="n">result</span> <span class="o">==</span> <span class="n">kSecTrustResultUnspecified</span><span class="p">))</span> <span class="p">{</span><br><br>        <span class="c1">//3)验证成功，生成NSURLCredential凭证cred，告知challenge的sender使用这个凭证来继续连接</span><br>        <span class="bp">NSURLCredential</span> <span class="o"></span><span class="n">cred</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSURLCredential</span> <span class="nl">credentialForTrust</span><span class="p">:</span><span class="n">trust</span><span class="p">];</span><br>        <span class="p">[</span><span class="n">challenge</span><span class="p">.</span><span class="n">sender</span> <span class="nl">useCredential</span><span class="p">:</span><span class="n">cred</span> <span class="nl">forAuthenticationChallenge</span><span class="p">:</span><span class="n">challenge</span><span class="p">];</span><br><br>    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span><br><br>        <span class="c1">//5)验证失败，取消这次验证流程</span><br>        <span class="p">[</span><span class="n">challenge</span><span class="p">.</span><span class="n">sender</span> <span class="nl">cancelAuthenticationChallenge</span><span class="p">:</span><span class="n">challenge</span><span class="p">];</span><br><br>  <span class="p">}</span><br><span class="p">}</span></code></pre></div>
+
+
+<p><br></p>
+
+<p>上面是代码是通过系统默认验证流程来验证证书的。假如我们是自建证书的呢？这样Trust Object里面服务器的证书因为不是可信任的CA签发的，所以直接使用<code>SecTrustEvaluate</code>进行验证是不会成功。又或者，即使服务器返回的证书是信任CA签发的，又如何确定这证书就是我们想要的特定证书？这就需要先在本地导入证书，设置成需要参与验证的<a href="https://en.wikipedia.org/wiki/Trust_anchor" target="_blank" rel="external">Anchor Certificate</a>（锚点证书，通过<code>SecTrustSetAnchorCertificates</code>设置了参与校验锚点证书之后，假如验证的数字证书是这个锚点证书的子节点，即验证的数字证书是由锚点证书对应CA或子CA签发的，或是该证书本身，则信任该证书），再调用<code>SecTrustEvaluate</code>来验证。代码如下</p>
+
+<p><br></p>
+
+<div class="highlight"><pre><code class="language-objective-c" data-lang="objective-c"><span class="c1">//先导入证书</span><br><span class="bp">NSString</span> <span class="o"><em></em></span> <span class="n">cerPath</span> <span class="o">=</span> <span class="p">…;</span> <span class="c1">//证书的路径</span><br><span class="bp">NSData</span> <span class="o"></span> <span class="n">cerData</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSData</span> <span class="nl">dataWithContentsOfFile</span><span class="p">:</span><span class="n">cerPath</span><span class="p">];</span><br><span class="n">SecCertificateRef</span> <span class="n">certificate</span> <span class="o">=</span> <span class="n">SecCertificateCreateWithData</span><span class="p">(</span><span class="nb">NULL</span><span class="p">,</span> <span class="p">(</span><span class="k"><strong>bridge</strong></span> <span class="n">CFDataRef</span><span class="p">)(</span><span class="n">cerData</span><span class="p">));</span><br><span class="nb">self</span><span class="p">.</span><span class="n">trustedCertificates</span> <span class="o">=</span> <span class="l">@[</span><span class="n">CFBridgingRelease</span><span class="p">(</span><span class="n">certificate</span><span class="p">)</span><span class="l">]</span><span class="p">;</span><br><br><span class="c1">//回调</span><br><span class="p">-</span> <span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="nf">connection:</span><span class="p">(</span><span class="bp">NSURLConnection</span> <span class="o"><em></em></span><span class="p">)</span><span class="nv">connection</span> <span class="nf">willSendRequestForAuthenticationChallenge:</span><span class="p">(</span><span class="bp">NSURLAuthenticationChallenge</span> <span class="o"></span><span class="p">)</span><span class="nv">challenge</span> <span class="p">{</span><br>    <span class="c1">//1)获取trust object</span><br>    <span class="n">SecTrustRef</span> <span class="n">trust</span> <span class="o">=</span> <span class="n">challenge</span><span class="p">.</span><span class="n">protectionSpace</span><span class="p">.</span><span class="n">serverTrust</span><span class="p">;</span><br>    <span class="n">SecTrustResultType</span> <span class="n">result</span><span class="p">;</span><br><br>    <span class="c1">//注意：这里将之前导入的证书设置成下面验证的Trust Object的anchor certificate</span><br>    <span class="n">SecTrustSetAnchorCertificates</span><span class="p">(</span><span class="n">trust</span><span class="p">,</span> <span class="p">(</span><span class="k">bridge</span> <span class="n">CFArrayRef</span><span class="p">)</span><span class="nb">self</span><span class="p">.</span><span class="n">trustedCertificates</span><span class="p">);</span><br><br>    <span class="c1">//2)SecTrustEvaluate会查找前面SecTrustSetAnchorCertificates设置的证书或者系统默认提供的证书，对trust进行验证</span><br>    <span class="n">OSStatus</span> <span class="n">status</span> <span class="o">=</span> <span class="n">SecTrustEvaluate</span><span class="p">(</span><span class="n">trust</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">result</span><span class="p">);</span><br>    <span class="k">if</span> <span class="p">(</span><span class="n">status</span> <span class="o">==</span> <span class="n">errSecSuccess</span> <span class="o">&amp;&amp;</span><br>        <span class="p">(</span><span class="n">result</span> <span class="o">==</span> <span class="n">kSecTrustResultProceed</span> <span class="o">||</span><br>        <span class="n">result</span> <span class="o">==</span> <span class="n">kSecTrustResultUnspecified</span><span class="p">))</span> <span class="p">{</span><br><br>        <span class="c1">//3)验证成功，生成NSURLCredential凭证cred，告知challenge的sender使用这个凭证来继续连接</span><br>        <span class="bp">NSURLCredential</span> <span class="o">*</span><span class="n">cred</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSURLCredential</span> <span class="nl">credentialForTrust</span><span class="p">:</span><span class="n">trust</span><span class="p">];</span><br>        <span class="p">[</span><span class="n">challenge</span><span class="p">.</span><span class="n">sender</span> <span class="nl">useCredential</span><span class="p">:</span><span class="n">cred</span> <span class="nl">forAuthenticationChallenge</span><span class="p">:</span><span class="n">challenge</span><span class="p">];</span><br><br>    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span><br><br>        <span class="c1">//5)验证失败，取消这次验证流程</span><br>        <span class="p">[</span><span class="n">challenge</span><span class="p">.</span><span class="n">sender</span> <span class="nl">cancelAuthenticationChallenge</span><span class="p">:</span><span class="n">challenge</span><span class="p">];</span><br><br>  <span class="p">}</span><br><span class="p">}</span></code></pre></div>
+
+
+<p><br></p>
+
+<p>建议采用本地导入证书的方式验证证书，来保证足够的安全性。更多的验证方法，请查看官方文档<a href="https://developer.apple.com/library/ios/technotes/tn2232/_index.html" target="_blank" rel="external">《HTTPS Server Trust Evaluation》</a></p>
+
+<p><br></p>
+
+<h2>使用AFNetworking来支持HTTPS</h2>
+
+<p><a href="https://github.com/AFNetworking/AFNetworking" target="_blank" rel="external">AFNetworking</a>是iOS/OSX开发最流行的第三方开源库之一，其作者是非常著名的iOS/OSX开发者<a href="https://github.com/mattt" target="_blank" rel="external">Mattt Thompson</a>，其博客<a href="http://nshipster.com/" target="_blank" rel="external">NSHipster</a>也是iOS/OSX开发者学习和开阔技术视野的好地方。AFNetworking已经将上面的逻辑代码封装好，甚至更完善，在AFSecurityPolicy文件中，有兴趣可以阅读这个模块的代码；</p>
+
+<p>AFNetworking上配置对HTTPS的支持非常简单：</p>
+
+<p><br></p>
+
+<div class="highlight"><pre><code class="language-objective-c" data-lang="objective-c"><span class="bp">NSURL</span> <span class="o"><em></em></span> <span class="n">url</span> <span class="o">=</span> <span class="p">[</span><span class="bp">NSURL</span> <span class="nl">URLWithString</span><span class="p">:</span><span class="s">@&quot;<a href="https://www.google.com&amp;quot" target="_blank" rel="external">https://www.google.com&amp;quot</a>;</span><span class="p">];</span><br><span class="n">AFHTTPRequestOperationManager</span> <span class="o"></span> <span class="n">requestOperationManager</span> <span class="o">=</span> <span class="p">[[</span><span class="n">AFHTTPRequestOperationManager</span> <span class="n">alloc</span><span class="p">]</span> <span class="nl">initWithBaseURL</span><span class="p">:</span><span class="n">url</span><span class="p">];</span><br><span class="kt">dispatch_queue_t</span> <span class="n">requestQueue</span> <span class="o">=</span> <span class="n">dispatch_create_serial_queue_for_name</span><span class="p">(</span><span class="s">&quot;kRequestCompletionQueue&quot;</span><span class="p">);</span><br><span class="n">requestOperationManager</span><span class="p">.</span><span class="n">completionQueue</span> <span class="o">=</span> <span class="n">requestQueue</span><span class="p">;</span><br><br><span class="n">AFSecurityPolicy</span> <span class="o"><em></em></span> <span class="n">securityPolicy</span> <span class="o">=</span> <span class="p">[</span><span class="n">AFSecurityPolicy</span> <span class="nl">policyWithPinningMode</span><span class="p">:</span><span class="n">AFSSLPinningModeCertificate</span><span class="p">];</span><br><br><span class="c1">//allowInvalidCertificates 是否允许无效证书（也就是自建的证书），默认为NO</span><br><span class="c1">//如果是需要验证自建证书，需要设置为YES</span><br><span class="n">securityPolicy</span><span class="p">.</span><span class="n">allowInvalidCertificates</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span><br><br><span class="c1">//validatesDomainName 是否需要验证域名，默认为YES；</span><br><span class="c1">//假如证书的域名与你请求的域名不一致，需把该项设置为NO；如设成NO的话，即服务器使用其他可信任机构颁发的证书，也可以建立连接，这个非常危险，建议打开。</span><br><span class="c1">//置为NO，主要用于这种情况：客户端请求的是子域名，而证书上的是另外一个域名。因为SSL证书上的域名是独立的，假如证书上注册的域名是www.google.com，那么mail.google.com是无法验证通过的；当然，有钱可以注册通配符的域名.google.com，但这个还是比较贵的。</span><br><span class="c1">//如置为NO，建议自己添加对应域名的校验逻辑。</span><br><span class="n">securityPolicy</span><span class="p">.</span><span class="n">validatesDomainName</span> <span class="o">=</span> <span class="nb">YES</span><span class="p">;</span><br><br><span class="c1">//validatesCertificateChain 是否验证整个证书链，默认为YES</span><br><span class="c1">//设置为YES，会将服务器返回的Trust Object上的证书链与本地导入的证书进行对比，这就意味着，假如你的证书链是这样的：</span><br><span class="c1">//GeoTrust Global CA </span><br><span class="c1">//    Google Internet Authority G2</span><br><span class="c1">//        <em>.google.com</em></span><br><span class="c1">//那么，除了导入.google.com之外，还需要导入证书链上所有的CA证书（GeoTrust Global CA, Google Internet Authority G2）；</span><br><span class="c1">//如是自建证书的时候，可以设置为YES，增强安全性；假如是信任的CA所签发的证书，则建议关闭该验证，因为整个证书链一一比对是完全没有必要（请查看源代码）；</span><br><span class="n">securityPolicy</span><span class="p">.</span><span class="n">validatesCertificateChain</span> <span class="o">=</span> <span class="nb">NO</span><span class="p">;</span><br><br><span class="n">requestOperationManager</span><span class="p">.</span><span class="n">securityPolicy</span> <span class="o">=</span> <span class="n">securityPolicy</span><span class="p">;</span></code></pre></div>
+
+
+<p><br></p>
+
+<p>这就是AFNetworking的支持HTTPS的主要配置说明，AFHTTPSessionManager与之基本一致，就不重复了。</p>
+
+<p><br><br></p>
+
+<h1>3. 总结</h1>
+
+<p>虽然HTTPS相比于HTTP来说，会有一定的性能上的劣势，但对于网络飞速发展，移动设备的性能成倍增长的今天，安全才是我们更应该去考虑的。全网HTTPS并不是那么遥远。</p>
+
+
+
+<p><br><br></p>
+
+<hr>
+
+<p>本文转载自<a href="http://oncenote.com/" target="_blank" rel="external">Jaminzzhang</a>Blog</p>
+      
+    </div>
+    
+  </div>
+  
+    
+<div class="copyright">
+  <p><span>本文标题:</span><a href="/2015/11/04/IOS9-HTTPS/">iOS安全系列之一：IOS 9 - HTTPS</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 Yi&#39;mouleng 的个人博客">Yi&#39;mouleng</a></p>
+  <p><span>发布时间:</span>2015年11月04日 - 00时00分</p>
+  <p><span>最后更新:</span>2015年12月09日 - 18时08分</p>
+  <p>
+    <span>原始链接:</span><a class="post-url" href="/2015/11/04/IOS9-HTTPS/" title="iOS安全系列之一：IOS 9 - HTTPS">http://yimouleng.com/2015/11/04/IOS9-HTTPS/</a>
+    <span class="copy-path" data-clipboard-text="原文: http://yimouleng.com/2015/11/04/IOS9-HTTPS/　　作者: Yi&#39;mouleng" title="点击复制文章链接">
+        <i class="fa fa-clipboard"></i>
+    </span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。</p>
+  <script src="/js/clipboard.min.js"></script>
+  <script> var clipboard = new Clipboard('.copy-path'); </script>
+</div>
+
+
+
+<nav id="article-nav">
+  
+  
+    <a href="/2015/09/30/ios-PortalTransition/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">iOS开发 - 开门/撕裂效果-基于PortalTransition修改撕裂动画</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+  <strong class="toc-title">文章目录</strong>
+  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#undefined"><span class="toc-number">1.</span> <span class="toc-text">1. HTTPS</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">1.1.</span> <span class="toc-text">SSL/TSL</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">1.2.</span> <span class="toc-text">数字证书</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">1.3.</span> <span class="toc-text">Basic Constraint校验漏洞</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#undefined"><span class="toc-number">2.</span> <span class="toc-text">2. 实现支持HTTPS</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">2.1.</span> <span class="toc-text">验证证书的API</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">2.2.</span> <span class="toc-text">使用NSURLConnection支持HTTPS的实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">2.3.</span> <span class="toc-text">使用AFNetworking来支持HTTPS</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#undefined"><span class="toc-number">3.</span> <span class="toc-text">3. 总结</span></a></li></ol>
+</div>
+
+<style>
+  .left-col .switch-btn {
+    display: none;
+  }
+  .left-col .switch-area {
+    display: none;
+  }
+</style>
+
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+<script>
+  var toc_button= document.getElementById("tocButton");
+  var toc_div= document.getElementById("toc");
+  toc_button.onclick=function(){
+    if(toc_div.style.display=="none"){
+      toc_div.style.display="block";
+      toc_button.value="隐藏目录";
+      document.getElementById("switch-btn").style.display="none";
+      document.getElementById("switch-area").style.display="none";
+    }
+    else{
+      toc_div.style.display="none";
+      toc_button.value="显示目录";
+      document.getElementById("switch-btn").style.display="block";
+      document.getElementById("switch-area").style.display="block";
+    }
+  }
+</script>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="IOS9-HTTPS" data-title="iOS安全系列之一：IOS 9 - HTTPS" data-url="http://yimouleng.com/2015/11/04/IOS9-HTTPS/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"yimouleng"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//yimouleng.com/js/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0]
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2015 本站由 <a href="https://weibo.com/yimouleng" target="_blank">@yimouleng</a> 创建，采用
+        <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> 作为主题并加以修改
+    	</div>
+      	<div class="footer-right">
+      		感谢 <a href="https://pages.github.com/" target="_blank">Github Pages</a> 提供稳定的空间服务
+      	</div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>
