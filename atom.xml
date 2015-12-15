@@ -4,7 +4,7 @@
   <subtitle><![CDATA[知止安能定,定而知静,静方可虑,虑而后能得。---iOS交流群67784110]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://yimouleng.com/"/>
-  <updated>2015-12-15T09:55:11.000Z</updated>
+  <updated>2015-12-15T09:59:45.000Z</updated>
   <id>http://yimouleng.com/</id>
   
   <author>
@@ -16,10 +16,10 @@
   
   <entry>
     <title><![CDATA[js(javascript)与OC(Objective-C)交互]]></title>
-    <link href="http://yimouleng.com/2015/11/05/ios-LLPictureShow/"/>
-    <id>http://yimouleng.com/2015/11/05/ios-LLPictureShow/</id>
+    <link href="http://yimouleng.com/2015/11/05/ios-javascript-OC/"/>
+    <id>http://yimouleng.com/2015/11/05/ios-javascript-OC/</id>
     <published>2015-11-04T16:00:00.000Z</published>
-    <updated>2015-12-15T09:55:11.000Z</updated>
+    <updated>2015-12-15T09:59:45.000Z</updated>
     <content type="html"><![CDATA[<h2 id="u524D_u8A00"><a href="#u524D_u8A00" class="headerlink" title="前言"></a>前言</h2><p>  实质上oc与js的通信交互就是发送消息，也即函数调用,iOS7以后官方公布JavaScriptCore framework中很方便我们对他们之间的相互调用。在以前我们只能通过UIWebView的UIWebViewDelegate协议来实现.</p>
   <figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="pp">- <span class="params">(<span class="variable">BOOL</span>)</span>webView:<span class="params">(<span class="variable">UIWebView</span> *)</span>webView shouldStartLoadWithRequest:<span class="params">(<span class="variable">NSURLRequest</span> *)</span>request navigationType:<span class="params">(<span class="variable">UIWebViewNavigationType</span>)</span>navigationType;</span></span><br></pre></td></tr></table></figure>
 <p>  或者</p>
