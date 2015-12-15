@@ -4,7 +4,7 @@
   <subtitle><![CDATA[知止安能定,定而知静,静方可虑,虑而后能得。---iOS交流群67784110]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://yimouleng.com/"/>
-  <updated>2015-12-15T09:59:45.000Z</updated>
+  <updated>2015-12-15T10:05:11.000Z</updated>
   <id>http://yimouleng.com/</id>
   
   <author>
@@ -19,7 +19,7 @@
     <link href="http://yimouleng.com/2015/11/05/ios-javascript-OC/"/>
     <id>http://yimouleng.com/2015/11/05/ios-javascript-OC/</id>
     <published>2015-11-04T16:00:00.000Z</published>
-    <updated>2015-12-15T09:59:45.000Z</updated>
+    <updated>2015-12-15T10:05:11.000Z</updated>
     <content type="html"><![CDATA[<h2 id="u524D_u8A00"><a href="#u524D_u8A00" class="headerlink" title="前言"></a>前言</h2><p>  实质上oc与js的通信交互就是发送消息，也即函数调用,iOS7以后官方公布JavaScriptCore framework中很方便我们对他们之间的相互调用。在以前我们只能通过UIWebView的UIWebViewDelegate协议来实现.</p>
   <figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="pp">- <span class="params">(<span class="variable">BOOL</span>)</span>webView:<span class="params">(<span class="variable">UIWebView</span> *)</span>webView shouldStartLoadWithRequest:<span class="params">(<span class="variable">NSURLRequest</span> *)</span>request navigationType:<span class="params">(<span class="variable">UIWebViewNavigationType</span>)</span>navigationType;</span></span><br></pre></td></tr></table></figure>
 <p>  或者</p>
@@ -31,8 +31,7 @@
 <li>js–&gt;oc 利用webView的重定向原理（即重新在js中指定document.location的值，此为一url），只要在这个url字符串中按自定义的规则指定好所需调用oc中的函数和参数，然后通过OC中的shouldStartLoadWithRequest函数去捕获处理请求。</li>
 </ul>
 </blockquote>
-<h3 id="u4E00_JS_u8C03_u7528OC"><a href="#u4E00_JS_u8C03_u7528OC" class="headerlink" title="一 JS调用OC"></a>一 JS调用OC</h3><h4 id="js_u4EE3_u7801_u5982_u4E0B"><a href="#js_u4EE3_u7801_u5982_u4E0B" class="headerlink" title="js代码如下"></a>js代码如下</h4><figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">function <span class="type">CallNative</span>()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (native)</span><br><span class="line">    &#123;</span><br><span class="line">        //将消息组装成对象发给<span class="type">OC</span></span><br><span class="line">        <span class="keyword">var</span> parameter = &#123;'message':'<span class="type">Hello</span>,<span class="type">Objective</span>-C!'&#125;;</span><br><span class="line">        <span class="keyword">var</span> <span class="literal">result</span> = native.ocMethod(parameter);</span><br><span class="line">        </span><br><span class="line">        //显示<span class="type">OC</span>返回的结果</span><br><span class="line">        alert(<span class="literal">result</span>['message']);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="OC_u4EE3_u7801"><a href="#OC_u4EE3_u7801" class="headerlink" title="OC代码"></a>OC代码</h4><p>  <strong>js调用iOS分两种情况</strong></p>
+<h3 id="u4E00_JS_u8C03_u7528OC"><a href="#u4E00_JS_u8C03_u7528OC" class="headerlink" title="一 JS调用OC"></a>一 JS调用OC</h3><p>  <strong>js调用iOS分两种情况</strong></p>
 <blockquote>
 <p>js里面直接调用方法</p>
 <p>js里面通过对象调用方法</p>
