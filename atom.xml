@@ -4,7 +4,7 @@
   <subtitle><![CDATA[知止安能定,定而知静,静方可虑,虑而后能得。---iOS交流群67784110]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://yimouleng.com/"/>
-  <updated>2015-12-09T10:08:46.000Z</updated>
+  <updated>2015-12-15T09:55:11.000Z</updated>
   <id>http://yimouleng.com/</id>
   
   <author>
@@ -13,6 +13,56 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[js(javascript)与OC(Objective-C)交互]]></title>
+    <link href="http://yimouleng.com/2015/11/05/ios-LLPictureShow/"/>
+    <id>http://yimouleng.com/2015/11/05/ios-LLPictureShow/</id>
+    <published>2015-11-04T16:00:00.000Z</published>
+    <updated>2015-12-15T09:55:11.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="u524D_u8A00"><a href="#u524D_u8A00" class="headerlink" title="前言"></a>前言</h2><p>  实质上oc与js的通信交互就是发送消息，也即函数调用,iOS7以后官方公布JavaScriptCore framework中很方便我们对他们之间的相互调用。在以前我们只能通过UIWebView的UIWebViewDelegate协议来实现.</p>
+  <figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="pp">- <span class="params">(<span class="variable">BOOL</span>)</span>webView:<span class="params">(<span class="variable">UIWebView</span> *)</span>webView shouldStartLoadWithRequest:<span class="params">(<span class="variable">NSURLRequest</span> *)</span>request navigationType:<span class="params">(<span class="variable">UIWebViewNavigationType</span>)</span>navigationType;</span></span><br></pre></td></tr></table></figure>
+<p>  或者</p>
+  <figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="pp">- <span class="params">(void)</span>webViewDidStartLoad:<span class="params">(<span class="variable">UIWebView</span> *)</span>webView;</span></span><br></pre></td></tr></table></figure>
+  <a id="more"></a>
+<blockquote>
+<ul>
+<li>oc–&gt;js  stringByEvaluatingJavaScriptFromString,其参数是一NSString 字符串内容是js代码（这又可以是一个js函数、一句js代码或他们的组合），当js函数有返回值或一句js代码有值返回可通过stringByEvaluatingJavaScriptFromString的返回值获取</li>
+<li>js–&gt;oc 利用webView的重定向原理（即重新在js中指定document.location的值，此为一url），只要在这个url字符串中按自定义的规则指定好所需调用oc中的函数和参数，然后通过OC中的shouldStartLoadWithRequest函数去捕获处理请求。</li>
+</ul>
+</blockquote>
+<h3 id="u4E00_JS_u8C03_u7528OC"><a href="#u4E00_JS_u8C03_u7528OC" class="headerlink" title="一 JS调用OC"></a>一 JS调用OC</h3><h4 id="js_u4EE3_u7801_u5982_u4E0B"><a href="#js_u4EE3_u7801_u5982_u4E0B" class="headerlink" title="js代码如下"></a>js代码如下</h4><figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">function <span class="type">CallNative</span>()</span><br><span class="line">&#123;</span><br><span class="line">    <span class="keyword">if</span> (native)</span><br><span class="line">    &#123;</span><br><span class="line">        //将消息组装成对象发给<span class="type">OC</span></span><br><span class="line">        <span class="keyword">var</span> parameter = &#123;'message':'<span class="type">Hello</span>,<span class="type">Objective</span>-C!'&#125;;</span><br><span class="line">        <span class="keyword">var</span> <span class="literal">result</span> = native.ocMethod(parameter);</span><br><span class="line">        </span><br><span class="line">        //显示<span class="type">OC</span>返回的结果</span><br><span class="line">        alert(<span class="literal">result</span>['message']);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="OC_u4EE3_u7801"><a href="#OC_u4EE3_u7801" class="headerlink" title="OC代码"></a>OC代码</h4><p>  <strong>js调用iOS分两种情况</strong></p>
+<blockquote>
+<p>js里面直接调用方法</p>
+<p>js里面通过对象调用方法</p>
+</blockquote>
+<h5 id="js_u91CC_u9762_u76F4_u63A5_u8C03_u7528_u65B9_u6CD5"><a href="#js_u91CC_u9762_u76F4_u63A5_u8C03_u7528_u65B9_u6CD5" class="headerlink" title="js里面直接调用方法"></a>js里面直接调用方法</h5><figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">void</span>)webViewDidStartLoad:(<span class="type">UIWebView</span> *)webView&#123;</span><br><span class="line"></span><br><span class="line">    //首先创建<span class="type">JSContext</span> 对象（此处通过当前webView的键获取到jscontext）</span><br><span class="line">    <span class="type">JSContext</span> *context=[webView valueForKeyPath:@<span class="string">"documentView.webView.mainFrame.javaScriptContext"</span>];</span><br><span class="line">     //其中getCurrentUser就是js的方法名称，赋给是一个<span class="keyword">block</span> 里面是iOS代码</span><br><span class="line">    context[@<span class="string">"getCurrentUser"</span>] = ^() &#123;</span><br><span class="line">    //在<span class="keyword">block</span>中写<span class="type">OC</span>代码</span><br><span class="line">        <span class="keyword">return</span> [[<span class="type">NSUserDefaults</span> standardUserDefaults]objectForKey:@<span class="string">"MYJSANDOC"</span>];</span><br><span class="line">    &#125;;</span><br><span class="line">    context[@<span class="string">"encodeParam"</span>] = ^() &#123;</span><br><span class="line">        <span class="type">NSArray</span> *args = [<span class="type">JSContext</span> currentArguments];</span><br><span class="line">        <span class="type">NSString</span> *param = [<span class="type">NSString</span> stringWithFormat:@<span class="string">"%@"</span>,args[<span class="number">0</span>]];</span><br><span class="line">        <span class="type">NSString</span> *<span class="literal">result</span> = [[[<span class="type">YXBaseRequestManager</span> alloc]init]encryptUseAES:param key:@<span class="string">"1%7jhs#Zjasd&amp;tr*"</span>];</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">result</span>;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="js_u91CC_u9762_u901A_u8FC7_u5BF9_u8C61_u8C03_u7528_u65B9_u6CD5"><a href="#js_u91CC_u9762_u901A_u8FC7_u5BF9_u8C61_u8C03_u7528_u65B9_u6CD5" class="headerlink" title="js里面通过对象调用方法"></a>js里面通过对象调用方法</h5><p>  在这个方法中我们需要使用到 <code>JSExport</code><br>  <code>JSExport</code>是一个协议，自定义协议后，里面的声明变量等会对JS开放，我们即可调用。</p>
+<p>  首先我们要自定义一个协议，添加头文件<code>#import &lt;JavaScriptCore/JavaScriptCore.h&gt;</code>，继承自<code>NSObject</code></p>
+  <figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">  </span><br><span class="line">  <span class="preprocessor">#import <span class="title">&lt;Foundation/Foundation.h&gt;</span>  </span></span><br><span class="line"><span class="preprocessor">#import <span class="title">&lt;JavaScriptCore/JavaScriptCore.h&gt;</span>  </span></span><br><span class="line">  </span><br><span class="line"><span class="comment">//首先创建一个实现了JSExport协议的协议  </span></span><br><span class="line"><span class="class"><span class="keyword">@protocol</span> <span class="title">JSObjectText</span> &lt;<span class="title">JSExport</span>&gt;  </span></span><br><span class="line">  </span><br><span class="line"><span class="comment">//此处我们测试几种参数的情况  </span></span><br><span class="line">-(<span class="keyword">void</span>)JSObjectTextPush;   </span><br><span class="line">  </span><br><span class="line"><span class="keyword">@end</span>  </span><br><span class="line">  </span><br><span class="line"><span class="comment">//让我们创建的类实现上边的协议  </span></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">JSObject</span> : <span class="title">NSObject</span>&lt;<span class="title">JSObjectText</span>&gt;  </span></span><br><span class="line">  </span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>  在.m中实现</p>
+  <figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">  <span class="preprocessor">#import <span class="title">"JSObjectText.h"</span>  </span></span><br><span class="line">  </span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">JSObjectText</span>  </span></span><br><span class="line">  </span><br><span class="line"><span class="comment">//本地储存Key,调用之后， 检查key是否存在则说明是否条用了原生方法</span></span><br><span class="line">-(<span class="keyword">void</span>)JSObjectTextPush  </span><br><span class="line">&#123;  </span><br><span class="line">    [[<span class="built_in">NSUserDefaults</span> standardUserDefaults]objectForKey:<span class="string">@"MYJSANDOC"</span>];</span><br><span class="line">&#125;  </span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>  在weibview加载完成之后调用</p>
+  <figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">  -(<span class="typename">void</span>)<span class="string">webViewDidFinishLoad:</span>(UIWebView *)webView  </span><br><span class="line">&#123;  </span><br><span class="line">    <span class="comment">//网页加载完成调用此方法  </span></span><br><span class="line">      </span><br><span class="line">    <span class="comment">//首先创建JSContext 对象（此处通过当前webView的键获取到jscontext）  </span></span><br><span class="line">    JSContext *context=[webView <span class="string">valueForKeyPath:</span>@<span class="string">"documentView.webView.mainFrame.javaScriptContext"</span>];  </span><br><span class="line">      </span><br><span class="line">    <span class="comment">//第二种情况，js是通过对象调用的，我们假设js里面有一个对象 testobject 在调用方法  </span></span><br><span class="line">    <span class="comment">//首先创建我们新建类的对象，将他赋值给js的对象  </span></span><br><span class="line">      </span><br><span class="line">    JSObjectText *text=[JSObjectText <span class="keyword">new</span>];  </span><br><span class="line">    context[@<span class="string">"testobject"</span>]=text;  </span><br><span class="line">      </span><br><span class="line">    <span class="comment">//同样我们也用刚才的方式模拟一下js调用方法  </span></span><br><span class="line">    NSString *jsStr=@<span class="string">"testobject.JSObjectTextPush()"</span>;  </span><br><span class="line">    [context <span class="string">evaluateScript:</span>jsStr];  </span><br><span class="line"> </span><br><span class="line">      </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="u4E8C_OC_u8C03_u7528JS"><a href="#u4E8C_OC_u8C03_u7528JS" class="headerlink" title="二 OC调用JS"></a>二 OC调用JS</h3><p>方法很简单，在加载webview后，通过点击事件，或者 返回值，调用<code>stringByEvaluatingJavaScriptFromString</code>来实现调用JS代码</p>
+<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">/<span class="keyword">*</span></span><br><span class="line"> <span class="keyword">*</span> 点击事件</span><br><span class="line"> <span class="keyword">*</span> 调用javaScript的方法postStr()并取得返回值</span><br><span class="line"> <span class="keyword">*</span> 输出返回值到控制台</span><br><span class="line"> <span class="keyword">*</span>/</span><br><span class="line">-(void)ocFromJs:(id)sender</span><br><span class="line">&#123;</span><br><span class="line">    NSString <span class="keyword">*</span>str = [self.webview stringByEvaluatingJavaScriptFromString:<span class="comment">@"postStr();"];</span></span><br><span class="line">    NSLog(<span class="comment">@"JS返回值：%@",str);</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="u524D_u8A00"><a href="#u524D_u8A00" class="headerlink" title="前言"></a>前言</h2><p>  实质上oc与js的通信交互就是发送消息，也即函数调用,iOS7以后官方公布JavaScriptCore framework中很方便我们对他们之间的相互调用。在以前我们只能通过UIWebView的UIWebViewDelegate协议来实现.</p>
+  <figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="pp">- <span class="params">(<span class="variable">BOOL</span>)</span>webView:<span class="params">(<span class="variable">UIWebView</span> *)</span>webView shouldStartLoadWithRequest:<span class="params">(<span class="variable">NSURLRequest</span> *)</span>request navigationType:<span class="params">(<span class="variable">UIWebViewNavigationType</span>)</span>navigationType;</span></span><br></pre></td></tr></table></figure>
+<p>  或者</p>
+  <figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="pp">- <span class="params">(void)</span>webViewDidStartLoad:<span class="params">(<span class="variable">UIWebView</span> *)</span>webView;</span></span><br></pre></td></tr></table></figure>]]>
+    
+    </summary>
+    
+      <category term="javascript" scheme="http://yimouleng.com/tags/javascript/"/>
+    
+      <category term="js" scheme="http://yimouleng.com/tags/js/"/>
+    
+      <category term="iOS开发" scheme="http://yimouleng.com/categories/iOS%E5%BC%80%E5%8F%91/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[iOS安全系列之一：IOS 9 - HTTPS]]></title>
@@ -796,6 +846,71 @@ TypeName blockName = ^returnType(parameters) {…};</code></p>
   </entry>
   
   <entry>
+    <title><![CDATA[iOS绘图]]></title>
+    <link href="http://yimouleng.com/2014/11/23/ios-CoreGraphics/"/>
+    <id>http://yimouleng.com/2014/11/23/ios-CoreGraphics/</id>
+    <published>2014-11-22T19:01:30.000Z</published>
+    <updated>2015-12-09T09:15:36.000Z</updated>
+    <content type="html"><![CDATA[<h3 id="iOS_u7ED8_u56FE"><a href="#iOS_u7ED8_u56FE" class="headerlink" title="iOS绘图"></a>iOS绘图</h3><p>在iOS中常用有三套绘图API。一个是UIKit提供的高层API，一个是CoreGraphics提供的C语言层的API，最后一个是OpenGL ES提供的API。</p>
+<p>iOS的绘图逻辑代码需要放在UIView的drawRect:方法里面实现，所以绘图只能发生在UIView上面。</p>
+<p>绘图后如果我们想要显示图像可以调用</p>
+<p><code>setNeedsDisplay</code>和<code>setNeedsDisplayInRect:</code>这两个方法是用来标示一个视图是否需要进行重绘，这里标示重绘并不会马上重新绘制，而是等到该RunLoop上面的任务执行完成后才回执行重绘。<br><a id="more"></a><br>触发重绘有以下几种情况：</p>
+<p>1.当遮挡你的视图得其它视图被移动或者删除操作得时候；</p>
+<p>2.将视图的hidden属性声明设置为No，使其从隐藏状态变为可见；</p>
+<p>3.将视图滚出屏幕，然后重新回到屏幕；</p>
+<p>4.显示调用视图的<code>setNeedsDisplay</code>或者<code>setNeedsDisplayInRect:</code>方法；</p>
+<h3 id="ios_u7ED8_u56FE_u5468_u671F_u5206_u6790"><a href="#ios_u7ED8_u56FE_u5468_u671F_u5206_u6790" class="headerlink" title="ios绘图周期分析"></a>ios绘图周期分析</h3><p>通过下面这个例子来分析</p>
+<p>progressView.hidden = NO;</p>
+<p>[self doSomethingTimeConsuming];</p>
+<p>progressView.hidden = YES;</p>
+<p>第一行代码progress.hidden = NO;根本没有效果，这行代码不会使进度视图在执行耗时操作时显示出来。无论这个方法运行多久，都不会看到视图显示出来。</p>
+<p><img src="http://images0.cnblogs.com/blog2015/717519/201508/192124265355616.png" alt=""></p>
+<p>所有的绘制都发生在主线程，只要代码运行在主线程，就没有东西可以绘制。这就是不要在主线程中执行长时间运行操作的一个原因。这不仅会阻碍绘制更新，还会阻碍事件处理（比如响应触摸事件）。只要代码在主线程上，应用对于用户其实就是“功能挂起的”。如果主线程例程返回足够快，这些变化根本就察觉不到。<br>你可能会想：“那我就在后台线程运行我的绘图指令。”通常是无法做到这一点的，因为对于当前的UIKit上下文来说绘图不是线程安全的。任何在后台线程修改视图的尝试都会导致未定义的行为，包括绘制出错或崩溃。<br>这个行为并不是需要解决的问题。绘图时间实质是ios在有限的硬件上渲染复杂绘图的功能。</p>
+<h3 id="UIKit_u7ED8_u56FE"><a href="#UIKit_u7ED8_u56FE" class="headerlink" title="UIKit绘图"></a>UIKit绘图</h3><p>比较简单，这里就说一些常用API。</p>
+<p>设置画笔颜色：</p>
+<p>画笔颜色分为描边颜色和填充颜色，都是用UIColor的API设置的。在drawRect方法中调用<br><figure class="highlight inform7"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">[<span class="comment">[UIColor anyColor]</span> setFill]</span>设置填充颜色。</span><br><span class="line"><span class="comment">[<span class="comment">[UIColor anyColor]</span> setStroke]</span>设置描边颜色。</span><br></pre></td></tr></table></figure></p>
+<p>设置绘图区域：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">UIRectFill</span><span class="params">(CGRect rect)</span></span>，填充某一区域 。</span><br><span class="line"><span class="function"><span class="title">UIRectFrame</span><span class="params">(CGRect rect)</span></span>，矩形描边函数。</span><br><span class="line">UIBezierPath，绘图路径类，包括了线段、弧线、矩形、圆形等等。</span><br></pre></td></tr></table></figure></p>
+<p>其中UIBezierPath可以定制主来很多很复杂的图形，这里就不具体的说UIBezierPath的api了，使用起来比较简单直接看文档就可以。</p>
+<h4 id="u7ED8_u5236_u56FE_u50CF"><a href="#u7ED8_u5236_u56FE_u50CF" class="headerlink" title="绘制图像"></a>绘制图像</h4><p>UIImage提供了自己的绘图方法。显示UIImage，除了添加到UIImageView中，还可以直接画到UIView上面，常用API如下：<br><figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="pp">-<span class="params">(void)</span>drawAtPoint:<span class="params">(<span class="variable">CGPoint</span>)</span>point;在某个点绘制</span><br><span class="line">-<span class="params">(void)</span>drawInRect:<span class="params">(<span class="variable">CGRect</span>)</span>rect;绘制到某个矩形中</span><br><span class="line">-<span class="params">(void)</span>drawAsPatternInRect;绘制到某个矩形中并平铺</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="u7ED8_u5236_u6587_u5B57"><a href="#u7ED8_u5236_u6587_u5B57" class="headerlink" title="绘制文字"></a>绘制文字</h4><p>NSString的category同样提供了绘制文字的功能<br><figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="pp">-<span class="params">(void)</span>drawAtPoint:<span class="params">(<span class="variable">CGPoint</span>)</span>point withAttributes:<span class="params">(<span class="variable">NSDictionary</span> *)</span>attrs，文本在制定点用属性绘制。</span><br><span class="line">-<span class="params">(void)</span>drawInRect:<span class="params">(<span class="variable">CGRect</span>)</span>rect withAttributes:<span class="params">(<span class="variable">NSDictionary</span> *)</span>attrs，文本在指定的矩形里绘制。</span></span><br></pre></td></tr></table></figure></p>
+<p>它们都可以用attrs，这和NSAttributedString很像。</p>
+<h3 id="CoreGraphics_u7ED8_u56FE"><a href="#CoreGraphics_u7ED8_u56FE" class="headerlink" title="CoreGraphics绘图"></a>CoreGraphics绘图</h3><p>绘图上下文CGContextRef，CoreGraphics很类似java、C#等，需要有一个绘图上下文。</p>
+<p>上下文中保存了要绘制内容的信息，要获得上下文需要调用。</p>
+<p><code>CGContextRef UIGraphicsGetCurrentContext(void)</code></p>
+<p>常用API</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">移动点</span><br><span class="line"><span class="keyword">void</span> <span class="built_in">CGContextMoveToPoint</span>(<span class="built_in">CGContextRef</span> c, <span class="built_in">CGFloat</span> x, <span class="built_in">CGFloat</span> y)</span><br><span class="line">画线</span><br><span class="line"><span class="keyword">void</span> <span class="built_in">CGContextAddLineToPoint</span>(<span class="built_in">CGContextRef</span> c, <span class="built_in">CGFloat</span> x, <span class="built_in">CGFloat</span> y)</span><br><span class="line">闭合路径</span><br><span class="line"><span class="keyword">void</span> <span class="built_in">CGContextClosePath</span>(<span class="built_in">CGContextRef</span> c)</span><br><span class="line">绘制路径</span><br><span class="line"><span class="keyword">void</span> <span class="built_in">CGContextDrawPath</span>(<span class="built_in">CGContextRef</span> c, <span class="built_in">CGPathDrawingMode</span> mode)</span><br><span class="line">设置描边颜色</span><br><span class="line"><span class="keyword">void</span> <span class="built_in">CGContextSetStrokeColorWithColor</span>(<span class="built_in">CGContextRef</span> c, <span class="built_in">CGColorRef</span> color)</span><br><span class="line">设置填充颜色</span><br><span class="line"><span class="keyword">void</span> <span class="built_in">CGContextSetFillColorWithColor</span>(<span class="built_in">CGContextRef</span> c, <span class="built_in">CGColorRef</span> color)</span><br><span class="line">绘制贝塞尔曲线，这里的参数分别是两个控制点和交点的左边，大家可以自行百度贝塞尔曲线定义</span><br><span class="line"><span class="keyword">void</span> <span class="built_in">CGContextAddCurveToPoint</span>(<span class="built_in">CGContextRef</span> c, <span class="built_in">CGFloat</span> cp1x,<span class="built_in">CGFloat</span> cp1y, <span class="built_in">CGFloat</span> cp2x, <span class="built_in">CGFloat</span> cp2y, <span class="built_in">CGFloat</span> x, <span class="built_in">CGFloat</span> y)</span><br><span class="line">保存上下文</span><br><span class="line"><span class="keyword">void</span> <span class="built_in">CGContextSaveGState</span>(<span class="built_in">CGContextRef</span> c)</span><br><span class="line">读取上下文</span><br><span class="line"><span class="keyword">void</span> <span class="built_in">CGContextRestoreGState</span>(<span class="built_in">CGContextRef</span> c)</span><br></pre></td></tr></table></figure>
+<p>常用API有很多这里只列举上面这些，剩下的可以查下API</p>
+<h4 id="CoreGraphics_u5750_u6807_u7CFB"><a href="#CoreGraphics_u5750_u6807_u7CFB" class="headerlink" title="CoreGraphics坐标系"></a>CoreGraphics坐标系</h4><p>CoreGraphics坐标系和我们平时用UIKit的坐标系是不样的，CoreGraphics的左下角为(0,0)点，而UIKit的左上角为(0,0)点。</p>
+<p>所以我们在开发的时候，一般会先同步坐标系（CoreText也需要这么操作），应该这样写</p>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CGContextTranslateCTM<span class="list">(<span class="keyword">context</span>, <span class="number">0</span>, img.size.height)</span><span class="comment">;平移变化</span></span><br><span class="line">CGContextScaleCTM<span class="list">(<span class="keyword">context</span>,<span class="number">1</span>,<span class="number">-1</span>)</span><span class="comment">;缩放变换</span></span><br></pre></td></tr></table></figure>
+<p>先利用平移变换上移一个视图大小，然后在用缩放变化把高度设-1进行以x为轴的对称变换。</p>
+<h4 id="u53D8_u6362"><a href="#u53D8_u6362" class="headerlink" title="变换"></a>变换</h4><p>接下来说说变换，绘图是有很多矩阵变换的，其中常用的有以下：</p>
+<p>1.平移变换</p>
+<p>2.缩放变换</p>
+<p>3.旋转变换</p>
+<p>4.x轴对称变换</p>
+<p>5.y轴对称变换</p>
+<p>6.坐标原点对称变换</p>
+<h4 id="u77E9_u9635_u53D8_u6362CTM"><a href="#u77E9_u9635_u53D8_u6362CTM" class="headerlink" title="矩阵变换CTM"></a>矩阵变换CTM</h4><p>CoreGraphics中提供了很多矩阵变换的API，主要有</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">CGContextRoatateCMT</span>，旋转CTM，旋转变换；</span><br><span class="line"><span class="built_in">CGContextScaleCTM</span>，缩放变换；</span><br><span class="line"><span class="built_in">CGContextTranslateCTM</span>，平移变换。</span><br></pre></td></tr></table></figure>
+<h4 id="u4EFF_u5C04_u53D8_u6362affine"><a href="#u4EFF_u5C04_u53D8_u6362affine" class="headerlink" title="仿射变换affine"></a>仿射变换affine</h4><p>仿射变换是可以重用的变换，通过多次的矩阵乘法得到变换矩阵。<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">CGAffineMakeRotation</span>，创建新的旋转矩阵；</span><br><span class="line"><span class="built_in">CGAffineMakeScale</span>，创建新的缩放矩阵；</span><br><span class="line"><span class="built_in">CGAffineMakeTranslation</span>，创建新的平移矩阵；</span><br><span class="line"><span class="built_in">CGAffineTransform</span>，仿射矩阵，可以经过多次变换；</span><br><span class="line"><span class="built_in">CGAffineTransformRotate</span>，旋转矩阵；</span><br><span class="line"><span class="built_in">CGAffineTransformScale</span>，缩放矩阵；</span><br><span class="line"><span class="built_in">CGAffineTransformTranslate</span>，平移矩阵；</span><br><span class="line"><span class="built_in">CGContextConcatCTM</span>，连接到CTM变换。</span><br></pre></td></tr></table></figure></p>
+<p>我们可以创建一个CGAffineTransform，然后经过多次的仿射变换后连接到CTM进行显示。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h3 id="iOS_u7ED8_u56FE"><a href="#iOS_u7ED8_u56FE" class="headerlink" title="iOS绘图"></a>iOS绘图</h3><p>在iOS中常用有三套绘图API。一个是UIKit提供的高层API，一个是CoreGraphics提供的C语言层的API，最后一个是OpenGL ES提供的API。</p>
+<p>iOS的绘图逻辑代码需要放在UIView的drawRect:方法里面实现，所以绘图只能发生在UIView上面。</p>
+<p>绘图后如果我们想要显示图像可以调用</p>
+<p><code>setNeedsDisplay</code>和<code>setNeedsDisplayInRect:</code>这两个方法是用来标示一个视图是否需要进行重绘，这里标示重绘并不会马上重新绘制，而是等到该RunLoop上面的任务执行完成后才回执行重绘。<br>]]>
+    
+    </summary>
+    
+      <category term="CoreGraphics" scheme="http://yimouleng.com/tags/CoreGraphics/"/>
+    
+      <category term="iOS开发" scheme="http://yimouleng.com/categories/iOS%E5%BC%80%E5%8F%91/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[iOS开发 - 动画-CALayer-Core Animation-UIView封装]]></title>
     <link href="http://yimouleng.com/2014/11/23/CALayer-Animation/"/>
     <id>http://yimouleng.com/2014/11/23/CALayer-Animation/</id>
@@ -1019,71 +1134,6 @@ TypeName blockName = ^returnType(parameters) {…};</code></p>
       <category term="CALayer" scheme="http://yimouleng.com/tags/CALayer/"/>
     
       <category term="动画" scheme="http://yimouleng.com/tags/%E5%8A%A8%E7%94%BB/"/>
-    
-      <category term="iOS开发" scheme="http://yimouleng.com/categories/iOS%E5%BC%80%E5%8F%91/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[iOS绘图]]></title>
-    <link href="http://yimouleng.com/2014/11/23/ios-CoreGraphics/"/>
-    <id>http://yimouleng.com/2014/11/23/ios-CoreGraphics/</id>
-    <published>2014-11-22T19:01:30.000Z</published>
-    <updated>2015-12-09T09:15:36.000Z</updated>
-    <content type="html"><![CDATA[<h3 id="iOS_u7ED8_u56FE"><a href="#iOS_u7ED8_u56FE" class="headerlink" title="iOS绘图"></a>iOS绘图</h3><p>在iOS中常用有三套绘图API。一个是UIKit提供的高层API，一个是CoreGraphics提供的C语言层的API，最后一个是OpenGL ES提供的API。</p>
-<p>iOS的绘图逻辑代码需要放在UIView的drawRect:方法里面实现，所以绘图只能发生在UIView上面。</p>
-<p>绘图后如果我们想要显示图像可以调用</p>
-<p><code>setNeedsDisplay</code>和<code>setNeedsDisplayInRect:</code>这两个方法是用来标示一个视图是否需要进行重绘，这里标示重绘并不会马上重新绘制，而是等到该RunLoop上面的任务执行完成后才回执行重绘。<br><a id="more"></a><br>触发重绘有以下几种情况：</p>
-<p>1.当遮挡你的视图得其它视图被移动或者删除操作得时候；</p>
-<p>2.将视图的hidden属性声明设置为No，使其从隐藏状态变为可见；</p>
-<p>3.将视图滚出屏幕，然后重新回到屏幕；</p>
-<p>4.显示调用视图的<code>setNeedsDisplay</code>或者<code>setNeedsDisplayInRect:</code>方法；</p>
-<h3 id="ios_u7ED8_u56FE_u5468_u671F_u5206_u6790"><a href="#ios_u7ED8_u56FE_u5468_u671F_u5206_u6790" class="headerlink" title="ios绘图周期分析"></a>ios绘图周期分析</h3><p>通过下面这个例子来分析</p>
-<p>progressView.hidden = NO;</p>
-<p>[self doSomethingTimeConsuming];</p>
-<p>progressView.hidden = YES;</p>
-<p>第一行代码progress.hidden = NO;根本没有效果，这行代码不会使进度视图在执行耗时操作时显示出来。无论这个方法运行多久，都不会看到视图显示出来。</p>
-<p><img src="http://images0.cnblogs.com/blog2015/717519/201508/192124265355616.png" alt=""></p>
-<p>所有的绘制都发生在主线程，只要代码运行在主线程，就没有东西可以绘制。这就是不要在主线程中执行长时间运行操作的一个原因。这不仅会阻碍绘制更新，还会阻碍事件处理（比如响应触摸事件）。只要代码在主线程上，应用对于用户其实就是“功能挂起的”。如果主线程例程返回足够快，这些变化根本就察觉不到。<br>你可能会想：“那我就在后台线程运行我的绘图指令。”通常是无法做到这一点的，因为对于当前的UIKit上下文来说绘图不是线程安全的。任何在后台线程修改视图的尝试都会导致未定义的行为，包括绘制出错或崩溃。<br>这个行为并不是需要解决的问题。绘图时间实质是ios在有限的硬件上渲染复杂绘图的功能。</p>
-<h3 id="UIKit_u7ED8_u56FE"><a href="#UIKit_u7ED8_u56FE" class="headerlink" title="UIKit绘图"></a>UIKit绘图</h3><p>比较简单，这里就说一些常用API。</p>
-<p>设置画笔颜色：</p>
-<p>画笔颜色分为描边颜色和填充颜色，都是用UIColor的API设置的。在drawRect方法中调用<br><figure class="highlight inform7"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">[<span class="comment">[UIColor anyColor]</span> setFill]</span>设置填充颜色。</span><br><span class="line"><span class="comment">[<span class="comment">[UIColor anyColor]</span> setStroke]</span>设置描边颜色。</span><br></pre></td></tr></table></figure></p>
-<p>设置绘图区域：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">UIRectFill</span><span class="params">(CGRect rect)</span></span>，填充某一区域 。</span><br><span class="line"><span class="function"><span class="title">UIRectFrame</span><span class="params">(CGRect rect)</span></span>，矩形描边函数。</span><br><span class="line">UIBezierPath，绘图路径类，包括了线段、弧线、矩形、圆形等等。</span><br></pre></td></tr></table></figure></p>
-<p>其中UIBezierPath可以定制主来很多很复杂的图形，这里就不具体的说UIBezierPath的api了，使用起来比较简单直接看文档就可以。</p>
-<h4 id="u7ED8_u5236_u56FE_u50CF"><a href="#u7ED8_u5236_u56FE_u50CF" class="headerlink" title="绘制图像"></a>绘制图像</h4><p>UIImage提供了自己的绘图方法。显示UIImage，除了添加到UIImageView中，还可以直接画到UIView上面，常用API如下：<br><figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="pp">-<span class="params">(void)</span>drawAtPoint:<span class="params">(<span class="variable">CGPoint</span>)</span>point;在某个点绘制</span><br><span class="line">-<span class="params">(void)</span>drawInRect:<span class="params">(<span class="variable">CGRect</span>)</span>rect;绘制到某个矩形中</span><br><span class="line">-<span class="params">(void)</span>drawAsPatternInRect;绘制到某个矩形中并平铺</span></span><br></pre></td></tr></table></figure></p>
-<h4 id="u7ED8_u5236_u6587_u5B57"><a href="#u7ED8_u5236_u6587_u5B57" class="headerlink" title="绘制文字"></a>绘制文字</h4><p>NSString的category同样提供了绘制文字的功能<br><figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="pp">-<span class="params">(void)</span>drawAtPoint:<span class="params">(<span class="variable">CGPoint</span>)</span>point withAttributes:<span class="params">(<span class="variable">NSDictionary</span> *)</span>attrs，文本在制定点用属性绘制。</span><br><span class="line">-<span class="params">(void)</span>drawInRect:<span class="params">(<span class="variable">CGRect</span>)</span>rect withAttributes:<span class="params">(<span class="variable">NSDictionary</span> *)</span>attrs，文本在指定的矩形里绘制。</span></span><br></pre></td></tr></table></figure></p>
-<p>它们都可以用attrs，这和NSAttributedString很像。</p>
-<h3 id="CoreGraphics_u7ED8_u56FE"><a href="#CoreGraphics_u7ED8_u56FE" class="headerlink" title="CoreGraphics绘图"></a>CoreGraphics绘图</h3><p>绘图上下文CGContextRef，CoreGraphics很类似java、C#等，需要有一个绘图上下文。</p>
-<p>上下文中保存了要绘制内容的信息，要获得上下文需要调用。</p>
-<p><code>CGContextRef UIGraphicsGetCurrentContext(void)</code></p>
-<p>常用API</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">移动点</span><br><span class="line"><span class="keyword">void</span> <span class="built_in">CGContextMoveToPoint</span>(<span class="built_in">CGContextRef</span> c, <span class="built_in">CGFloat</span> x, <span class="built_in">CGFloat</span> y)</span><br><span class="line">画线</span><br><span class="line"><span class="keyword">void</span> <span class="built_in">CGContextAddLineToPoint</span>(<span class="built_in">CGContextRef</span> c, <span class="built_in">CGFloat</span> x, <span class="built_in">CGFloat</span> y)</span><br><span class="line">闭合路径</span><br><span class="line"><span class="keyword">void</span> <span class="built_in">CGContextClosePath</span>(<span class="built_in">CGContextRef</span> c)</span><br><span class="line">绘制路径</span><br><span class="line"><span class="keyword">void</span> <span class="built_in">CGContextDrawPath</span>(<span class="built_in">CGContextRef</span> c, <span class="built_in">CGPathDrawingMode</span> mode)</span><br><span class="line">设置描边颜色</span><br><span class="line"><span class="keyword">void</span> <span class="built_in">CGContextSetStrokeColorWithColor</span>(<span class="built_in">CGContextRef</span> c, <span class="built_in">CGColorRef</span> color)</span><br><span class="line">设置填充颜色</span><br><span class="line"><span class="keyword">void</span> <span class="built_in">CGContextSetFillColorWithColor</span>(<span class="built_in">CGContextRef</span> c, <span class="built_in">CGColorRef</span> color)</span><br><span class="line">绘制贝塞尔曲线，这里的参数分别是两个控制点和交点的左边，大家可以自行百度贝塞尔曲线定义</span><br><span class="line"><span class="keyword">void</span> <span class="built_in">CGContextAddCurveToPoint</span>(<span class="built_in">CGContextRef</span> c, <span class="built_in">CGFloat</span> cp1x,<span class="built_in">CGFloat</span> cp1y, <span class="built_in">CGFloat</span> cp2x, <span class="built_in">CGFloat</span> cp2y, <span class="built_in">CGFloat</span> x, <span class="built_in">CGFloat</span> y)</span><br><span class="line">保存上下文</span><br><span class="line"><span class="keyword">void</span> <span class="built_in">CGContextSaveGState</span>(<span class="built_in">CGContextRef</span> c)</span><br><span class="line">读取上下文</span><br><span class="line"><span class="keyword">void</span> <span class="built_in">CGContextRestoreGState</span>(<span class="built_in">CGContextRef</span> c)</span><br></pre></td></tr></table></figure>
-<p>常用API有很多这里只列举上面这些，剩下的可以查下API</p>
-<h4 id="CoreGraphics_u5750_u6807_u7CFB"><a href="#CoreGraphics_u5750_u6807_u7CFB" class="headerlink" title="CoreGraphics坐标系"></a>CoreGraphics坐标系</h4><p>CoreGraphics坐标系和我们平时用UIKit的坐标系是不样的，CoreGraphics的左下角为(0,0)点，而UIKit的左上角为(0,0)点。</p>
-<p>所以我们在开发的时候，一般会先同步坐标系（CoreText也需要这么操作），应该这样写</p>
-<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CGContextTranslateCTM<span class="list">(<span class="keyword">context</span>, <span class="number">0</span>, img.size.height)</span><span class="comment">;平移变化</span></span><br><span class="line">CGContextScaleCTM<span class="list">(<span class="keyword">context</span>,<span class="number">1</span>,<span class="number">-1</span>)</span><span class="comment">;缩放变换</span></span><br></pre></td></tr></table></figure>
-<p>先利用平移变换上移一个视图大小，然后在用缩放变化把高度设-1进行以x为轴的对称变换。</p>
-<h4 id="u53D8_u6362"><a href="#u53D8_u6362" class="headerlink" title="变换"></a>变换</h4><p>接下来说说变换，绘图是有很多矩阵变换的，其中常用的有以下：</p>
-<p>1.平移变换</p>
-<p>2.缩放变换</p>
-<p>3.旋转变换</p>
-<p>4.x轴对称变换</p>
-<p>5.y轴对称变换</p>
-<p>6.坐标原点对称变换</p>
-<h4 id="u77E9_u9635_u53D8_u6362CTM"><a href="#u77E9_u9635_u53D8_u6362CTM" class="headerlink" title="矩阵变换CTM"></a>矩阵变换CTM</h4><p>CoreGraphics中提供了很多矩阵变换的API，主要有</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">CGContextRoatateCMT</span>，旋转CTM，旋转变换；</span><br><span class="line"><span class="built_in">CGContextScaleCTM</span>，缩放变换；</span><br><span class="line"><span class="built_in">CGContextTranslateCTM</span>，平移变换。</span><br></pre></td></tr></table></figure>
-<h4 id="u4EFF_u5C04_u53D8_u6362affine"><a href="#u4EFF_u5C04_u53D8_u6362affine" class="headerlink" title="仿射变换affine"></a>仿射变换affine</h4><p>仿射变换是可以重用的变换，通过多次的矩阵乘法得到变换矩阵。<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">CGAffineMakeRotation</span>，创建新的旋转矩阵；</span><br><span class="line"><span class="built_in">CGAffineMakeScale</span>，创建新的缩放矩阵；</span><br><span class="line"><span class="built_in">CGAffineMakeTranslation</span>，创建新的平移矩阵；</span><br><span class="line"><span class="built_in">CGAffineTransform</span>，仿射矩阵，可以经过多次变换；</span><br><span class="line"><span class="built_in">CGAffineTransformRotate</span>，旋转矩阵；</span><br><span class="line"><span class="built_in">CGAffineTransformScale</span>，缩放矩阵；</span><br><span class="line"><span class="built_in">CGAffineTransformTranslate</span>，平移矩阵；</span><br><span class="line"><span class="built_in">CGContextConcatCTM</span>，连接到CTM变换。</span><br></pre></td></tr></table></figure></p>
-<p>我们可以创建一个CGAffineTransform，然后经过多次的仿射变换后连接到CTM进行显示。</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<h3 id="iOS_u7ED8_u56FE"><a href="#iOS_u7ED8_u56FE" class="headerlink" title="iOS绘图"></a>iOS绘图</h3><p>在iOS中常用有三套绘图API。一个是UIKit提供的高层API，一个是CoreGraphics提供的C语言层的API，最后一个是OpenGL ES提供的API。</p>
-<p>iOS的绘图逻辑代码需要放在UIView的drawRect:方法里面实现，所以绘图只能发生在UIView上面。</p>
-<p>绘图后如果我们想要显示图像可以调用</p>
-<p><code>setNeedsDisplay</code>和<code>setNeedsDisplayInRect:</code>这两个方法是用来标示一个视图是否需要进行重绘，这里标示重绘并不会马上重新绘制，而是等到该RunLoop上面的任务执行完成后才回执行重绘。<br>]]>
-    
-    </summary>
-    
-      <category term="CoreGraphics" scheme="http://yimouleng.com/tags/CoreGraphics/"/>
     
       <category term="iOS开发" scheme="http://yimouleng.com/categories/iOS%E5%BC%80%E5%8F%91/"/>
     
@@ -1318,104 +1368,6 @@ TypeName blockName = ^returnType(parameters) {…};</code></p>
       <category term="iOS" scheme="http://yimouleng.com/tags/iOS/"/>
     
       <category term="iOS开发" scheme="http://yimouleng.com/categories/iOS%E5%BC%80%E5%8F%91/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[逃生反杀的极限技巧——DOTA2树林小径指南]]></title>
-    <link href="http://yimouleng.com/2014/07/20/DOTA2-three/"/>
-    <id>http://yimouleng.com/2014/07/20/DOTA2-three/</id>
-    <published>2014-07-19T16:00:00.000Z</published>
-    <updated>2015-12-09T09:45:55.000Z</updated>
-    <content type="html"><![CDATA[<p>DOTA2的地图树林和DOTA变化了一点点，整体能钻的地方感觉变多了，可以说树林的小空隙多了很多，随便往树林里跳跳就能进去……下面就来讲讲一些比较常用的，希望能对大家有些帮助~</p>
-<p>同样的开场，为啥要钻树林？同样的答案，因为有战争迷雾啊亲！其实钻树林这一行为和三次元里是差不多的。想象一下为什么你要钻进小树林？答案无非就是两种：一，去做羞羞的事的；二，去看别人做羞羞的事的。因为树林大多阴暗难以被发现，游戏里也是一样~如果你是前者，那后者就一定是来gank你的人了~<br><a id="more"></a><br>好了例行的废话讲完，现在来说说什么时候你该选择钻树林，的小贴士……（这叫格式你懂么！）</p>
-<ol>
-<li><p>自己的移动速度没有对方快，并且里自己的安全区还有一段距离</p>
-</li>
-<li><p>对方有指向性留人技，并在其施法距离之内</p>
-</li>
-<li><p>知道自己难逃一死，拖延对方的时间，为己方支援创造围剿机会</p>
-</li>
-<li><p>觉得对方不足以击杀自己，诱敌深入创造 反杀机会</p>
-</li>
-<li><p>你别告诉我对面有兽王、蜘蛛、先知的情况下你还在往里钻……其实遇到血魔被动、A杖夜魔、VS、发条这种能有你视野的有时还不是很怕，如果你有召唤物堵路，或者确定对方击杀你之后无法安全撤离时也是可以选择进树林的，绕树林最怕的就是那种连树林本身都破坏的家伙……</p>
-</li>
-</ol>
-<p>狗血剧本：</p>
-<ol>
-<li><p>一些有较长施法延迟的英雄，卡视野释放非指向性技能。优势：对方一般无法打断施法，等到意识过来基本已经晚了。例：SF摇大反压，SK摇大穿刺，埋地。</p>
-</li>
-<li><p>同理，卡视野TP。</p>
-</li>
-<li><p>利用阴影拖延时间，等待自己的技能CD。优势：如果对面没有aoe或者开视野技能的话，可以有效拖延时间，让对方无法多次攻击到自己。例：山岭巨人绕视野，等待第二次VT技能CD秒杀对手。敌法技能CD，对方又有指向性减速技，进去绕一圈，B出来。</p>
-</li>
-<li><p>利用召唤物卡单行道。优势：卡住对方追击路线，特别是近战，视情况选择TP或反杀。例：SS钻林，蛇棒堵路，禁锢+羊反杀。</p>
-</li>
-</ol>
-<p>小树林图示：</p>
-<p>红线标出的是树林路径，红点标出的是推荐开的树。</p>
-<p><strong>地图上方（从右向左）：</strong></p>
-<p><code>1. 夜魇出发的第一片树林，表面上看只有外面的一点点阴影树林（3处），但是一旦开树进去，里面的空间是很大的。</code></p>
-<p><img src="http://img1.cache.netease.com/game/2012/3/19/20120319100123030be.jpg" alt=""></p>
-<p><code>2. 向左，第二片树林，不用开任何树，就有很大的一块区域！</code></p>
-<p><img src="http://img6.cache.netease.com/game/2012/3/19/201203191001259067b.jpg" alt=""></p>
-<p><code>3. 这里有最外面的一排树挡着，开树进去的话有一条小道。</code></p>
-<p><img src="http://img4.cache.netease.com/game/2012/3/19/20120319100127a3edf.jpg" alt=""></p>
-<p><code>4. 然后就是喜闻乐见的夜魇上一塔了……非常好绕，而且开了2个树后还能从另外的一端出来~</code></p>
-<p><img src="http://img5.cache.netease.com/game/2012/3/19/201203191001300a694.jpg" alt=""></p>
-<p><strong>地图左侧（从上向下）：</strong></p>
-<p><code>1. 野店~大家应该都熟悉了，开个视野让大家看看清楚~其实硬要砍树出来的话也是可以的，不过上下都要砍两颗，不太划算，TP在CD的时候可以试试。</code></p>
-<p><img src="http://img1.cache.netease.com/catchpic/F/FA/FA911C236DBB45366502320E08A9CB68.jpg" alt=""></p>
-<p><code>2. 天辉上一塔，天辉劣势路的这边树林是非常洗漱的，随便就能进去。最上面还有一排塔前单行道，图不够大，所以彪偏了点。</code></p>
-<p><img src="http://img1.cache.netease.com/catchpic/8/82/82825E16DD99922E3FFDD4EA7DCBE00F.jpg" alt=""></p>
-<p><code>3. 上二塔，这里能钻到很深的地方……你要出来也不熟不行，砍到最下面的2棵树。</code></p>
-<p><img src="http://img1.cache.netease.com/catchpic/8/85/85A0DCBA6F2D8EDB7ACDC7453E764687.jpg" alt=""></p>
-<p><strong>地图下方（从左向右）：</strong></p>
-<p><code>1. 天辉下二塔，几个小角落，最左边可以开树进去开树出来不过没啥用，不推荐。</code></p>
-<p><img src="http://img1.cache.netease.com/catchpic/B/BB/BB09151F9F757438EFE6E9E68E9D912B.jpg" alt=""></p>
-<p><code>2. 二塔之间的一片……这片树林我只能用诡异来形容，看到的和能走的出入比较大，不过熟练掌握以后很容易能甩掉别人。另外后边有很多小空隙，不过应用空间不大。</code></p>
-<p><img src="http://img1.cache.netease.com/catchpic/5/57/575FD4C6AD5425C44ABA5B4DE867BD79.jpg" alt=""></p>
-<p><code>3. 又是喜闻乐见的一块地方，其实左边还有一点小树林可以钻，因为这里的树林普遍比较稀疏，不过应用范围比较小，大家有兴趣可以去看看……构造比较复杂的一块，不过相信大家对最下面的已经比较熟悉了，这里提一下最右边，因为这块林是相同的，所以与其一直躲在最下面的死胡同，不如进去之后转移，往右走，到最右边去，能进很深！非常深！图不够大没标出来，非常不容易被发现！推荐！</code></p>
-<p><img src="http://img1.cache.netease.com/catchpic/E/E0/E0A28454A79179E2318BA86CA678BBDF.jpg" alt=""></p>
-<p><strong>地图右侧（从下向上）：</strong></p>
-<p><code>1. 非常浅的几条小路，而且都不相通，又是血案的高发地点，如果逃命的话极为不推荐，不过是卡视野反杀节奏的好地点。</code></p>
-<p><img src="http://img1.cache.netease.com/catchpic/8/8B/8BE53C066426068ABE1EBFB7B72FB5EB.jpg" alt=""></p>
-<p><code>2. 例行野店，这里的野店我想分2个部分讲，首先下面的话是很难砍树出来的，虽然下面还有一条小径，那也是要已经砍掉一颗树的情况下才有的。一般钻下面的话绕出来就比较难，只能原路返回了。</code></p>
-<p><img src="http://img1.cache.netease.com/catchpic/A/A2/A240C8F9680BD025BF51FC43A2960798.jpg" alt=""></p>
-<p><code>3. 然后是上面的部分，这里有一颗很巧的树，砍掉之后柳暗花明，对夜魇方逃生极为有用！</code></p>
-<p><img src="http://img1.cache.netease.com/catchpic/B/BF/BFF44E306DFFF37FF9DAAF1F91E06CA1.jpg" alt=""></p>
-<p><code>4. 夜魇下一塔，几乎以点分布的空隙，不是很实用，而且就最下面一条可以走进去。</code></p>
-<p><img src="http://img1.cache.netease.com/catchpic/9/93/9350E27C5A0EA1297FB7FB3B0E0C0EB1.jpg" alt=""></p>
-<p><code>5. 别有洞天的一片树林，上下相通，而且各有一处开树能出来，是兵家埋伏的良好选择。</code></p>
-<p><img src="http://img1.cache.netease.com/catchpic/C/C6/C6D5EFFFAAEAB969FF33F5CEA89628B5.jpg" alt=""></p>
-<p><strong>靠夜魇方：</strong></p>
-<p><code>1. 其实这里我真觉得没啥说的必要，战鹰视野一开就看的清清楚楚了，比较“骗小孩子”的树林，虽然如此但还是非常实用……下面野店那条断开树林的就不说了……</code></p>
-<p><img src="http://img1.cache.netease.com/catchpic/1/15/15BE9FF3A0DA95A5F1C312CFADB797C3.jpg" alt=""></p>
-<p><code>2. 远古野位置，这里一提的是如果绕进去马上出来的话，对方如果稍微晚点绕出来可能会被野怪卡住~笑~</code></p>
-<p><img src="http://img1.cache.netease.com/catchpic/A/A4/A44A65259E65B252CA98C3CC909E8DC4.jpg" alt=""></p>
-<p><code>3. 夜魇中路一塔，依然没啥说的必要，战鹰一照就都清楚了。</code></p>
-<p><img src="http://img1.cache.netease.com/catchpic/A/AF/AF134A407ED0852F4036551CCA65721C.jpg" alt=""></p>
-<p><strong>靠天辉方：</strong></p>
-<p><code>1. 感觉使用率比D1高很多的一片，倒山型的三通~</code></p>
-<p><img src="http://img1.cache.netease.com/catchpic/0/05/05754876CF389B3DFB72C1725464FFA5.jpg" alt=""></p>
-<p><code>2. 围绕着这个“石梯？”的一圈，很明显但是又很实用，有位移技能的英雄很容易，跨地形迅速摆脱对手。</code></p>
-<p><img src="http://img1.cache.netease.com/catchpic/5/5F/5FBC7698C52521366A611ED7B8212584.jpg" alt=""></p>
-<p><code>3. 中路反杀的优秀地点，说反杀而不是逃生是因为那是个死胡同，如果要出来的话需要砍2棵树。</code></p>
-<p><img src="http://img1.cache.netease.com/catchpic/3/3A/3A52991B2206A8E29AC9182FE99DB2C3.jpg" alt=""></p>
-<p>好了，基本就到这里了。</p>
-<p>可能有些人会说野区这么多绕视野的树林怎么都不讲，我这里说的都是比较“深”的树林，野区树林普遍比较“浅”，一般都是一目了然的构造，比方说天辉中路一塔下面，以及“三通”高地下的那一圈，那里几乎都是非常短的单行道，只要把握好阴影，地形的阻碍并不是很大，一般不会出现找不到对手的状况。</p>
-<p>由于图片大小和视角的限制，有的地方可能还不是很清楚，其实树林这个东西，自己去走个几遍就很好掌握了。另外钻树林的时候必须冷静，多想想对方的心理活动，多观察一下地形。`</p>
-<p>`本文来源：SGamer论坛</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>DOTA2的地图树林和DOTA变化了一点点，整体能钻的地方感觉变多了，可以说树林的小空隙多了很多，随便往树林里跳跳就能进去……下面就来讲讲一些比较常用的，希望能对大家有些帮助~</p>
-<p>同样的开场，为啥要钻树林？同样的答案，因为有战争迷雾啊亲！其实钻树林这一行为和三次元里是差不多的。想象一下为什么你要钻进小树林？答案无非就是两种：一，去做羞羞的事的；二，去看别人做羞羞的事的。因为树林大多阴暗难以被发现，游戏里也是一样~如果你是前者，那后者就一定是来gank你的人了~<br>]]>
-    
-    </summary>
-    
-      <category term="Dota2" scheme="http://yimouleng.com/tags/Dota2/"/>
-    
-      <category term="二三事" scheme="http://yimouleng.com/categories/%E4%BA%8C%E4%B8%89%E4%BA%8B/"/>
     
   </entry>
   
