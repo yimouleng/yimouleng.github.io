@@ -11,11 +11,11 @@
 <meta property="og:url" content="http://yimouleng.com/2014/12/02/ios-Masonry/index.html">
 <meta property="og:site_name" content="Yi'mouleng-即便世界与我为敌，只要心还透明，就能折射希望。">
 <meta property="og:description" content="前言  Masonry是一个轻量级的布局框架 拥有自己的描述语法 采用更优雅的链式语法封装自动布局 简洁明了 并具有高可读性 而且同时支持 iOS 和 Max OS X。  官方的介绍其实是非常详细的了，可以移步到其Masonry-Github下载官方源码Demo,我也非常推荐看官方的介绍。">
-<meta property="og:image" content="http://yimouleng.com/image/masonry1.png">
-<meta property="og:image" content="http://yimouleng.com/image/masonry2.png">
-<meta property="og:image" content="http://yimouleng.com/image/masonry3.png">
-<meta property="og:image" content="http://yimouleng.com/image/masonry4.png">
-<meta property="og:updated_time" content="2015-12-16T07:45:22.000Z">
+<meta property="og:image" content="http://yimouleng.com/image/masonry1.jpg">
+<meta property="og:image" content="http://yimouleng.com/image/masonry2.jpg">
+<meta property="og:image" content="http://yimouleng.com/image/masonry3.jpg">
+<meta property="og:image" content="http://yimouleng.com/image/masonry4.jpg">
+<meta property="og:updated_time" content="2015-12-16T07:49:53.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS - Masonry自动布局(Autolayout)">
 <meta name="twitter:description" content="前言  Masonry是一个轻量级的布局框架 拥有自己的描述语法 采用更优雅的链式语法封装自动布局 简洁明了 并具有高可读性 而且同时支持 iOS 和 Max OS X。  官方的介绍其实是非常详细的了，可以移步到其Masonry-Github下载官方源码Demo,我也非常推荐看官方的介绍。">
@@ -323,11 +323,11 @@
 </tbody>
 </table>
 <p>  在使用Masonry的时候，我们不需要在手写 <code>self.translatesAutoresizingMaskIntoConstraints = NO;</code>，点进Masonry头文件，查看起方法，我们可以看到他每个方法里面都帮我们加上了这句话。</p>
-<p>  <img src="/image/masonry1.png" alt=""></p>
+<p>  <img src="/image/masonry1.jpg" alt=""></p>
 <p>  另外需要注意的是在xib或者storyboard中使用masonry框架相关方法的时候要将use Auto layout选项去掉，否则会不起作用。</p>
 <h3 id="1-_u663E_u793A_u4E00_u4E2AView"><a href="#1-_u663E_u793A_u4E00_u4E2AView" class="headerlink" title="1.显示一个View"></a>1.显示一个View</h3><p>我们创建一个项目， 在其中间放上一个尺寸100*100，父视图居中的View</p>
 <figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">UIView * blueView= [UIView new]<span class="comment">;</span></span><br><span class="line">   blueView.backgroundColor  = [UIColor blueColor]<span class="comment">;</span></span><br><span class="line">   [self.view addSubview:blueView]<span class="comment">;</span></span><br><span class="line">   [blueView mas_makeConstraints:^(MASConstraintMaker *make) &#123;</span><br><span class="line">       //尺寸<span class="number">100*100</span> ，父视图居中</span><br><span class="line">       make.width.equalTo(@100)<span class="comment">;</span></span><br><span class="line">       make.height.mas_equalTo(100)<span class="comment">;</span></span><br><span class="line">       make.center.equalTo (self.view)<span class="comment">;</span></span><br><span class="line"></span><br><span class="line">   &#125;]<span class="comment">;</span></span><br></pre></td></tr></table></figure>
-<p><img src="/image/masonry2.png" alt="居中View"></p>
+<p><img src="/image/masonry2.jpg" alt="居中View"></p>
 <p>我们来每行逐一讲解以下，</p>
 <blockquote>
 <p>-首先注意一点，在我们使用masonry约束的时候，一定要先将view先添加到superview上 否则会报错。<code>[self.view addSubview:blueView];</code></p>
@@ -347,9 +347,9 @@
 <p>在上面代码中 <code>make.width.equalTo(@100);</code>和<code>make.height.mas_equalTo(100);</code>都是约束代码，但一个使用的是<code>equalTo</code>另一个是<code>mas_equalTo</code>，同样的效果，那他们的区别在哪里呢？其实<code>mas_equalTo</code>是一个MACRO,比较的是值，直接填写数字即可，<code>equalTo</code>比较的是view，是个对象，需要将里面的东西添加@转成ID类型，当然我们也可以用 <code>make.size.mas_equalTo(CGSizeMake(100, 100));</code>来直接设置宽高，<code>make</code>我们则看做当前对象，就像self一样。</p>
 <h3 id="2-_u8BA9View_u7684_u9AD8_u5EA6_u662F_u5BBD_u5EA6_u7684_u4E00_u500D"><a href="#2-_u8BA9View_u7684_u9AD8_u5EA6_u662F_u5BBD_u5EA6_u7684_u4E00_u500D" class="headerlink" title="2.让View的高度是宽度的一倍"></a>2.让View的高度是宽度的一倍</h3><p>  还是刚才的代码， 我们在上面添加约束，</p>
   <figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">UIView * blueView= [UIView new]<span class="comment">;</span></span><br><span class="line">   blueView.backgroundColor  = [UIColor blueColor]<span class="comment">;</span></span><br><span class="line">   [self.view addSubview:blueView]<span class="comment">;</span></span><br><span class="line">   [blueView mas_makeConstraints:^(MASConstraintMaker *make) &#123;</span><br><span class="line">       //尺寸<span class="number">100*100</span> ，父视图居中</span><br><span class="line">       make.width.equalTo(@100)<span class="comment">;</span></span><br><span class="line">       make.height.mas_equalTo(100)<span class="comment">;</span></span><br><span class="line">       make.center.equalTo (self.view)<span class="comment">;</span></span><br><span class="line">       make.height.equalTo(blueView.mas_width).multipliedBy(2.f).offset(0.f)<span class="comment">;</span></span><br><span class="line"></span><br><span class="line">   &#125;]<span class="comment">;</span></span><br></pre></td></tr></table></figure>
-<p><img src="/image/masonry3.png" alt=""></p>
+<p><img src="/image/masonry3.jpg" alt=""></p>
 <p>我们可以看到在约束中，我们可以直接使用<code>multipliedBy</code>函数，并设置<code>offset</code>。<br>如果我们将<code>offset</code>设置为100，也就是宽的大小<br><code>make.height.equalTo(blueView.mas_width).multipliedBy(2.f).offset(100.f);</code></p>
-<p><img src="/image/masonry4.png" alt=""></p>
+<p><img src="/image/masonry4.jpg" alt=""></p>
 <p>用链式语法去读它，你可以这样读，<strong>它的高度是它宽度的2倍加上100</strong>.</p>
 <p>我们不光可以对其宽高设置，也可以对它的center，edges，size等，同时也可以设置它的优先级</p>
 <figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make.edges.equalTo(self.view).insets(UIEdgeInsetsMake(<span class="number">50</span>, <span class="number">50</span>, <span class="number">50</span>, <span class="number">50</span>));</span><br></pre></td></tr></table></figure>
@@ -370,7 +370,7 @@
   <p><span>本文标题:</span><a href="/2014/12/02/ios-Masonry/">iOS - Masonry自动布局(Autolayout)</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 Yi&#39;mouleng 的个人博客">Yi&#39;mouleng</a></p>
   <p><span>发布时间:</span>2014年12月02日 - 00时00分</p>
-  <p><span>最后更新:</span>2015年12月16日 - 15时45分</p>
+  <p><span>最后更新:</span>2015年12月16日 - 15时49分</p>
   <p>
     <span>原始链接:</span><a class="post-url" href="/2014/12/02/ios-Masonry/" title="iOS - Masonry自动布局(Autolayout)">http://yimouleng.com/2014/12/02/ios-Masonry/</a>
     <span class="copy-path" data-clipboard-text="原文: http://yimouleng.com/2014/12/02/ios-Masonry/　　作者: Yi&#39;mouleng" title="点击复制文章链接">
