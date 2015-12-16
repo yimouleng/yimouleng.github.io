@@ -763,6 +763,150 @@ if ([result isKindOfClass:[NSDictionary class]]) {
   </entry>
   
   <entry>
+    <title><![CDATA[iOS - Masonry自动布局(Autolayout)]]></title>
+    <link href="http://yimouleng.com/2014/12/02/ios-Masonry/"/>
+    <id>http://yimouleng.com/2014/12/02/ios-Masonry/</id>
+    <published>2014-12-01T16:00:00.000Z</published>
+    <updated>2015-12-16T07:45:22.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="u524D_u8A00"><a href="#u524D_u8A00" class="headerlink" title="前言"></a>前言</h2><p>  Masonry是一个轻量级的布局框架 拥有自己的描述语法 采用更优雅的链式语法封装自动布局 简洁明了 并具有高可读性 <code>而且同时支持 iOS 和 Max OS X</code>。<br>  官方的介绍其实是非常详细的了，可以移步到其<a href="https://github.com/SnapKit/Masonry" target="_blank" rel="external">Masonry-Github</a>下载官方源码Demo,我也非常推荐看官方的介绍。<br><a id="more"></a></p>
+<h2 id="u4ECB_u7ECD"><a href="#u4ECB_u7ECD" class="headerlink" title="介绍"></a>介绍</h2><p>  使用过官方的NSLayoutConstraints的话，应该会很清楚它过于繁琐和麻烦，而使用<strong>Masonry</strong>，它遵循链式编程思想，其结构简单，使用方便，就像他的简介一样。</p>
+<p>  首先我们来看下官方的Autolayout代码</p>
+  <figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">  <span class="built_in">UIView</span> *superview = <span class="keyword">self</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">UIView</span> *view1 = [[<span class="built_in">UIView</span> alloc] init];</span><br><span class="line">view1<span class="variable">.translatesAutoresizingMaskIntoConstraints</span> = <span class="literal">NO</span>;</span><br><span class="line">view1<span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> greenColor];</span><br><span class="line">[superview addSubview:view1];</span><br><span class="line"></span><br><span class="line"><span class="built_in">UIEdgeInsets</span> padding = <span class="built_in">UIEdgeInsetsMake</span>(<span class="number">10</span>, <span class="number">10</span>, <span class="number">10</span>, <span class="number">10</span>);</span><br><span class="line"></span><br><span class="line">[superview addConstraints:@[</span><br><span class="line"></span><br><span class="line">    <span class="comment">//view1 constraints</span></span><br><span class="line">    </span><br><span class="line">    [<span class="built_in">NSLayoutConstraint</span> constraintWithItem:view1</span><br><span class="line">                                 attribute:<span class="built_in">NSLayoutAttributeTop</span></span><br><span class="line">                                 relatedBy:<span class="built_in">NSLayoutRelationEqual</span></span><br><span class="line">                                    toItem:superview</span><br><span class="line">                                 attribute:<span class="built_in">NSLayoutAttributeTop</span></span><br><span class="line">                                multiplier:<span class="number">1.0</span></span><br><span class="line">                                  constant:padding<span class="variable">.top</span>],</span><br><span class="line"></span><br><span class="line">    [<span class="built_in">NSLayoutConstraint</span> constraintWithItem:view1</span><br><span class="line">                                 attribute:<span class="built_in">NSLayoutAttributeLeft</span></span><br><span class="line">                                 relatedBy:<span class="built_in">NSLayoutRelationEqual</span></span><br><span class="line">                                    toItem:superview</span><br><span class="line">                                 attribute:<span class="built_in">NSLayoutAttributeLeft</span></span><br><span class="line">                                multiplier:<span class="number">1.0</span></span><br><span class="line">                                  constant:padding<span class="variable">.left</span>],</span><br><span class="line"></span><br><span class="line">    [<span class="built_in">NSLayoutConstraint</span> constraintWithItem:view1</span><br><span class="line">                                 attribute:<span class="built_in">NSLayoutAttributeBottom</span></span><br><span class="line">                                 relatedBy:<span class="built_in">NSLayoutRelationEqual</span></span><br><span class="line">                                    toItem:superview</span><br><span class="line">                                 attribute:<span class="built_in">NSLayoutAttributeBottom</span></span><br><span class="line">                                multiplier:<span class="number">1.0</span></span><br><span class="line">                                  constant:-padding<span class="variable">.bottom</span>],</span><br><span class="line"></span><br><span class="line">    [<span class="built_in">NSLayoutConstraint</span> constraintWithItem:view1</span><br><span class="line">                                 attribute:<span class="built_in">NSLayoutAttributeRight</span></span><br><span class="line">                                 relatedBy:<span class="built_in">NSLayoutRelationEqual</span></span><br><span class="line">                                    toItem:superview</span><br><span class="line">                                 attribute:<span class="built_in">NSLayoutAttributeRight</span></span><br><span class="line">                                multiplier:<span class="number">1</span></span><br><span class="line">                                  constant:-padding<span class="variable">.right</span>],</span><br><span class="line"></span><br><span class="line"> ]];</span><br></pre></td></tr></table></figure>
+<p>  看见这样的约束，是不是感到头大，很简单的事件，却变得繁琐起来，对于开发来说，完全是得不偿失的事情，如此还不如用CGRectMake来的省心。<br>  而使用Masonry，看以下代码</p>
+  <figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">  UIEdgeInsets padding = UIEdgeInsetsMake(10, 10, 10, 10)<span class="comment">;</span></span><br><span class="line"></span><br><span class="line">[view1 mas_makeConstraints:^(MASConstraintMaker *make) &#123;</span><br><span class="line">    make.top.equalTo(superview.mas_top).with.offset(padding.top)<span class="comment">; //with is an optional semantic filler</span></span><br><span class="line">    make.left.equalTo(superview.mas_left).with.offset(padding.left)<span class="comment">;</span></span><br><span class="line">    make.bottom.equalTo(superview.mas_bottom).with.offset(-padding.bottom)<span class="comment">;</span></span><br><span class="line">    make.right.equalTo(superview.mas_right).with.offset(-padding.right)<span class="comment">;</span></span><br><span class="line">&#125;]<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+<p>  甚至更短</p>
+  <figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">  <span class="collection">[view1 mas_makeConstraints:^<span class="list">(<span class="keyword">MASConstraintMaker</span> *make)</span> <span class="collection">&#123;</span><br><span class="line">    make.edges.equalTo<span class="list">(<span class="keyword">superview</span>)</span>.with.insets<span class="list">(<span class="keyword">padding</span>)</span><span class="comment">;</span></span><br><span class="line">&#125;</span>]</span><span class="comment">;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>.equalTo相当于NSLayoutRelationEqual</p>
+<p>.lessThanOrEqualTo相当于NSLayoutRelationLessThanOrEqual</p>
+<p>.greaterThanOrEqualTo相当于NSLayoutRelationGreaterThanOrEqual</p>
+</blockquote>
+<h2 id="u5B89_u88C5"><a href="#u5B89_u88C5" class="headerlink" title="安装"></a>安装</h2><p> 普遍的两种安装方法：</p>
+<blockquote>
+<p>1.直接进入github进行源码下载 引入头文件<code>#import &quot;Masonry.h&quot;</code></p>
+<p>2.使用CocoaPod进行下载  <code>pod &#39;Masonry&#39;</code></p>
+</blockquote>
+<h2 id="u4F7F_u7528"><a href="#u4F7F_u7528" class="headerlink" title="使用"></a>使用</h2><p>  Masonry支持的属性</p>
+  <figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) MASConstraint *left;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) MASConstraint *top;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) MASConstraint *right;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) MASConstraint *bottom;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) MASConstraint *leading;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) MASConstraint *trailing;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) MASConstraint *width;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) MASConstraint *height;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) MASConstraint *centerX;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) MASConstraint *centerY;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) MASConstraint *baseline;</span><br></pre></td></tr></table></figure>
+<p>  这些属性与NSLayoutAttrubute的对照表如下</p>
+<table>
+<thead>
+<tr>
+<th>Masonry</th>
+<th>NSAutoLayout</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>left</td>
+<td>NSLayoutAttributeLeft</td>
+<td>左侧</td>
+</tr>
+<tr>
+<td>top</td>
+<td>NSLayoutAttributeTop</td>
+<td>上侧</td>
+</tr>
+<tr>
+<td>right</td>
+<td>NSLayoutAttributeRight</td>
+<td>右侧</td>
+</tr>
+<tr>
+<td>bottom</td>
+<td>NSLayoutAttributeBottom</td>
+<td>下侧</td>
+</tr>
+<tr>
+<td>leading</td>
+<td>NSLayoutAttributeLeading</td>
+<td>首部</td>
+</tr>
+<tr>
+<td>trailing</td>
+<td>NSLayoutAttributeTrailing</td>
+<td>尾部</td>
+</tr>
+<tr>
+<td>width</td>
+<td>NSLayoutAttributeWidth</td>
+<td>宽</td>
+</tr>
+<tr>
+<td>height</td>
+<td>NSLayoutAttributeHeight</td>
+<td>高</td>
+</tr>
+<tr>
+<td>centerX</td>
+<td>NSLayoutAttributeCenterX</td>
+<td>横向中点</td>
+</tr>
+<tr>
+<td>centerY</td>
+<td>NSLayoutAttributeCenterY</td>
+<td>纵向中点</td>
+</tr>
+<tr>
+<td>baseline</td>
+<td>NSLayoutAttributeBaseline</td>
+<td>文本基线</td>
+</tr>
+</tbody>
+</table>
+<p>  在使用Masonry的时候，我们不需要在手写 <code>self.translatesAutoresizingMaskIntoConstraints = NO;</code>，点进Masonry头文件，查看起方法，我们可以看到他每个方法里面都帮我们加上了这句话。</p>
+<p>  <img src="/image/masonry1.png" alt=""></p>
+<p>  另外需要注意的是在xib或者storyboard中使用masonry框架相关方法的时候要将use Auto layout选项去掉，否则会不起作用。</p>
+<h3 id="1-_u663E_u793A_u4E00_u4E2AView"><a href="#1-_u663E_u793A_u4E00_u4E2AView" class="headerlink" title="1.显示一个View"></a>1.显示一个View</h3><p>我们创建一个项目， 在其中间放上一个尺寸100*100，父视图居中的View</p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">UIView * blueView= [UIView new]<span class="comment">;</span></span><br><span class="line">   blueView.backgroundColor  = [UIColor blueColor]<span class="comment">;</span></span><br><span class="line">   [self.view addSubview:blueView]<span class="comment">;</span></span><br><span class="line">   [blueView mas_makeConstraints:^(MASConstraintMaker *make) &#123;</span><br><span class="line">       //尺寸<span class="number">100*100</span> ，父视图居中</span><br><span class="line">       make.width.equalTo(@100)<span class="comment">;</span></span><br><span class="line">       make.height.mas_equalTo(100)<span class="comment">;</span></span><br><span class="line">       make.center.equalTo (self.view)<span class="comment">;</span></span><br><span class="line"></span><br><span class="line">   &#125;]<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+<p><img src="/image/masonry2.png" alt="居中View"></p>
+<p>我们来每行逐一讲解以下，</p>
+<blockquote>
+<p>-首先注意一点，在我们使用masonry约束的时候，一定要先将view先添加到superview上 否则会报错。<code>[self.view addSubview:blueView];</code></p>
+<p>-<code>[blueView mas_makeConstraints:^(MASConstraintMaker *make) { }];</code>这是一个Block块，mas_makeConstraints就是Masonry的autolayout添加函数 将所需的约束添加到block中即可。</p>
+<ul>
+<li><p><code>make.width.equalTo(@100);</code>约束其宽度为100，<code>make.height.mas_equalTo(100);</code>约束其高度为100，</p>
+</li>
+<li><p><code>make.center.equalTo (self.view);</code>设置对self.view居中。</p>
+</li>
+</ul>
+</blockquote>
+<p>对于以上几个地方，我们来简单说下，<br>首先在Masonry中能够添加autolayout约束有三个函数</p>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//mas_makeConstraints 只负责新增约束 Autolayout不能同时存在两条针对于同一对象的约束 否则会报错 </span></span><br><span class="line">- (NSArray *)mas_makeConstraints:(<span class="keyword">void</span>(^)(MASConstraintMaker *make))block;</span><br></pre></td></tr></table></figure>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//mas_updateConstraints 针对上面的情况 会更新在block中出现的约束 不会导致出现两个相同约束的情况</span></span><br><span class="line">- (NSArray *)mas_updateConstraints:(<span class="keyword">void</span>(^)(MASConstraintMaker *make))block;</span><br></pre></td></tr></table></figure>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//mas_remakeConstraints 则会清除之前的所有约束 仅保留最新的约束</span></span><br><span class="line">- (NSArray *)mas_remakeConstraints:(<span class="keyword">void</span>(^)(MASConstraintMaker *make))block;</span><br></pre></td></tr></table></figure>
+<p>在我们清楚了这几个函数的使用条件后，便可轻松应对</p>
+<p>在上面代码中 <code>make.width.equalTo(@100);</code>和<code>make.height.mas_equalTo(100);</code>都是约束代码，但一个使用的是<code>equalTo</code>另一个是<code>mas_equalTo</code>，同样的效果，那他们的区别在哪里呢？其实<code>mas_equalTo</code>是一个MACRO,比较的是值，直接填写数字即可，<code>equalTo</code>比较的是view，是个对象，需要将里面的东西添加@转成ID类型，当然我们也可以用 <code>make.size.mas_equalTo(CGSizeMake(100, 100));</code>来直接设置宽高，<code>make</code>我们则看做当前对象，就像self一样。</p>
+<h3 id="2-_u8BA9View_u7684_u9AD8_u5EA6_u662F_u5BBD_u5EA6_u7684_u4E00_u500D"><a href="#2-_u8BA9View_u7684_u9AD8_u5EA6_u662F_u5BBD_u5EA6_u7684_u4E00_u500D" class="headerlink" title="2.让View的高度是宽度的一倍"></a>2.让View的高度是宽度的一倍</h3><p>  还是刚才的代码， 我们在上面添加约束，</p>
+  <figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">UIView * blueView= [UIView new]<span class="comment">;</span></span><br><span class="line">   blueView.backgroundColor  = [UIColor blueColor]<span class="comment">;</span></span><br><span class="line">   [self.view addSubview:blueView]<span class="comment">;</span></span><br><span class="line">   [blueView mas_makeConstraints:^(MASConstraintMaker *make) &#123;</span><br><span class="line">       //尺寸<span class="number">100*100</span> ，父视图居中</span><br><span class="line">       make.width.equalTo(@100)<span class="comment">;</span></span><br><span class="line">       make.height.mas_equalTo(100)<span class="comment">;</span></span><br><span class="line">       make.center.equalTo (self.view)<span class="comment">;</span></span><br><span class="line">       make.height.equalTo(blueView.mas_width).multipliedBy(2.f).offset(0.f)<span class="comment">;</span></span><br><span class="line"></span><br><span class="line">   &#125;]<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+<p><img src="/image/masonry3.png" alt=""></p>
+<p>我们可以看到在约束中，我们可以直接使用<code>multipliedBy</code>函数，并设置<code>offset</code>。<br>如果我们将<code>offset</code>设置为100，也就是宽的大小<br><code>make.height.equalTo(blueView.mas_width).multipliedBy(2.f).offset(100.f);</code></p>
+<p><img src="/image/masonry4.png" alt=""></p>
+<p>用链式语法去读它，你可以这样读，<strong>它的高度是它宽度的2倍加上100</strong>.</p>
+<p>我们不光可以对其宽高设置，也可以对它的center，edges，size等，同时也可以设置它的优先级</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make.edges.equalTo(self.view).insets(UIEdgeInsetsMake(<span class="number">50</span>, <span class="number">50</span>, <span class="number">50</span>, <span class="number">50</span>));</span><br></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">make</span><span class="class">.size</span><span class="class">.equalTo</span>(<span class="tag">self</span><span class="class">.view</span>)<span class="class">.sizeOffset</span>(<span class="tag">CGSizeMake</span>(<span class="tag">-100</span>, <span class="tag">-100</span>));</span><br></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">make</span><span class="class">.center</span><span class="class">.equalTo</span>(<span class="tag">self</span><span class="class">.view</span>)<span class="class">.priority</span>(<span class="tag">MASLayoutPriorityFittingSizeLevel</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="u6211_u5E94_u8BE5_u5728_u54EA_u91CC_u4F7F_u7528_u7EA6_u675F_uFF1F"><a href="#u6211_u5E94_u8BE5_u5728_u54EA_u91CC_u4F7F_u7528_u7EA6_u675F_uFF1F" class="headerlink" title="我应该在哪里使用约束？"></a>我应该在哪里使用约束？</h3><p>对于这个问题，直接看官方给的以下代码</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">DIYCustomView</span></span></span><br><span class="line"></span><br><span class="line">- (<span class="keyword">id</span>)init &#123;</span><br><span class="line">    <span class="keyword">self</span> = [<span class="keyword">super</span> init];</span><br><span class="line">    <span class="keyword">if</span> (!<span class="keyword">self</span>) <span class="keyword">return</span> <span class="literal">nil</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// --- 在这里创建的你View ---</span></span><br><span class="line">    <span class="keyword">self</span><span class="variable">.button</span> = [[<span class="built_in">UIButton</span> alloc] init];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// tell UIKit that you are using AutoLayout</span></span><br><span class="line">+ (<span class="built_in">BOOL</span>)requiresConstraintBasedLayout &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">YES</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// this is Apple's recommended place for adding/updating constraints</span></span><br><span class="line">- (<span class="keyword">void</span>)updateConstraints &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// --- 在这里删除和更新你的约束</span></span><br><span class="line">    [<span class="keyword">self</span><span class="variable">.button</span> remakeConstraints:^(MASConstraintMaker *make) &#123;</span><br><span class="line">        make<span class="variable">.width</span><span class="variable">.equalTo</span>(@(<span class="keyword">self</span><span class="variable">.buttonSize</span><span class="variable">.width</span>));</span><br><span class="line">        make<span class="variable">.height</span><span class="variable">.equalTo</span>(@(<span class="keyword">self</span><span class="variable">.buttonSize</span><span class="variable">.height</span>));</span><br><span class="line">    &#125;];</span><br><span class="line"></span><br><span class="line">    <span class="comment">//according to apple super should be called at end of method</span></span><br><span class="line">    [<span class="keyword">super</span> updateConstraints];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)didTapButton:(<span class="built_in">UIButton</span> *)button &#123;</span><br><span class="line">    <span class="comment">// --- 改变控件，会影响你的布局 ---</span></span><br><span class="line">    <span class="keyword">self</span><span class="variable">.buttonSize</span> = <span class="built_in">CGSize</span>(<span class="number">200</span>, <span class="number">200</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 更新约束</span></span><br><span class="line">    [<span class="keyword">self</span> setNeedsUpdateConstraints];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<h3 id="u7ED3_u5C3E"><a href="#u7ED3_u5C3E" class="headerlink" title="结尾"></a>结尾</h3><p>Masonry,是一款非常还用的第三方约束， 本文只是简单介绍了它的使用， 相信你对它也有了一定的了解，它的出现对一些喜欢纯代码的童鞋给予了极大的遍历，比如我。。，需要更多的了解它，最好去看他的Github，下载他的示例Demo，你会发现他更强大的地方。  当然你也可以继续关注本blog，我会在以后更深入的讲解它的使用。</p>
+<p><a href="https://github.com/yimouleng/MasonryDemo" target="_blank" rel="external">本文的示例代码， 可以到这里下载。</a></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="u524D_u8A00"><a href="#u524D_u8A00" class="headerlink" title="前言"></a>前言</h2><p>  Masonry是一个轻量级的布局框架 拥有自己的描述语法 采用更优雅的链式语法封装自动布局 简洁明了 并具有高可读性 <code>而且同时支持 iOS 和 Max OS X</code>。<br>  官方的介绍其实是非常详细的了，可以移步到其<a href="https://github.com/SnapKit/Masonry">Masonry-Github</a>下载官方源码Demo,我也非常推荐看官方的介绍。<br>]]>
+    
+    </summary>
+    
+      <category term="Autolayout" scheme="http://yimouleng.com/tags/Autolayout/"/>
+    
+      <category term="Masonry" scheme="http://yimouleng.com/tags/Masonry/"/>
+    
+      <category term="iOS开发" scheme="http://yimouleng.com/categories/iOS%E5%BC%80%E5%8F%91/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[ios Block]]></title>
     <link href="http://yimouleng.com/2014/11/23/ios-block/"/>
     <id>http://yimouleng.com/2014/11/23/ios-block/</id>
@@ -839,71 +983,6 @@ TypeName blockName = ^returnType(parameters) {…};</code></p>
       <category term="block" scheme="http://yimouleng.com/tags/block/"/>
     
       <category term="语法" scheme="http://yimouleng.com/tags/%E8%AF%AD%E6%B3%95/"/>
-    
-      <category term="iOS开发" scheme="http://yimouleng.com/categories/iOS%E5%BC%80%E5%8F%91/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[iOS绘图]]></title>
-    <link href="http://yimouleng.com/2014/11/23/ios-CoreGraphics/"/>
-    <id>http://yimouleng.com/2014/11/23/ios-CoreGraphics/</id>
-    <published>2014-11-22T19:01:30.000Z</published>
-    <updated>2015-12-09T09:15:36.000Z</updated>
-    <content type="html"><![CDATA[<h3 id="iOS_u7ED8_u56FE"><a href="#iOS_u7ED8_u56FE" class="headerlink" title="iOS绘图"></a>iOS绘图</h3><p>在iOS中常用有三套绘图API。一个是UIKit提供的高层API，一个是CoreGraphics提供的C语言层的API，最后一个是OpenGL ES提供的API。</p>
-<p>iOS的绘图逻辑代码需要放在UIView的drawRect:方法里面实现，所以绘图只能发生在UIView上面。</p>
-<p>绘图后如果我们想要显示图像可以调用</p>
-<p><code>setNeedsDisplay</code>和<code>setNeedsDisplayInRect:</code>这两个方法是用来标示一个视图是否需要进行重绘，这里标示重绘并不会马上重新绘制，而是等到该RunLoop上面的任务执行完成后才回执行重绘。<br><a id="more"></a><br>触发重绘有以下几种情况：</p>
-<p>1.当遮挡你的视图得其它视图被移动或者删除操作得时候；</p>
-<p>2.将视图的hidden属性声明设置为No，使其从隐藏状态变为可见；</p>
-<p>3.将视图滚出屏幕，然后重新回到屏幕；</p>
-<p>4.显示调用视图的<code>setNeedsDisplay</code>或者<code>setNeedsDisplayInRect:</code>方法；</p>
-<h3 id="ios_u7ED8_u56FE_u5468_u671F_u5206_u6790"><a href="#ios_u7ED8_u56FE_u5468_u671F_u5206_u6790" class="headerlink" title="ios绘图周期分析"></a>ios绘图周期分析</h3><p>通过下面这个例子来分析</p>
-<p>progressView.hidden = NO;</p>
-<p>[self doSomethingTimeConsuming];</p>
-<p>progressView.hidden = YES;</p>
-<p>第一行代码progress.hidden = NO;根本没有效果，这行代码不会使进度视图在执行耗时操作时显示出来。无论这个方法运行多久，都不会看到视图显示出来。</p>
-<p><img src="http://images0.cnblogs.com/blog2015/717519/201508/192124265355616.png" alt=""></p>
-<p>所有的绘制都发生在主线程，只要代码运行在主线程，就没有东西可以绘制。这就是不要在主线程中执行长时间运行操作的一个原因。这不仅会阻碍绘制更新，还会阻碍事件处理（比如响应触摸事件）。只要代码在主线程上，应用对于用户其实就是“功能挂起的”。如果主线程例程返回足够快，这些变化根本就察觉不到。<br>你可能会想：“那我就在后台线程运行我的绘图指令。”通常是无法做到这一点的，因为对于当前的UIKit上下文来说绘图不是线程安全的。任何在后台线程修改视图的尝试都会导致未定义的行为，包括绘制出错或崩溃。<br>这个行为并不是需要解决的问题。绘图时间实质是ios在有限的硬件上渲染复杂绘图的功能。</p>
-<h3 id="UIKit_u7ED8_u56FE"><a href="#UIKit_u7ED8_u56FE" class="headerlink" title="UIKit绘图"></a>UIKit绘图</h3><p>比较简单，这里就说一些常用API。</p>
-<p>设置画笔颜色：</p>
-<p>画笔颜色分为描边颜色和填充颜色，都是用UIColor的API设置的。在drawRect方法中调用<br><figure class="highlight inform7"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">[<span class="comment">[UIColor anyColor]</span> setFill]</span>设置填充颜色。</span><br><span class="line"><span class="comment">[<span class="comment">[UIColor anyColor]</span> setStroke]</span>设置描边颜色。</span><br></pre></td></tr></table></figure></p>
-<p>设置绘图区域：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">UIRectFill</span><span class="params">(CGRect rect)</span></span>，填充某一区域 。</span><br><span class="line"><span class="function"><span class="title">UIRectFrame</span><span class="params">(CGRect rect)</span></span>，矩形描边函数。</span><br><span class="line">UIBezierPath，绘图路径类，包括了线段、弧线、矩形、圆形等等。</span><br></pre></td></tr></table></figure></p>
-<p>其中UIBezierPath可以定制主来很多很复杂的图形，这里就不具体的说UIBezierPath的api了，使用起来比较简单直接看文档就可以。</p>
-<h4 id="u7ED8_u5236_u56FE_u50CF"><a href="#u7ED8_u5236_u56FE_u50CF" class="headerlink" title="绘制图像"></a>绘制图像</h4><p>UIImage提供了自己的绘图方法。显示UIImage，除了添加到UIImageView中，还可以直接画到UIView上面，常用API如下：<br><figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="pp">-<span class="params">(void)</span>drawAtPoint:<span class="params">(<span class="variable">CGPoint</span>)</span>point;在某个点绘制</span><br><span class="line">-<span class="params">(void)</span>drawInRect:<span class="params">(<span class="variable">CGRect</span>)</span>rect;绘制到某个矩形中</span><br><span class="line">-<span class="params">(void)</span>drawAsPatternInRect;绘制到某个矩形中并平铺</span></span><br></pre></td></tr></table></figure></p>
-<h4 id="u7ED8_u5236_u6587_u5B57"><a href="#u7ED8_u5236_u6587_u5B57" class="headerlink" title="绘制文字"></a>绘制文字</h4><p>NSString的category同样提供了绘制文字的功能<br><figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="pp">-<span class="params">(void)</span>drawAtPoint:<span class="params">(<span class="variable">CGPoint</span>)</span>point withAttributes:<span class="params">(<span class="variable">NSDictionary</span> *)</span>attrs，文本在制定点用属性绘制。</span><br><span class="line">-<span class="params">(void)</span>drawInRect:<span class="params">(<span class="variable">CGRect</span>)</span>rect withAttributes:<span class="params">(<span class="variable">NSDictionary</span> *)</span>attrs，文本在指定的矩形里绘制。</span></span><br></pre></td></tr></table></figure></p>
-<p>它们都可以用attrs，这和NSAttributedString很像。</p>
-<h3 id="CoreGraphics_u7ED8_u56FE"><a href="#CoreGraphics_u7ED8_u56FE" class="headerlink" title="CoreGraphics绘图"></a>CoreGraphics绘图</h3><p>绘图上下文CGContextRef，CoreGraphics很类似java、C#等，需要有一个绘图上下文。</p>
-<p>上下文中保存了要绘制内容的信息，要获得上下文需要调用。</p>
-<p><code>CGContextRef UIGraphicsGetCurrentContext(void)</code></p>
-<p>常用API</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">移动点</span><br><span class="line"><span class="keyword">void</span> <span class="built_in">CGContextMoveToPoint</span>(<span class="built_in">CGContextRef</span> c, <span class="built_in">CGFloat</span> x, <span class="built_in">CGFloat</span> y)</span><br><span class="line">画线</span><br><span class="line"><span class="keyword">void</span> <span class="built_in">CGContextAddLineToPoint</span>(<span class="built_in">CGContextRef</span> c, <span class="built_in">CGFloat</span> x, <span class="built_in">CGFloat</span> y)</span><br><span class="line">闭合路径</span><br><span class="line"><span class="keyword">void</span> <span class="built_in">CGContextClosePath</span>(<span class="built_in">CGContextRef</span> c)</span><br><span class="line">绘制路径</span><br><span class="line"><span class="keyword">void</span> <span class="built_in">CGContextDrawPath</span>(<span class="built_in">CGContextRef</span> c, <span class="built_in">CGPathDrawingMode</span> mode)</span><br><span class="line">设置描边颜色</span><br><span class="line"><span class="keyword">void</span> <span class="built_in">CGContextSetStrokeColorWithColor</span>(<span class="built_in">CGContextRef</span> c, <span class="built_in">CGColorRef</span> color)</span><br><span class="line">设置填充颜色</span><br><span class="line"><span class="keyword">void</span> <span class="built_in">CGContextSetFillColorWithColor</span>(<span class="built_in">CGContextRef</span> c, <span class="built_in">CGColorRef</span> color)</span><br><span class="line">绘制贝塞尔曲线，这里的参数分别是两个控制点和交点的左边，大家可以自行百度贝塞尔曲线定义</span><br><span class="line"><span class="keyword">void</span> <span class="built_in">CGContextAddCurveToPoint</span>(<span class="built_in">CGContextRef</span> c, <span class="built_in">CGFloat</span> cp1x,<span class="built_in">CGFloat</span> cp1y, <span class="built_in">CGFloat</span> cp2x, <span class="built_in">CGFloat</span> cp2y, <span class="built_in">CGFloat</span> x, <span class="built_in">CGFloat</span> y)</span><br><span class="line">保存上下文</span><br><span class="line"><span class="keyword">void</span> <span class="built_in">CGContextSaveGState</span>(<span class="built_in">CGContextRef</span> c)</span><br><span class="line">读取上下文</span><br><span class="line"><span class="keyword">void</span> <span class="built_in">CGContextRestoreGState</span>(<span class="built_in">CGContextRef</span> c)</span><br></pre></td></tr></table></figure>
-<p>常用API有很多这里只列举上面这些，剩下的可以查下API</p>
-<h4 id="CoreGraphics_u5750_u6807_u7CFB"><a href="#CoreGraphics_u5750_u6807_u7CFB" class="headerlink" title="CoreGraphics坐标系"></a>CoreGraphics坐标系</h4><p>CoreGraphics坐标系和我们平时用UIKit的坐标系是不样的，CoreGraphics的左下角为(0,0)点，而UIKit的左上角为(0,0)点。</p>
-<p>所以我们在开发的时候，一般会先同步坐标系（CoreText也需要这么操作），应该这样写</p>
-<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CGContextTranslateCTM<span class="list">(<span class="keyword">context</span>, <span class="number">0</span>, img.size.height)</span><span class="comment">;平移变化</span></span><br><span class="line">CGContextScaleCTM<span class="list">(<span class="keyword">context</span>,<span class="number">1</span>,<span class="number">-1</span>)</span><span class="comment">;缩放变换</span></span><br></pre></td></tr></table></figure>
-<p>先利用平移变换上移一个视图大小，然后在用缩放变化把高度设-1进行以x为轴的对称变换。</p>
-<h4 id="u53D8_u6362"><a href="#u53D8_u6362" class="headerlink" title="变换"></a>变换</h4><p>接下来说说变换，绘图是有很多矩阵变换的，其中常用的有以下：</p>
-<p>1.平移变换</p>
-<p>2.缩放变换</p>
-<p>3.旋转变换</p>
-<p>4.x轴对称变换</p>
-<p>5.y轴对称变换</p>
-<p>6.坐标原点对称变换</p>
-<h4 id="u77E9_u9635_u53D8_u6362CTM"><a href="#u77E9_u9635_u53D8_u6362CTM" class="headerlink" title="矩阵变换CTM"></a>矩阵变换CTM</h4><p>CoreGraphics中提供了很多矩阵变换的API，主要有</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">CGContextRoatateCMT</span>，旋转CTM，旋转变换；</span><br><span class="line"><span class="built_in">CGContextScaleCTM</span>，缩放变换；</span><br><span class="line"><span class="built_in">CGContextTranslateCTM</span>，平移变换。</span><br></pre></td></tr></table></figure>
-<h4 id="u4EFF_u5C04_u53D8_u6362affine"><a href="#u4EFF_u5C04_u53D8_u6362affine" class="headerlink" title="仿射变换affine"></a>仿射变换affine</h4><p>仿射变换是可以重用的变换，通过多次的矩阵乘法得到变换矩阵。<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">CGAffineMakeRotation</span>，创建新的旋转矩阵；</span><br><span class="line"><span class="built_in">CGAffineMakeScale</span>，创建新的缩放矩阵；</span><br><span class="line"><span class="built_in">CGAffineMakeTranslation</span>，创建新的平移矩阵；</span><br><span class="line"><span class="built_in">CGAffineTransform</span>，仿射矩阵，可以经过多次变换；</span><br><span class="line"><span class="built_in">CGAffineTransformRotate</span>，旋转矩阵；</span><br><span class="line"><span class="built_in">CGAffineTransformScale</span>，缩放矩阵；</span><br><span class="line"><span class="built_in">CGAffineTransformTranslate</span>，平移矩阵；</span><br><span class="line"><span class="built_in">CGContextConcatCTM</span>，连接到CTM变换。</span><br></pre></td></tr></table></figure></p>
-<p>我们可以创建一个CGAffineTransform，然后经过多次的仿射变换后连接到CTM进行显示。</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<h3 id="iOS_u7ED8_u56FE"><a href="#iOS_u7ED8_u56FE" class="headerlink" title="iOS绘图"></a>iOS绘图</h3><p>在iOS中常用有三套绘图API。一个是UIKit提供的高层API，一个是CoreGraphics提供的C语言层的API，最后一个是OpenGL ES提供的API。</p>
-<p>iOS的绘图逻辑代码需要放在UIView的drawRect:方法里面实现，所以绘图只能发生在UIView上面。</p>
-<p>绘图后如果我们想要显示图像可以调用</p>
-<p><code>setNeedsDisplay</code>和<code>setNeedsDisplayInRect:</code>这两个方法是用来标示一个视图是否需要进行重绘，这里标示重绘并不会马上重新绘制，而是等到该RunLoop上面的任务执行完成后才回执行重绘。<br>]]>
-    
-    </summary>
-    
-      <category term="CoreGraphics" scheme="http://yimouleng.com/tags/CoreGraphics/"/>
     
       <category term="iOS开发" scheme="http://yimouleng.com/categories/iOS%E5%BC%80%E5%8F%91/"/>
     
@@ -1139,6 +1218,71 @@ TypeName blockName = ^returnType(parameters) {…};</code></p>
   </entry>
   
   <entry>
+    <title><![CDATA[iOS绘图]]></title>
+    <link href="http://yimouleng.com/2014/11/23/ios-CoreGraphics/"/>
+    <id>http://yimouleng.com/2014/11/23/ios-CoreGraphics/</id>
+    <published>2014-11-22T19:01:30.000Z</published>
+    <updated>2015-12-09T09:15:36.000Z</updated>
+    <content type="html"><![CDATA[<h3 id="iOS_u7ED8_u56FE"><a href="#iOS_u7ED8_u56FE" class="headerlink" title="iOS绘图"></a>iOS绘图</h3><p>在iOS中常用有三套绘图API。一个是UIKit提供的高层API，一个是CoreGraphics提供的C语言层的API，最后一个是OpenGL ES提供的API。</p>
+<p>iOS的绘图逻辑代码需要放在UIView的drawRect:方法里面实现，所以绘图只能发生在UIView上面。</p>
+<p>绘图后如果我们想要显示图像可以调用</p>
+<p><code>setNeedsDisplay</code>和<code>setNeedsDisplayInRect:</code>这两个方法是用来标示一个视图是否需要进行重绘，这里标示重绘并不会马上重新绘制，而是等到该RunLoop上面的任务执行完成后才回执行重绘。<br><a id="more"></a><br>触发重绘有以下几种情况：</p>
+<p>1.当遮挡你的视图得其它视图被移动或者删除操作得时候；</p>
+<p>2.将视图的hidden属性声明设置为No，使其从隐藏状态变为可见；</p>
+<p>3.将视图滚出屏幕，然后重新回到屏幕；</p>
+<p>4.显示调用视图的<code>setNeedsDisplay</code>或者<code>setNeedsDisplayInRect:</code>方法；</p>
+<h3 id="ios_u7ED8_u56FE_u5468_u671F_u5206_u6790"><a href="#ios_u7ED8_u56FE_u5468_u671F_u5206_u6790" class="headerlink" title="ios绘图周期分析"></a>ios绘图周期分析</h3><p>通过下面这个例子来分析</p>
+<p>progressView.hidden = NO;</p>
+<p>[self doSomethingTimeConsuming];</p>
+<p>progressView.hidden = YES;</p>
+<p>第一行代码progress.hidden = NO;根本没有效果，这行代码不会使进度视图在执行耗时操作时显示出来。无论这个方法运行多久，都不会看到视图显示出来。</p>
+<p><img src="http://images0.cnblogs.com/blog2015/717519/201508/192124265355616.png" alt=""></p>
+<p>所有的绘制都发生在主线程，只要代码运行在主线程，就没有东西可以绘制。这就是不要在主线程中执行长时间运行操作的一个原因。这不仅会阻碍绘制更新，还会阻碍事件处理（比如响应触摸事件）。只要代码在主线程上，应用对于用户其实就是“功能挂起的”。如果主线程例程返回足够快，这些变化根本就察觉不到。<br>你可能会想：“那我就在后台线程运行我的绘图指令。”通常是无法做到这一点的，因为对于当前的UIKit上下文来说绘图不是线程安全的。任何在后台线程修改视图的尝试都会导致未定义的行为，包括绘制出错或崩溃。<br>这个行为并不是需要解决的问题。绘图时间实质是ios在有限的硬件上渲染复杂绘图的功能。</p>
+<h3 id="UIKit_u7ED8_u56FE"><a href="#UIKit_u7ED8_u56FE" class="headerlink" title="UIKit绘图"></a>UIKit绘图</h3><p>比较简单，这里就说一些常用API。</p>
+<p>设置画笔颜色：</p>
+<p>画笔颜色分为描边颜色和填充颜色，都是用UIColor的API设置的。在drawRect方法中调用<br><figure class="highlight inform7"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">[<span class="comment">[UIColor anyColor]</span> setFill]</span>设置填充颜色。</span><br><span class="line"><span class="comment">[<span class="comment">[UIColor anyColor]</span> setStroke]</span>设置描边颜色。</span><br></pre></td></tr></table></figure></p>
+<p>设置绘图区域：<br><figure class="highlight stylus"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">UIRectFill</span><span class="params">(CGRect rect)</span></span>，填充某一区域 。</span><br><span class="line"><span class="function"><span class="title">UIRectFrame</span><span class="params">(CGRect rect)</span></span>，矩形描边函数。</span><br><span class="line">UIBezierPath，绘图路径类，包括了线段、弧线、矩形、圆形等等。</span><br></pre></td></tr></table></figure></p>
+<p>其中UIBezierPath可以定制主来很多很复杂的图形，这里就不具体的说UIBezierPath的api了，使用起来比较简单直接看文档就可以。</p>
+<h4 id="u7ED8_u5236_u56FE_u50CF"><a href="#u7ED8_u5236_u56FE_u50CF" class="headerlink" title="绘制图像"></a>绘制图像</h4><p>UIImage提供了自己的绘图方法。显示UIImage，除了添加到UIImageView中，还可以直接画到UIView上面，常用API如下：<br><figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="pp">-<span class="params">(void)</span>drawAtPoint:<span class="params">(<span class="variable">CGPoint</span>)</span>point;在某个点绘制</span><br><span class="line">-<span class="params">(void)</span>drawInRect:<span class="params">(<span class="variable">CGRect</span>)</span>rect;绘制到某个矩形中</span><br><span class="line">-<span class="params">(void)</span>drawAsPatternInRect;绘制到某个矩形中并平铺</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="u7ED8_u5236_u6587_u5B57"><a href="#u7ED8_u5236_u6587_u5B57" class="headerlink" title="绘制文字"></a>绘制文字</h4><p>NSString的category同样提供了绘制文字的功能<br><figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="pp">-<span class="params">(void)</span>drawAtPoint:<span class="params">(<span class="variable">CGPoint</span>)</span>point withAttributes:<span class="params">(<span class="variable">NSDictionary</span> *)</span>attrs，文本在制定点用属性绘制。</span><br><span class="line">-<span class="params">(void)</span>drawInRect:<span class="params">(<span class="variable">CGRect</span>)</span>rect withAttributes:<span class="params">(<span class="variable">NSDictionary</span> *)</span>attrs，文本在指定的矩形里绘制。</span></span><br></pre></td></tr></table></figure></p>
+<p>它们都可以用attrs，这和NSAttributedString很像。</p>
+<h3 id="CoreGraphics_u7ED8_u56FE"><a href="#CoreGraphics_u7ED8_u56FE" class="headerlink" title="CoreGraphics绘图"></a>CoreGraphics绘图</h3><p>绘图上下文CGContextRef，CoreGraphics很类似java、C#等，需要有一个绘图上下文。</p>
+<p>上下文中保存了要绘制内容的信息，要获得上下文需要调用。</p>
+<p><code>CGContextRef UIGraphicsGetCurrentContext(void)</code></p>
+<p>常用API</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">移动点</span><br><span class="line"><span class="keyword">void</span> <span class="built_in">CGContextMoveToPoint</span>(<span class="built_in">CGContextRef</span> c, <span class="built_in">CGFloat</span> x, <span class="built_in">CGFloat</span> y)</span><br><span class="line">画线</span><br><span class="line"><span class="keyword">void</span> <span class="built_in">CGContextAddLineToPoint</span>(<span class="built_in">CGContextRef</span> c, <span class="built_in">CGFloat</span> x, <span class="built_in">CGFloat</span> y)</span><br><span class="line">闭合路径</span><br><span class="line"><span class="keyword">void</span> <span class="built_in">CGContextClosePath</span>(<span class="built_in">CGContextRef</span> c)</span><br><span class="line">绘制路径</span><br><span class="line"><span class="keyword">void</span> <span class="built_in">CGContextDrawPath</span>(<span class="built_in">CGContextRef</span> c, <span class="built_in">CGPathDrawingMode</span> mode)</span><br><span class="line">设置描边颜色</span><br><span class="line"><span class="keyword">void</span> <span class="built_in">CGContextSetStrokeColorWithColor</span>(<span class="built_in">CGContextRef</span> c, <span class="built_in">CGColorRef</span> color)</span><br><span class="line">设置填充颜色</span><br><span class="line"><span class="keyword">void</span> <span class="built_in">CGContextSetFillColorWithColor</span>(<span class="built_in">CGContextRef</span> c, <span class="built_in">CGColorRef</span> color)</span><br><span class="line">绘制贝塞尔曲线，这里的参数分别是两个控制点和交点的左边，大家可以自行百度贝塞尔曲线定义</span><br><span class="line"><span class="keyword">void</span> <span class="built_in">CGContextAddCurveToPoint</span>(<span class="built_in">CGContextRef</span> c, <span class="built_in">CGFloat</span> cp1x,<span class="built_in">CGFloat</span> cp1y, <span class="built_in">CGFloat</span> cp2x, <span class="built_in">CGFloat</span> cp2y, <span class="built_in">CGFloat</span> x, <span class="built_in">CGFloat</span> y)</span><br><span class="line">保存上下文</span><br><span class="line"><span class="keyword">void</span> <span class="built_in">CGContextSaveGState</span>(<span class="built_in">CGContextRef</span> c)</span><br><span class="line">读取上下文</span><br><span class="line"><span class="keyword">void</span> <span class="built_in">CGContextRestoreGState</span>(<span class="built_in">CGContextRef</span> c)</span><br></pre></td></tr></table></figure>
+<p>常用API有很多这里只列举上面这些，剩下的可以查下API</p>
+<h4 id="CoreGraphics_u5750_u6807_u7CFB"><a href="#CoreGraphics_u5750_u6807_u7CFB" class="headerlink" title="CoreGraphics坐标系"></a>CoreGraphics坐标系</h4><p>CoreGraphics坐标系和我们平时用UIKit的坐标系是不样的，CoreGraphics的左下角为(0,0)点，而UIKit的左上角为(0,0)点。</p>
+<p>所以我们在开发的时候，一般会先同步坐标系（CoreText也需要这么操作），应该这样写</p>
+<figure class="highlight lisp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">CGContextTranslateCTM<span class="list">(<span class="keyword">context</span>, <span class="number">0</span>, img.size.height)</span><span class="comment">;平移变化</span></span><br><span class="line">CGContextScaleCTM<span class="list">(<span class="keyword">context</span>,<span class="number">1</span>,<span class="number">-1</span>)</span><span class="comment">;缩放变换</span></span><br></pre></td></tr></table></figure>
+<p>先利用平移变换上移一个视图大小，然后在用缩放变化把高度设-1进行以x为轴的对称变换。</p>
+<h4 id="u53D8_u6362"><a href="#u53D8_u6362" class="headerlink" title="变换"></a>变换</h4><p>接下来说说变换，绘图是有很多矩阵变换的，其中常用的有以下：</p>
+<p>1.平移变换</p>
+<p>2.缩放变换</p>
+<p>3.旋转变换</p>
+<p>4.x轴对称变换</p>
+<p>5.y轴对称变换</p>
+<p>6.坐标原点对称变换</p>
+<h4 id="u77E9_u9635_u53D8_u6362CTM"><a href="#u77E9_u9635_u53D8_u6362CTM" class="headerlink" title="矩阵变换CTM"></a>矩阵变换CTM</h4><p>CoreGraphics中提供了很多矩阵变换的API，主要有</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">CGContextRoatateCMT</span>，旋转CTM，旋转变换；</span><br><span class="line"><span class="built_in">CGContextScaleCTM</span>，缩放变换；</span><br><span class="line"><span class="built_in">CGContextTranslateCTM</span>，平移变换。</span><br></pre></td></tr></table></figure>
+<h4 id="u4EFF_u5C04_u53D8_u6362affine"><a href="#u4EFF_u5C04_u53D8_u6362affine" class="headerlink" title="仿射变换affine"></a>仿射变换affine</h4><p>仿射变换是可以重用的变换，通过多次的矩阵乘法得到变换矩阵。<br><figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">CGAffineMakeRotation</span>，创建新的旋转矩阵；</span><br><span class="line"><span class="built_in">CGAffineMakeScale</span>，创建新的缩放矩阵；</span><br><span class="line"><span class="built_in">CGAffineMakeTranslation</span>，创建新的平移矩阵；</span><br><span class="line"><span class="built_in">CGAffineTransform</span>，仿射矩阵，可以经过多次变换；</span><br><span class="line"><span class="built_in">CGAffineTransformRotate</span>，旋转矩阵；</span><br><span class="line"><span class="built_in">CGAffineTransformScale</span>，缩放矩阵；</span><br><span class="line"><span class="built_in">CGAffineTransformTranslate</span>，平移矩阵；</span><br><span class="line"><span class="built_in">CGContextConcatCTM</span>，连接到CTM变换。</span><br></pre></td></tr></table></figure></p>
+<p>我们可以创建一个CGAffineTransform，然后经过多次的仿射变换后连接到CTM进行显示。</p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h3 id="iOS_u7ED8_u56FE"><a href="#iOS_u7ED8_u56FE" class="headerlink" title="iOS绘图"></a>iOS绘图</h3><p>在iOS中常用有三套绘图API。一个是UIKit提供的高层API，一个是CoreGraphics提供的C语言层的API，最后一个是OpenGL ES提供的API。</p>
+<p>iOS的绘图逻辑代码需要放在UIView的drawRect:方法里面实现，所以绘图只能发生在UIView上面。</p>
+<p>绘图后如果我们想要显示图像可以调用</p>
+<p><code>setNeedsDisplay</code>和<code>setNeedsDisplayInRect:</code>这两个方法是用来标示一个视图是否需要进行重绘，这里标示重绘并不会马上重新绘制，而是等到该RunLoop上面的任务执行完成后才回执行重绘。<br>]]>
+    
+    </summary>
+    
+      <category term="CoreGraphics" scheme="http://yimouleng.com/tags/CoreGraphics/"/>
+    
+      <category term="iOS开发" scheme="http://yimouleng.com/categories/iOS%E5%BC%80%E5%8F%91/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[iOS 多线程编程 GCD]]></title>
     <link href="http://yimouleng.com/2014/11/16/iso-duoxiancheng-GCD/"/>
     <id>http://yimouleng.com/2014/11/16/iso-duoxiancheng-GCD/</id>
@@ -1329,44 +1473,6 @@ TypeName blockName = ^returnType(parameters) {…};</code></p>
       <category term="WOW" scheme="http://yimouleng.com/tags/WOW/"/>
     
       <category term="二三事" scheme="http://yimouleng.com/categories/%E4%BA%8C%E4%B8%89%E4%BA%8B/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[iOS开发 - 圆角]]></title>
-    <link href="http://yimouleng.com/2014/07/20/ios-yuanjiao/"/>
-    <id>http://yimouleng.com/2014/07/20/ios-yuanjiao/</id>
-    <published>2014-07-19T16:00:00.000Z</published>
-    <updated>2015-12-09T11:24:51.000Z</updated>
-    <content type="html"><![CDATA[<p>iOS开发中各种圆角也随处可见,最简单给控件添加圆角的方式就是给视图的layer设置corner属性了:</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">self</span><span class="variable">.blueView</span><span class="variable">.layer</span><span class="variable">.cornerRadius</span> = <span class="number">5.</span>f;  </span><br><span class="line"><span class="keyword">self</span><span class="variable">.blueView</span><span class="variable">.layer</span><span class="variable">.masksToBounds</span> = <span class="literal">YES</span>;</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<p>这种方式会带来两个问题: </p>
-<ul>
-<li><p>当图片数量比较多的时候,这种添加圆角方式特别消耗性能,比如在UITableViewCell添加过多圆角的话,甚至会带来视觉可见的卡顿. </p>
-</li>
-<li><p>无法配置圆角数量(只能添加view的四个角全为圆角),无法配置某个圆角大小.</p>
-</li>
-</ul>
-<p>第一个问题实际上是由于数量太多的情况下,系统会频繁的调用GPU的离屏渲染(Offscreen Rendering)机制,导致内存损耗严重.更多关于离屏渲染的详解,可以看这里,本文不多赘述.</p>
-<p>第二个问题,我们可以使用<code>UIBezierPath</code>来完美解决.以下是示例代码:</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">UIBezierPath</span> *maskPath = [<span class="built_in">UIBezierPath</span> bezierPathWithRoundedRect:<span class="keyword">self</span><span class="variable">.blueView</span><span class="variable">.bounds</span> byRoundingCorners:<span class="built_in">UIRectCornerTopLeft</span> | <span class="built_in">UIRectCornerBottomLeft</span> cornerRadii:<span class="built_in">CGSizeMake</span>(<span class="number">20</span>, <span class="number">0</span>)];</span><br><span class="line"></span><br><span class="line">    <span class="built_in">CAShapeLayer</span> *maskLayer = [[<span class="built_in">CAShapeLayer</span> alloc] init];</span><br><span class="line"></span><br><span class="line">    maskLayer<span class="variable">.frame</span> = <span class="keyword">self</span><span class="variable">.blueView</span><span class="variable">.bounds</span>;</span><br><span class="line"></span><br><span class="line">    maskLayer<span class="variable">.path</span> = maskPath<span class="variable">.CGPath</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">self</span><span class="variable">.blueView</span><span class="variable">.layer</span><span class="variable">.mask</span> = maskLayer;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">self</span><span class="variable">.blueView</span><span class="variable">.layer</span><span class="variable">.cornerRadius</span> = <span class="number">5.</span>f;</span><br><span class="line">    <span class="keyword">self</span><span class="variable">.blueView</span><span class="variable">.layer</span><span class="variable">.masksToBounds</span> = <span class="literal">YES</span>;</span><br></pre></td></tr></table></figure>
-<p>想要配置某个角为圆角的话,只需要指定对应的<code>UIRectCorner</code>即可 </p>
-<p><img src="/image/yuanjiao1.jpeg" alt=""></p>
-<p>以下是显示效果: </p>
-<p><img src="/image/yuanjiao2.jpg" alt=""></p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>iOS开发中各种圆角也随处可见,最简单给控件添加圆角的方式就是给视图的layer设置corner属性了:</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">self</span><span class="variable">.blueView</span><span class="variable">.layer</span><span class="variable">.cornerRadius</span> = <span class="number">5.</span>f;  </span><br><span class="line"><span class="keyword">self</span><span class="variable">.blueView</span><span class="variable">.layer</span><span class="variable">.masksToBounds</span> = <span class="literal">YES</span>;</span><br></pre></td></tr></table></figure>]]>
-    
-    </summary>
-    
-      <category term="UIBezierPath" scheme="http://yimouleng.com/tags/UIBezierPath/"/>
-    
-      <category term="iOS" scheme="http://yimouleng.com/tags/iOS/"/>
-    
-      <category term="iOS开发" scheme="http://yimouleng.com/categories/iOS%E5%BC%80%E5%8F%91/"/>
     
   </entry>
   

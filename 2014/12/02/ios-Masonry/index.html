@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>iOS - Masonry自动布局(Autolayout) | Yi&#39;mouleng-即便世界与我为敌，只要心还透明，就能折射希望。</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="前言  Masonry是一个轻量级的布局框架 拥有自己的描述语法 采用更优雅的链式语法封装自动布局 简洁明了 并具有高可读性 而且同时支持 iOS 和 Max OS X。  官方的介绍其实是非常详细的了，可以移步到其Masonry-Github下载官方源码Demo,我也非常推荐看官方的介绍。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS - Masonry自动布局(Autolayout)">
+<meta property="og:url" content="http://yimouleng.com/2014/12/02/ios-Masonry/index.html">
+<meta property="og:site_name" content="Yi'mouleng-即便世界与我为敌，只要心还透明，就能折射希望。">
+<meta property="og:description" content="前言  Masonry是一个轻量级的布局框架 拥有自己的描述语法 采用更优雅的链式语法封装自动布局 简洁明了 并具有高可读性 而且同时支持 iOS 和 Max OS X。  官方的介绍其实是非常详细的了，可以移步到其Masonry-Github下载官方源码Demo,我也非常推荐看官方的介绍。">
+<meta property="og:image" content="http://yimouleng.com/image/masonry1.png">
+<meta property="og:image" content="http://yimouleng.com/image/masonry2.png">
+<meta property="og:image" content="http://yimouleng.com/image/masonry3.png">
+<meta property="og:image" content="http://yimouleng.com/image/masonry4.png">
+<meta property="og:updated_time" content="2015-12-16T07:45:22.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS - Masonry自动布局(Autolayout)">
+<meta name="twitter:description" content="前言  Masonry是一个轻量级的布局框架 拥有自己的描述语法 采用更优雅的链式语法封装自动布局 简洁明了 并具有高可读性 而且同时支持 iOS 和 Max OS X。  官方的介绍其实是非常详细的了，可以移步到其Masonry-Github下载官方源码Demo,我也非常推荐看官方的介绍。">
+  
+    <link rel="alternative" href="/atom.xml" title="Yi&#39;mouleng-即便世界与我为敌，只要心还透明，就能折射希望。" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.jpg">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/resources/avatar.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Yi&#39;mouleng</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">知止安能定,定而知静,静方可虑,虑而后能得。---iOS交流群67784110</p>
+		
+				
+
+		
+			<div class="switch-btn" id="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area" id="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/archives">目录</a></li>
+				        
+							<li><a href="/categories/iOS开发">iOS开发</a></li>
+				        
+							<li><a href="/categories/二三事">二三事</a></li>
+				        
+							<li><a href="/tags/">标签云</a></li>
+				        
+							<li><a href="/about/">关于</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/yimouleng" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/yimouleng" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+					        
+								<a class="QQ" target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=ac73346414b7bc620d16a1553318221a96d0fb90832d39995c539098731e21b6" title="QQ">QQ</a>
+					        
+								<a class="mail" target="_blank" href="mailto:yimouleng@gamil.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/AFNetworking/" style="font-size: 10px;">AFNetworking</a> <a href="/tags/ASIHTTPRequest/" style="font-size: 10px;">ASIHTTPRequest</a> <a href="/tags/Animation/" style="font-size: 10px;">Animation</a> <a href="/tags/AsyncSocket/" style="font-size: 10px;">AsyncSocket</a> <a href="/tags/Autolayout/" style="font-size: 10px;">Autolayout</a> <a href="/tags/CALayer/" style="font-size: 10px;">CALayer</a> <a href="/tags/CoreGraphics/" style="font-size: 10px;">CoreGraphics</a> <a href="/tags/Dota2/" style="font-size: 10px;">Dota2</a> <a href="/tags/GCD/" style="font-size: 10px;">GCD</a> <a href="/tags/HTTPS/" style="font-size: 10px;">HTTPS</a> <a href="/tags/IOS-9/" style="font-size: 10px;">IOS 9</a> <a href="/tags/KVC/" style="font-size: 10px;">KVC</a> <a href="/tags/KVO/" style="font-size: 10px;">KVO</a> <a href="/tags/LLPictureShow/" style="font-size: 10px;">LLPictureShow</a> <a href="/tags/MKNetworkingKit/" style="font-size: 10px;">MKNetworkingKit</a> <a href="/tags/Masonry/" style="font-size: 10px;">Masonry</a> <a href="/tags/Socket/" style="font-size: 10px;">Socket</a> <a href="/tags/UIActionSheet/" style="font-size: 10px;">UIActionSheet</a> <a href="/tags/UIAlertview/" style="font-size: 10px;">UIAlertview</a> <a href="/tags/UIBezierPath/" style="font-size: 10px;">UIBezierPath</a> <a href="/tags/UIKeyboardType/" style="font-size: 10px;">UIKeyboardType</a> <a href="/tags/UITextField/" style="font-size: 10px;">UITextField</a> <a href="/tags/WOW/" style="font-size: 10px;">WOW</a> <a href="/tags/block/" style="font-size: 20px;">block</a> <a href="/tags/iOS/" style="font-size: 20px;">iOS</a> <a href="/tags/ios/" style="font-size: 10px;">ios</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/js/" style="font-size: 10px;">js</a> <a href="/tags/runtime/" style="font-size: 10px;">runtime</a> <a href="/tags/scrollView/" style="font-size: 10px;">scrollView</a> <a href="/tags/动画/" style="font-size: 10px;">动画</a> <a href="/tags/即时通讯/" style="font-size: 10px;">即时通讯</a> <a href="/tags/四舍五入/" style="font-size: 10px;">四舍五入</a> <a href="/tags/多线程/" style="font-size: 10px;">多线程</a> <a href="/tags/字符串/" style="font-size: 10px;">字符串</a> <a href="/tags/撕裂效果/" style="font-size: 10px;">撕裂效果</a> <a href="/tags/正则/" style="font-size: 10px;">正则</a> <a href="/tags/网络框架/" style="font-size: 10px;">网络框架</a> <a href="/tags/语法/" style="font-size: 10px;">语法</a> <a href="/tags/键盘/" style="font-size: 10px;">键盘</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://yimouleng.com/">我的博客</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Yi&#39;mouleng</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="/resources/avatar.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Yi&#39;mouleng</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">知止安能定,定而知静,静方可虑,虑而后能得。---iOS交流群67784110</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/archives">目录</a></li>
+		        
+					<li><a href="/categories/iOS开发">iOS开发</a></li>
+		        
+					<li><a href="/categories/二三事">二三事</a></li>
+		        
+					<li><a href="/tags/">标签云</a></li>
+		        
+					<li><a href="/about/">关于</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/yimouleng" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/yimouleng" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+			        
+						<a class="QQ" target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=ac73346414b7bc620d16a1553318221a96d0fb90832d39995c539098731e21b6" title="QQ">QQ</a>
+			        
+						<a class="mail" target="_blank" href="mailto:yimouleng@gamil.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-ios-Masonry" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/12/02/ios-Masonry/" class="article-date">
+  	<time datetime="2014-12-01T16:00:00.000Z" itemprop="datePublished">2014-12-02</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      iOS - Masonry自动布局(Autolayout)
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Autolayout/">Autolayout</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Masonry/">Masonry</a></li></ul>
+	</div>
+
+        
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/iOS开发/">iOS开发</a>
+	</div>
+
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+        <h2 id="u524D_u8A00"><a href="#u524D_u8A00" class="headerlink" title="前言"></a>前言</h2><p>  Masonry是一个轻量级的布局框架 拥有自己的描述语法 采用更优雅的链式语法封装自动布局 简洁明了 并具有高可读性 <code>而且同时支持 iOS 和 Max OS X</code>。<br>  官方的介绍其实是非常详细的了，可以移步到其<a href="https://github.com/SnapKit/Masonry" target="_blank" rel="external">Masonry-Github</a>下载官方源码Demo,我也非常推荐看官方的介绍。<br><a id="more"></a></p>
+<h2 id="u4ECB_u7ECD"><a href="#u4ECB_u7ECD" class="headerlink" title="介绍"></a>介绍</h2><p>  使用过官方的NSLayoutConstraints的话，应该会很清楚它过于繁琐和麻烦，而使用<strong>Masonry</strong>，它遵循链式编程思想，其结构简单，使用方便，就像他的简介一样。</p>
+<p>  首先我们来看下官方的Autolayout代码</p>
+  <figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">  <span class="built_in">UIView</span> *superview = <span class="keyword">self</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">UIView</span> *view1 = [[<span class="built_in">UIView</span> alloc] init];</span><br><span class="line">view1<span class="variable">.translatesAutoresizingMaskIntoConstraints</span> = <span class="literal">NO</span>;</span><br><span class="line">view1<span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> greenColor];</span><br><span class="line">[superview addSubview:view1];</span><br><span class="line"></span><br><span class="line"><span class="built_in">UIEdgeInsets</span> padding = <span class="built_in">UIEdgeInsetsMake</span>(<span class="number">10</span>, <span class="number">10</span>, <span class="number">10</span>, <span class="number">10</span>);</span><br><span class="line"></span><br><span class="line">[superview addConstraints:@[</span><br><span class="line"></span><br><span class="line">    <span class="comment">//view1 constraints</span></span><br><span class="line">    </span><br><span class="line">    [<span class="built_in">NSLayoutConstraint</span> constraintWithItem:view1</span><br><span class="line">                                 attribute:<span class="built_in">NSLayoutAttributeTop</span></span><br><span class="line">                                 relatedBy:<span class="built_in">NSLayoutRelationEqual</span></span><br><span class="line">                                    toItem:superview</span><br><span class="line">                                 attribute:<span class="built_in">NSLayoutAttributeTop</span></span><br><span class="line">                                multiplier:<span class="number">1.0</span></span><br><span class="line">                                  constant:padding<span class="variable">.top</span>],</span><br><span class="line"></span><br><span class="line">    [<span class="built_in">NSLayoutConstraint</span> constraintWithItem:view1</span><br><span class="line">                                 attribute:<span class="built_in">NSLayoutAttributeLeft</span></span><br><span class="line">                                 relatedBy:<span class="built_in">NSLayoutRelationEqual</span></span><br><span class="line">                                    toItem:superview</span><br><span class="line">                                 attribute:<span class="built_in">NSLayoutAttributeLeft</span></span><br><span class="line">                                multiplier:<span class="number">1.0</span></span><br><span class="line">                                  constant:padding<span class="variable">.left</span>],</span><br><span class="line"></span><br><span class="line">    [<span class="built_in">NSLayoutConstraint</span> constraintWithItem:view1</span><br><span class="line">                                 attribute:<span class="built_in">NSLayoutAttributeBottom</span></span><br><span class="line">                                 relatedBy:<span class="built_in">NSLayoutRelationEqual</span></span><br><span class="line">                                    toItem:superview</span><br><span class="line">                                 attribute:<span class="built_in">NSLayoutAttributeBottom</span></span><br><span class="line">                                multiplier:<span class="number">1.0</span></span><br><span class="line">                                  constant:-padding<span class="variable">.bottom</span>],</span><br><span class="line"></span><br><span class="line">    [<span class="built_in">NSLayoutConstraint</span> constraintWithItem:view1</span><br><span class="line">                                 attribute:<span class="built_in">NSLayoutAttributeRight</span></span><br><span class="line">                                 relatedBy:<span class="built_in">NSLayoutRelationEqual</span></span><br><span class="line">                                    toItem:superview</span><br><span class="line">                                 attribute:<span class="built_in">NSLayoutAttributeRight</span></span><br><span class="line">                                multiplier:<span class="number">1</span></span><br><span class="line">                                  constant:-padding<span class="variable">.right</span>],</span><br><span class="line"></span><br><span class="line"> ]];</span><br></pre></td></tr></table></figure>
+<p>  看见这样的约束，是不是感到头大，很简单的事件，却变得繁琐起来，对于开发来说，完全是得不偿失的事情，如此还不如用CGRectMake来的省心。<br>  而使用Masonry，看以下代码</p>
+  <figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">  UIEdgeInsets padding = UIEdgeInsetsMake(10, 10, 10, 10)<span class="comment">;</span></span><br><span class="line"></span><br><span class="line">[view1 mas_makeConstraints:^(MASConstraintMaker *make) &#123;</span><br><span class="line">    make.top.equalTo(superview.mas_top).with.offset(padding.top)<span class="comment">; //with is an optional semantic filler</span></span><br><span class="line">    make.left.equalTo(superview.mas_left).with.offset(padding.left)<span class="comment">;</span></span><br><span class="line">    make.bottom.equalTo(superview.mas_bottom).with.offset(-padding.bottom)<span class="comment">;</span></span><br><span class="line">    make.right.equalTo(superview.mas_right).with.offset(-padding.right)<span class="comment">;</span></span><br><span class="line">&#125;]<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+<p>  甚至更短</p>
+  <figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">  <span class="collection">[view1 mas_makeConstraints:^<span class="list">(<span class="keyword">MASConstraintMaker</span> *make)</span> <span class="collection">&#123;</span><br><span class="line">    make.edges.equalTo<span class="list">(<span class="keyword">superview</span>)</span>.with.insets<span class="list">(<span class="keyword">padding</span>)</span><span class="comment">;</span></span><br><span class="line">&#125;</span>]</span><span class="comment">;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>.equalTo相当于NSLayoutRelationEqual</p>
+<p>.lessThanOrEqualTo相当于NSLayoutRelationLessThanOrEqual</p>
+<p>.greaterThanOrEqualTo相当于NSLayoutRelationGreaterThanOrEqual</p>
+</blockquote>
+<h2 id="u5B89_u88C5"><a href="#u5B89_u88C5" class="headerlink" title="安装"></a>安装</h2><p> 普遍的两种安装方法：</p>
+<blockquote>
+<p>1.直接进入github进行源码下载 引入头文件<code>#import &quot;Masonry.h&quot;</code></p>
+<p>2.使用CocoaPod进行下载  <code>pod &#39;Masonry&#39;</code></p>
+</blockquote>
+<h2 id="u4F7F_u7528"><a href="#u4F7F_u7528" class="headerlink" title="使用"></a>使用</h2><p>  Masonry支持的属性</p>
+  <figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) MASConstraint *left;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) MASConstraint *top;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) MASConstraint *right;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) MASConstraint *bottom;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) MASConstraint *leading;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) MASConstraint *trailing;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) MASConstraint *width;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) MASConstraint *height;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) MASConstraint *centerX;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) MASConstraint *centerY;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) MASConstraint *baseline;</span><br></pre></td></tr></table></figure>
+<p>  这些属性与NSLayoutAttrubute的对照表如下</p>
+<table>
+<thead>
+<tr>
+<th>Masonry</th>
+<th>NSAutoLayout</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>left</td>
+<td>NSLayoutAttributeLeft</td>
+<td>左侧</td>
+</tr>
+<tr>
+<td>top</td>
+<td>NSLayoutAttributeTop</td>
+<td>上侧</td>
+</tr>
+<tr>
+<td>right</td>
+<td>NSLayoutAttributeRight</td>
+<td>右侧</td>
+</tr>
+<tr>
+<td>bottom</td>
+<td>NSLayoutAttributeBottom</td>
+<td>下侧</td>
+</tr>
+<tr>
+<td>leading</td>
+<td>NSLayoutAttributeLeading</td>
+<td>首部</td>
+</tr>
+<tr>
+<td>trailing</td>
+<td>NSLayoutAttributeTrailing</td>
+<td>尾部</td>
+</tr>
+<tr>
+<td>width</td>
+<td>NSLayoutAttributeWidth</td>
+<td>宽</td>
+</tr>
+<tr>
+<td>height</td>
+<td>NSLayoutAttributeHeight</td>
+<td>高</td>
+</tr>
+<tr>
+<td>centerX</td>
+<td>NSLayoutAttributeCenterX</td>
+<td>横向中点</td>
+</tr>
+<tr>
+<td>centerY</td>
+<td>NSLayoutAttributeCenterY</td>
+<td>纵向中点</td>
+</tr>
+<tr>
+<td>baseline</td>
+<td>NSLayoutAttributeBaseline</td>
+<td>文本基线</td>
+</tr>
+</tbody>
+</table>
+<p>  在使用Masonry的时候，我们不需要在手写 <code>self.translatesAutoresizingMaskIntoConstraints = NO;</code>，点进Masonry头文件，查看起方法，我们可以看到他每个方法里面都帮我们加上了这句话。</p>
+<p>  <img src="/image/masonry1.png" alt=""></p>
+<p>  另外需要注意的是在xib或者storyboard中使用masonry框架相关方法的时候要将use Auto layout选项去掉，否则会不起作用。</p>
+<h3 id="1-_u663E_u793A_u4E00_u4E2AView"><a href="#1-_u663E_u793A_u4E00_u4E2AView" class="headerlink" title="1.显示一个View"></a>1.显示一个View</h3><p>我们创建一个项目， 在其中间放上一个尺寸100*100，父视图居中的View</p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">UIView * blueView= [UIView new]<span class="comment">;</span></span><br><span class="line">   blueView.backgroundColor  = [UIColor blueColor]<span class="comment">;</span></span><br><span class="line">   [self.view addSubview:blueView]<span class="comment">;</span></span><br><span class="line">   [blueView mas_makeConstraints:^(MASConstraintMaker *make) &#123;</span><br><span class="line">       //尺寸<span class="number">100*100</span> ，父视图居中</span><br><span class="line">       make.width.equalTo(@100)<span class="comment">;</span></span><br><span class="line">       make.height.mas_equalTo(100)<span class="comment">;</span></span><br><span class="line">       make.center.equalTo (self.view)<span class="comment">;</span></span><br><span class="line"></span><br><span class="line">   &#125;]<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+<p><img src="/image/masonry2.png" alt="居中View"></p>
+<p>我们来每行逐一讲解以下，</p>
+<blockquote>
+<p>-首先注意一点，在我们使用masonry约束的时候，一定要先将view先添加到superview上 否则会报错。<code>[self.view addSubview:blueView];</code></p>
+<p>-<code>[blueView mas_makeConstraints:^(MASConstraintMaker *make) { }];</code>这是一个Block块，mas_makeConstraints就是Masonry的autolayout添加函数 将所需的约束添加到block中即可。</p>
+<ul>
+<li><p><code>make.width.equalTo(@100);</code>约束其宽度为100，<code>make.height.mas_equalTo(100);</code>约束其高度为100，</p>
+</li>
+<li><p><code>make.center.equalTo (self.view);</code>设置对self.view居中。</p>
+</li>
+</ul>
+</blockquote>
+<p>对于以上几个地方，我们来简单说下，<br>首先在Masonry中能够添加autolayout约束有三个函数</p>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//mas_makeConstraints 只负责新增约束 Autolayout不能同时存在两条针对于同一对象的约束 否则会报错 </span></span><br><span class="line">- (NSArray *)mas_makeConstraints:(<span class="keyword">void</span>(^)(MASConstraintMaker *make))block;</span><br></pre></td></tr></table></figure>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//mas_updateConstraints 针对上面的情况 会更新在block中出现的约束 不会导致出现两个相同约束的情况</span></span><br><span class="line">- (NSArray *)mas_updateConstraints:(<span class="keyword">void</span>(^)(MASConstraintMaker *make))block;</span><br></pre></td></tr></table></figure>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//mas_remakeConstraints 则会清除之前的所有约束 仅保留最新的约束</span></span><br><span class="line">- (NSArray *)mas_remakeConstraints:(<span class="keyword">void</span>(^)(MASConstraintMaker *make))block;</span><br></pre></td></tr></table></figure>
+<p>在我们清楚了这几个函数的使用条件后，便可轻松应对</p>
+<p>在上面代码中 <code>make.width.equalTo(@100);</code>和<code>make.height.mas_equalTo(100);</code>都是约束代码，但一个使用的是<code>equalTo</code>另一个是<code>mas_equalTo</code>，同样的效果，那他们的区别在哪里呢？其实<code>mas_equalTo</code>是一个MACRO,比较的是值，直接填写数字即可，<code>equalTo</code>比较的是view，是个对象，需要将里面的东西添加@转成ID类型，当然我们也可以用 <code>make.size.mas_equalTo(CGSizeMake(100, 100));</code>来直接设置宽高，<code>make</code>我们则看做当前对象，就像self一样。</p>
+<h3 id="2-_u8BA9View_u7684_u9AD8_u5EA6_u662F_u5BBD_u5EA6_u7684_u4E00_u500D"><a href="#2-_u8BA9View_u7684_u9AD8_u5EA6_u662F_u5BBD_u5EA6_u7684_u4E00_u500D" class="headerlink" title="2.让View的高度是宽度的一倍"></a>2.让View的高度是宽度的一倍</h3><p>  还是刚才的代码， 我们在上面添加约束，</p>
+  <figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">UIView * blueView= [UIView new]<span class="comment">;</span></span><br><span class="line">   blueView.backgroundColor  = [UIColor blueColor]<span class="comment">;</span></span><br><span class="line">   [self.view addSubview:blueView]<span class="comment">;</span></span><br><span class="line">   [blueView mas_makeConstraints:^(MASConstraintMaker *make) &#123;</span><br><span class="line">       //尺寸<span class="number">100*100</span> ，父视图居中</span><br><span class="line">       make.width.equalTo(@100)<span class="comment">;</span></span><br><span class="line">       make.height.mas_equalTo(100)<span class="comment">;</span></span><br><span class="line">       make.center.equalTo (self.view)<span class="comment">;</span></span><br><span class="line">       make.height.equalTo(blueView.mas_width).multipliedBy(2.f).offset(0.f)<span class="comment">;</span></span><br><span class="line"></span><br><span class="line">   &#125;]<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+<p><img src="/image/masonry3.png" alt=""></p>
+<p>我们可以看到在约束中，我们可以直接使用<code>multipliedBy</code>函数，并设置<code>offset</code>。<br>如果我们将<code>offset</code>设置为100，也就是宽的大小<br><code>make.height.equalTo(blueView.mas_width).multipliedBy(2.f).offset(100.f);</code></p>
+<p><img src="/image/masonry4.png" alt=""></p>
+<p>用链式语法去读它，你可以这样读，<strong>它的高度是它宽度的2倍加上100</strong>.</p>
+<p>我们不光可以对其宽高设置，也可以对它的center，edges，size等，同时也可以设置它的优先级</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make.edges.equalTo(self.view).insets(UIEdgeInsetsMake(<span class="number">50</span>, <span class="number">50</span>, <span class="number">50</span>, <span class="number">50</span>));</span><br></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">make</span><span class="class">.size</span><span class="class">.equalTo</span>(<span class="tag">self</span><span class="class">.view</span>)<span class="class">.sizeOffset</span>(<span class="tag">CGSizeMake</span>(<span class="tag">-100</span>, <span class="tag">-100</span>));</span><br></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">make</span><span class="class">.center</span><span class="class">.equalTo</span>(<span class="tag">self</span><span class="class">.view</span>)<span class="class">.priority</span>(<span class="tag">MASLayoutPriorityFittingSizeLevel</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="u6211_u5E94_u8BE5_u5728_u54EA_u91CC_u4F7F_u7528_u7EA6_u675F_uFF1F"><a href="#u6211_u5E94_u8BE5_u5728_u54EA_u91CC_u4F7F_u7528_u7EA6_u675F_uFF1F" class="headerlink" title="我应该在哪里使用约束？"></a>我应该在哪里使用约束？</h3><p>对于这个问题，直接看官方给的以下代码</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">DIYCustomView</span></span></span><br><span class="line"></span><br><span class="line">- (<span class="keyword">id</span>)init &#123;</span><br><span class="line">    <span class="keyword">self</span> = [<span class="keyword">super</span> init];</span><br><span class="line">    <span class="keyword">if</span> (!<span class="keyword">self</span>) <span class="keyword">return</span> <span class="literal">nil</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// --- 在这里创建的你View ---</span></span><br><span class="line">    <span class="keyword">self</span><span class="variable">.button</span> = [[<span class="built_in">UIButton</span> alloc] init];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// tell UIKit that you are using AutoLayout</span></span><br><span class="line">+ (<span class="built_in">BOOL</span>)requiresConstraintBasedLayout &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">YES</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// this is Apple's recommended place for adding/updating constraints</span></span><br><span class="line">- (<span class="keyword">void</span>)updateConstraints &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// --- 在这里删除和更新你的约束</span></span><br><span class="line">    [<span class="keyword">self</span><span class="variable">.button</span> remakeConstraints:^(MASConstraintMaker *make) &#123;</span><br><span class="line">        make<span class="variable">.width</span><span class="variable">.equalTo</span>(@(<span class="keyword">self</span><span class="variable">.buttonSize</span><span class="variable">.width</span>));</span><br><span class="line">        make<span class="variable">.height</span><span class="variable">.equalTo</span>(@(<span class="keyword">self</span><span class="variable">.buttonSize</span><span class="variable">.height</span>));</span><br><span class="line">    &#125;];</span><br><span class="line"></span><br><span class="line">    <span class="comment">//according to apple super should be called at end of method</span></span><br><span class="line">    [<span class="keyword">super</span> updateConstraints];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)didTapButton:(<span class="built_in">UIButton</span> *)button &#123;</span><br><span class="line">    <span class="comment">// --- 改变控件，会影响你的布局 ---</span></span><br><span class="line">    <span class="keyword">self</span><span class="variable">.buttonSize</span> = <span class="built_in">CGSize</span>(<span class="number">200</span>, <span class="number">200</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 更新约束</span></span><br><span class="line">    [<span class="keyword">self</span> setNeedsUpdateConstraints];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<h3 id="u7ED3_u5C3E"><a href="#u7ED3_u5C3E" class="headerlink" title="结尾"></a>结尾</h3><p>Masonry,是一款非常还用的第三方约束， 本文只是简单介绍了它的使用， 相信你对它也有了一定的了解，它的出现对一些喜欢纯代码的童鞋给予了极大的遍历，比如我。。，需要更多的了解它，最好去看他的Github，下载他的示例Demo，你会发现他更强大的地方。  当然你也可以继续关注本blog，我会在以后更深入的讲解它的使用。</p>
+<p><a href="https://github.com/yimouleng/MasonryDemo" target="_blank" rel="external">本文的示例代码， 可以到这里下载。</a></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<div class="copyright">
+  <p><span>本文标题:</span><a href="/2014/12/02/ios-Masonry/">iOS - Masonry自动布局(Autolayout)</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 Yi&#39;mouleng 的个人博客">Yi&#39;mouleng</a></p>
+  <p><span>发布时间:</span>2014年12月02日 - 00时00分</p>
+  <p><span>最后更新:</span>2015年12月16日 - 15时45分</p>
+  <p>
+    <span>原始链接:</span><a class="post-url" href="/2014/12/02/ios-Masonry/" title="iOS - Masonry自动布局(Autolayout)">http://yimouleng.com/2014/12/02/ios-Masonry/</a>
+    <span class="copy-path" data-clipboard-text="原文: http://yimouleng.com/2014/12/02/ios-Masonry/　　作者: Yi&#39;mouleng" title="点击复制文章链接">
+        <i class="fa fa-clipboard"></i>
+    </span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。</p>
+  <script src="/js/clipboard.min.js"></script>
+  <script> var clipboard = new Clipboard('.copy-path'); </script>
+</div>
+
+
+
+<nav id="article-nav">
+  
+    <a href="/2015/02/04/Socket-AsyncSocket/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          iOS开发 Socket - AsyncSocket
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/11/23/ios-block/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">ios Block</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+  <strong class="toc-title">文章目录</strong>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#u524D_u8A00"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u4ECB_u7ECD"><span class="toc-number">2.</span> <span class="toc-text">介绍</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u5B89_u88C5"><span class="toc-number">3.</span> <span class="toc-text">安装</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#u4F7F_u7528"><span class="toc-number">4.</span> <span class="toc-text">使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-_u663E_u793A_u4E00_u4E2AView"><span class="toc-number">4.1.</span> <span class="toc-text">1.显示一个View</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-_u8BA9View_u7684_u9AD8_u5EA6_u662F_u5BBD_u5EA6_u7684_u4E00_u500D"><span class="toc-number">4.2.</span> <span class="toc-text">2.让View的高度是宽度的一倍</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u6211_u5E94_u8BE5_u5728_u54EA_u91CC_u4F7F_u7528_u7EA6_u675F_uFF1F"><span class="toc-number">4.3.</span> <span class="toc-text">我应该在哪里使用约束？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#u7ED3_u5C3E"><span class="toc-number">4.4.</span> <span class="toc-text">结尾</span></a></li></ol></li></ol>
+</div>
+
+<style>
+  .left-col .switch-btn {
+    display: none;
+  }
+  .left-col .switch-area {
+    display: none;
+  }
+</style>
+
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+<script>
+  var toc_button= document.getElementById("tocButton");
+  var toc_div= document.getElementById("toc");
+  toc_button.onclick=function(){
+    if(toc_div.style.display=="none"){
+      toc_div.style.display="block";
+      toc_button.value="隐藏目录";
+      document.getElementById("switch-btn").style.display="none";
+      document.getElementById("switch-area").style.display="none";
+    }
+    else{
+      toc_div.style.display="none";
+      toc_button.value="显示目录";
+      document.getElementById("switch-btn").style.display="block";
+      document.getElementById("switch-area").style.display="block";
+    }
+  }
+</script>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="ios-Masonry" data-title="iOS - Masonry自动布局(Autolayout)" data-url="http://yimouleng.com/2014/12/02/ios-Masonry/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"yimouleng"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//yimouleng.com/js/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0]
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2015 本站由 <a href="https://weibo.com/yimouleng" target="_blank">@yimouleng</a> 创建，采用
+        <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> 作为主题并加以修改
+    	</div>
+      	<div class="footer-right">
+      		感谢 <a href="https://pages.github.com/" target="_blank">Github Pages</a> 提供稳定的空间服务
+      	</div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>
