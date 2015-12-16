@@ -4,7 +4,7 @@
   <subtitle><![CDATA[知止安能定,定而知静,静方可虑,虑而后能得。---iOS交流群67784110]]></subtitle>
   <link href="/atom.xml" rel="self"/>
   <link href="http://yimouleng.com/"/>
-  <updated>2015-12-09T10:08:46.000Z</updated>
+  <updated>2015-12-15T10:05:11.000Z</updated>
   <id>http://yimouleng.com/</id>
   
   <author>
@@ -13,6 +13,55 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title><![CDATA[js(javascript)与OC(Objective-C)交互]]></title>
+    <link href="http://yimouleng.com/2015/11/05/ios-javascript-OC/"/>
+    <id>http://yimouleng.com/2015/11/05/ios-javascript-OC/</id>
+    <published>2015-11-04T16:00:00.000Z</published>
+    <updated>2015-12-15T10:05:11.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="u524D_u8A00"><a href="#u524D_u8A00" class="headerlink" title="前言"></a>前言</h2><p>  实质上oc与js的通信交互就是发送消息，也即函数调用,iOS7以后官方公布JavaScriptCore framework中很方便我们对他们之间的相互调用。在以前我们只能通过UIWebView的UIWebViewDelegate协议来实现.</p>
+  <figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="pp">- <span class="params">(<span class="variable">BOOL</span>)</span>webView:<span class="params">(<span class="variable">UIWebView</span> *)</span>webView shouldStartLoadWithRequest:<span class="params">(<span class="variable">NSURLRequest</span> *)</span>request navigationType:<span class="params">(<span class="variable">UIWebViewNavigationType</span>)</span>navigationType;</span></span><br></pre></td></tr></table></figure>
+<p>  或者</p>
+  <figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="pp">- <span class="params">(void)</span>webViewDidStartLoad:<span class="params">(<span class="variable">UIWebView</span> *)</span>webView;</span></span><br></pre></td></tr></table></figure>
+  <a id="more"></a>
+<blockquote>
+<ul>
+<li>oc–&gt;js  stringByEvaluatingJavaScriptFromString,其参数是一NSString 字符串内容是js代码（这又可以是一个js函数、一句js代码或他们的组合），当js函数有返回值或一句js代码有值返回可通过stringByEvaluatingJavaScriptFromString的返回值获取</li>
+<li>js–&gt;oc 利用webView的重定向原理（即重新在js中指定document.location的值，此为一url），只要在这个url字符串中按自定义的规则指定好所需调用oc中的函数和参数，然后通过OC中的shouldStartLoadWithRequest函数去捕获处理请求。</li>
+</ul>
+</blockquote>
+<h3 id="u4E00_JS_u8C03_u7528OC"><a href="#u4E00_JS_u8C03_u7528OC" class="headerlink" title="一 JS调用OC"></a>一 JS调用OC</h3><p>  <strong>js调用iOS分两种情况</strong></p>
+<blockquote>
+<p>js里面直接调用方法</p>
+<p>js里面通过对象调用方法</p>
+</blockquote>
+<h5 id="js_u91CC_u9762_u76F4_u63A5_u8C03_u7528_u65B9_u6CD5"><a href="#js_u91CC_u9762_u76F4_u63A5_u8C03_u7528_u65B9_u6CD5" class="headerlink" title="js里面直接调用方法"></a>js里面直接调用方法</h5><figure class="highlight nimrod"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="type">void</span>)webViewDidStartLoad:(<span class="type">UIWebView</span> *)webView&#123;</span><br><span class="line"></span><br><span class="line">    //首先创建<span class="type">JSContext</span> 对象（此处通过当前webView的键获取到jscontext）</span><br><span class="line">    <span class="type">JSContext</span> *context=[webView valueForKeyPath:@<span class="string">"documentView.webView.mainFrame.javaScriptContext"</span>];</span><br><span class="line">     //其中getCurrentUser就是js的方法名称，赋给是一个<span class="keyword">block</span> 里面是iOS代码</span><br><span class="line">    context[@<span class="string">"getCurrentUser"</span>] = ^() &#123;</span><br><span class="line">    //在<span class="keyword">block</span>中写<span class="type">OC</span>代码</span><br><span class="line">        <span class="keyword">return</span> [[<span class="type">NSUserDefaults</span> standardUserDefaults]objectForKey:@<span class="string">"MYJSANDOC"</span>];</span><br><span class="line">    &#125;;</span><br><span class="line">    context[@<span class="string">"encodeParam"</span>] = ^() &#123;</span><br><span class="line">        <span class="type">NSArray</span> *args = [<span class="type">JSContext</span> currentArguments];</span><br><span class="line">        <span class="type">NSString</span> *param = [<span class="type">NSString</span> stringWithFormat:@<span class="string">"%@"</span>,args[<span class="number">0</span>]];</span><br><span class="line">        <span class="type">NSString</span> *<span class="literal">result</span> = [[[<span class="type">YXBaseRequestManager</span> alloc]init]encryptUseAES:param key:@<span class="string">"1%7jhs#Zjasd&amp;tr*"</span>];</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">result</span>;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="js_u91CC_u9762_u901A_u8FC7_u5BF9_u8C61_u8C03_u7528_u65B9_u6CD5"><a href="#js_u91CC_u9762_u901A_u8FC7_u5BF9_u8C61_u8C03_u7528_u65B9_u6CD5" class="headerlink" title="js里面通过对象调用方法"></a>js里面通过对象调用方法</h5><p>  在这个方法中我们需要使用到 <code>JSExport</code><br>  <code>JSExport</code>是一个协议，自定义协议后，里面的声明变量等会对JS开放，我们即可调用。</p>
+<p>  首先我们要自定义一个协议，添加头文件<code>#import &lt;JavaScriptCore/JavaScriptCore.h&gt;</code>，继承自<code>NSObject</code></p>
+  <figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">  </span><br><span class="line">  <span class="preprocessor">#import <span class="title">&lt;Foundation/Foundation.h&gt;</span>  </span></span><br><span class="line"><span class="preprocessor">#import <span class="title">&lt;JavaScriptCore/JavaScriptCore.h&gt;</span>  </span></span><br><span class="line">  </span><br><span class="line"><span class="comment">//首先创建一个实现了JSExport协议的协议  </span></span><br><span class="line"><span class="class"><span class="keyword">@protocol</span> <span class="title">JSObjectText</span> &lt;<span class="title">JSExport</span>&gt;  </span></span><br><span class="line">  </span><br><span class="line"><span class="comment">//此处我们测试几种参数的情况  </span></span><br><span class="line">-(<span class="keyword">void</span>)JSObjectTextPush;   </span><br><span class="line">  </span><br><span class="line"><span class="keyword">@end</span>  </span><br><span class="line">  </span><br><span class="line"><span class="comment">//让我们创建的类实现上边的协议  </span></span><br><span class="line"><span class="class"><span class="keyword">@interface</span> <span class="title">JSObject</span> : <span class="title">NSObject</span>&lt;<span class="title">JSObjectText</span>&gt;  </span></span><br><span class="line">  </span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>  在.m中实现</p>
+  <figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">  <span class="preprocessor">#import <span class="title">"JSObjectText.h"</span>  </span></span><br><span class="line">  </span><br><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">JSObjectText</span>  </span></span><br><span class="line">  </span><br><span class="line"><span class="comment">//本地储存Key,调用之后， 检查key是否存在则说明是否条用了原生方法</span></span><br><span class="line">-(<span class="keyword">void</span>)JSObjectTextPush  </span><br><span class="line">&#123;  </span><br><span class="line">    [[<span class="built_in">NSUserDefaults</span> standardUserDefaults]objectForKey:<span class="string">@"MYJSANDOC"</span>];</span><br><span class="line">&#125;  </span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<p>  在weibview加载完成之后调用</p>
+  <figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">  -(<span class="typename">void</span>)<span class="string">webViewDidFinishLoad:</span>(UIWebView *)webView  </span><br><span class="line">&#123;  </span><br><span class="line">    <span class="comment">//网页加载完成调用此方法  </span></span><br><span class="line">      </span><br><span class="line">    <span class="comment">//首先创建JSContext 对象（此处通过当前webView的键获取到jscontext）  </span></span><br><span class="line">    JSContext *context=[webView <span class="string">valueForKeyPath:</span>@<span class="string">"documentView.webView.mainFrame.javaScriptContext"</span>];  </span><br><span class="line">      </span><br><span class="line">    <span class="comment">//第二种情况，js是通过对象调用的，我们假设js里面有一个对象 testobject 在调用方法  </span></span><br><span class="line">    <span class="comment">//首先创建我们新建类的对象，将他赋值给js的对象  </span></span><br><span class="line">      </span><br><span class="line">    JSObjectText *text=[JSObjectText <span class="keyword">new</span>];  </span><br><span class="line">    context[@<span class="string">"testobject"</span>]=text;  </span><br><span class="line">      </span><br><span class="line">    <span class="comment">//同样我们也用刚才的方式模拟一下js调用方法  </span></span><br><span class="line">    NSString *jsStr=@<span class="string">"testobject.JSObjectTextPush()"</span>;  </span><br><span class="line">    [context <span class="string">evaluateScript:</span>jsStr];  </span><br><span class="line"> </span><br><span class="line">      </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="u4E8C_OC_u8C03_u7528JS"><a href="#u4E8C_OC_u8C03_u7528JS" class="headerlink" title="二 OC调用JS"></a>二 OC调用JS</h3><p>方法很简单，在加载webview后，通过点击事件，或者 返回值，调用<code>stringByEvaluatingJavaScriptFromString</code>来实现调用JS代码</p>
+<figure class="highlight gherkin"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">/<span class="keyword">*</span></span><br><span class="line"> <span class="keyword">*</span> 点击事件</span><br><span class="line"> <span class="keyword">*</span> 调用javaScript的方法postStr()并取得返回值</span><br><span class="line"> <span class="keyword">*</span> 输出返回值到控制台</span><br><span class="line"> <span class="keyword">*</span>/</span><br><span class="line">-(void)ocFromJs:(id)sender</span><br><span class="line">&#123;</span><br><span class="line">    NSString <span class="keyword">*</span>str = [self.webview stringByEvaluatingJavaScriptFromString:<span class="comment">@"postStr();"];</span></span><br><span class="line">    NSLog(<span class="comment">@"JS返回值：%@",str);</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="u524D_u8A00"><a href="#u524D_u8A00" class="headerlink" title="前言"></a>前言</h2><p>  实质上oc与js的通信交互就是发送消息，也即函数调用,iOS7以后官方公布JavaScriptCore framework中很方便我们对他们之间的相互调用。在以前我们只能通过UIWebView的UIWebViewDelegate协议来实现.</p>
+  <figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="pp">- <span class="params">(<span class="variable">BOOL</span>)</span>webView:<span class="params">(<span class="variable">UIWebView</span> *)</span>webView shouldStartLoadWithRequest:<span class="params">(<span class="variable">NSURLRequest</span> *)</span>request navigationType:<span class="params">(<span class="variable">UIWebViewNavigationType</span>)</span>navigationType;</span></span><br></pre></td></tr></table></figure>
+<p>  或者</p>
+  <figure class="highlight erlang"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="pp">- <span class="params">(void)</span>webViewDidStartLoad:<span class="params">(<span class="variable">UIWebView</span> *)</span>webView;</span></span><br></pre></td></tr></table></figure>]]>
+    
+    </summary>
+    
+      <category term="javascript" scheme="http://yimouleng.com/tags/javascript/"/>
+    
+      <category term="js" scheme="http://yimouleng.com/tags/js/"/>
+    
+      <category term="iOS开发" scheme="http://yimouleng.com/categories/iOS%E5%BC%80%E5%8F%91/"/>
+    
+  </entry>
   
   <entry>
     <title><![CDATA[iOS安全系列之一：IOS 9 - HTTPS]]></title>
@@ -714,6 +763,150 @@ if ([result isKindOfClass:[NSDictionary class]]) {
   </entry>
   
   <entry>
+    <title><![CDATA[iOS - Masonry自动布局(Autolayout)]]></title>
+    <link href="http://yimouleng.com/2014/12/02/ios-Masonry/"/>
+    <id>http://yimouleng.com/2014/12/02/ios-Masonry/</id>
+    <published>2014-12-01T16:00:00.000Z</published>
+    <updated>2015-12-16T08:02:06.000Z</updated>
+    <content type="html"><![CDATA[<h2 id="u524D_u8A00"><a href="#u524D_u8A00" class="headerlink" title="前言"></a>前言</h2><p>  Masonry是一个轻量级的布局框架 拥有自己的描述语法 采用更优雅的链式语法封装自动布局 简洁明了 并具有高可读性 <code>而且同时支持 iOS 和 Max OS X</code>。<br>  官方的介绍其实是非常详细的了，可以移步到其<a href="https://github.com/SnapKit/Masonry" target="_blank" rel="external">Masonry-Github</a>下载官方源码Demo,我也非常推荐看官方的介绍。<br><a id="more"></a></p>
+<h2 id="u4ECB_u7ECD"><a href="#u4ECB_u7ECD" class="headerlink" title="介绍"></a>介绍</h2><p>  使用过官方的NSLayoutConstraints的话，应该会很清楚它过于繁琐和麻烦，而使用<strong>Masonry</strong>，它遵循链式编程思想，其结构简单，使用方便，就像他的简介一样。</p>
+<p>  首先我们来看下官方的Autolayout代码</p>
+  <figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line">  <span class="built_in">UIView</span> *superview = <span class="keyword">self</span>;</span><br><span class="line"></span><br><span class="line"><span class="built_in">UIView</span> *view1 = [[<span class="built_in">UIView</span> alloc] init];</span><br><span class="line">view1<span class="variable">.translatesAutoresizingMaskIntoConstraints</span> = <span class="literal">NO</span>;</span><br><span class="line">view1<span class="variable">.backgroundColor</span> = [<span class="built_in">UIColor</span> greenColor];</span><br><span class="line">[superview addSubview:view1];</span><br><span class="line"></span><br><span class="line"><span class="built_in">UIEdgeInsets</span> padding = <span class="built_in">UIEdgeInsetsMake</span>(<span class="number">10</span>, <span class="number">10</span>, <span class="number">10</span>, <span class="number">10</span>);</span><br><span class="line"></span><br><span class="line">[superview addConstraints:@[</span><br><span class="line"></span><br><span class="line">    <span class="comment">//view1 constraints</span></span><br><span class="line">    </span><br><span class="line">    [<span class="built_in">NSLayoutConstraint</span> constraintWithItem:view1</span><br><span class="line">                                 attribute:<span class="built_in">NSLayoutAttributeTop</span></span><br><span class="line">                                 relatedBy:<span class="built_in">NSLayoutRelationEqual</span></span><br><span class="line">                                    toItem:superview</span><br><span class="line">                                 attribute:<span class="built_in">NSLayoutAttributeTop</span></span><br><span class="line">                                multiplier:<span class="number">1.0</span></span><br><span class="line">                                  constant:padding<span class="variable">.top</span>],</span><br><span class="line"></span><br><span class="line">    [<span class="built_in">NSLayoutConstraint</span> constraintWithItem:view1</span><br><span class="line">                                 attribute:<span class="built_in">NSLayoutAttributeLeft</span></span><br><span class="line">                                 relatedBy:<span class="built_in">NSLayoutRelationEqual</span></span><br><span class="line">                                    toItem:superview</span><br><span class="line">                                 attribute:<span class="built_in">NSLayoutAttributeLeft</span></span><br><span class="line">                                multiplier:<span class="number">1.0</span></span><br><span class="line">                                  constant:padding<span class="variable">.left</span>],</span><br><span class="line"></span><br><span class="line">    [<span class="built_in">NSLayoutConstraint</span> constraintWithItem:view1</span><br><span class="line">                                 attribute:<span class="built_in">NSLayoutAttributeBottom</span></span><br><span class="line">                                 relatedBy:<span class="built_in">NSLayoutRelationEqual</span></span><br><span class="line">                                    toItem:superview</span><br><span class="line">                                 attribute:<span class="built_in">NSLayoutAttributeBottom</span></span><br><span class="line">                                multiplier:<span class="number">1.0</span></span><br><span class="line">                                  constant:-padding<span class="variable">.bottom</span>],</span><br><span class="line"></span><br><span class="line">    [<span class="built_in">NSLayoutConstraint</span> constraintWithItem:view1</span><br><span class="line">                                 attribute:<span class="built_in">NSLayoutAttributeRight</span></span><br><span class="line">                                 relatedBy:<span class="built_in">NSLayoutRelationEqual</span></span><br><span class="line">                                    toItem:superview</span><br><span class="line">                                 attribute:<span class="built_in">NSLayoutAttributeRight</span></span><br><span class="line">                                multiplier:<span class="number">1</span></span><br><span class="line">                                  constant:-padding<span class="variable">.right</span>],</span><br><span class="line"></span><br><span class="line"> ]];</span><br></pre></td></tr></table></figure>
+<p>  看见这样的约束，是不是感到头大，很简单的事件，却变得繁琐起来，对于开发来说，完全是得不偿失的事情，如此还不如用CGRectMake来的省心。<br>  而使用Masonry，看以下代码</p>
+  <figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">  UIEdgeInsets padding = UIEdgeInsetsMake(10, 10, 10, 10)<span class="comment">;</span></span><br><span class="line"></span><br><span class="line">[view1 mas_makeConstraints:^(MASConstraintMaker *make) &#123;</span><br><span class="line">    make.top.equalTo(superview.mas_top).with.offset(padding.top)<span class="comment">; //with is an optional semantic filler</span></span><br><span class="line">    make.left.equalTo(superview.mas_left).with.offset(padding.left)<span class="comment">;</span></span><br><span class="line">    make.bottom.equalTo(superview.mas_bottom).with.offset(-padding.bottom)<span class="comment">;</span></span><br><span class="line">    make.right.equalTo(superview.mas_right).with.offset(-padding.right)<span class="comment">;</span></span><br><span class="line">&#125;]<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+<p>  甚至更短</p>
+  <figure class="highlight clojure"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">  <span class="collection">[view1 mas_makeConstraints:^<span class="list">(<span class="keyword">MASConstraintMaker</span> *make)</span> <span class="collection">&#123;</span><br><span class="line">    make.edges.equalTo<span class="list">(<span class="keyword">superview</span>)</span>.with.insets<span class="list">(<span class="keyword">padding</span>)</span><span class="comment">;</span></span><br><span class="line">&#125;</span>]</span><span class="comment">;</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>.equalTo相当于NSLayoutRelationEqual</p>
+<p>.lessThanOrEqualTo相当于NSLayoutRelationLessThanOrEqual</p>
+<p>.greaterThanOrEqualTo相当于NSLayoutRelationGreaterThanOrEqual</p>
+</blockquote>
+<h2 id="u5B89_u88C5"><a href="#u5B89_u88C5" class="headerlink" title="安装"></a>安装</h2><p> 普遍的两种安装方法：</p>
+<blockquote>
+<p>1.直接进入github进行源码下载 引入头文件<code>#import &quot;Masonry.h&quot;</code></p>
+<p>2.使用CocoaPod进行下载  <code>pod &#39;Masonry&#39;</code></p>
+</blockquote>
+<h2 id="u4F7F_u7528"><a href="#u4F7F_u7528" class="headerlink" title="使用"></a>使用</h2><p>  Masonry支持的属性</p>
+  <figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) MASConstraint *left;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) MASConstraint *top;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) MASConstraint *right;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) MASConstraint *bottom;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) MASConstraint *leading;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) MASConstraint *trailing;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) MASConstraint *width;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) MASConstraint *height;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) MASConstraint *centerX;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) MASConstraint *centerY;</span><br><span class="line"><span class="keyword">@property</span> (<span class="keyword">nonatomic</span>, <span class="keyword">strong</span>, <span class="keyword">readonly</span>) MASConstraint *baseline;</span><br></pre></td></tr></table></figure>
+<p>  这些属性与NSLayoutAttrubute的对照表如下</p>
+<table>
+<thead>
+<tr>
+<th>Masonry</th>
+<th>NSAutoLayout</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>left</td>
+<td>NSLayoutAttributeLeft</td>
+<td>左侧</td>
+</tr>
+<tr>
+<td>top</td>
+<td>NSLayoutAttributeTop</td>
+<td>上侧</td>
+</tr>
+<tr>
+<td>right</td>
+<td>NSLayoutAttributeRight</td>
+<td>右侧</td>
+</tr>
+<tr>
+<td>bottom</td>
+<td>NSLayoutAttributeBottom</td>
+<td>下侧</td>
+</tr>
+<tr>
+<td>leading</td>
+<td>NSLayoutAttributeLeading</td>
+<td>首部</td>
+</tr>
+<tr>
+<td>trailing</td>
+<td>NSLayoutAttributeTrailing</td>
+<td>尾部</td>
+</tr>
+<tr>
+<td>width</td>
+<td>NSLayoutAttributeWidth</td>
+<td>宽</td>
+</tr>
+<tr>
+<td>height</td>
+<td>NSLayoutAttributeHeight</td>
+<td>高</td>
+</tr>
+<tr>
+<td>centerX</td>
+<td>NSLayoutAttributeCenterX</td>
+<td>横向中点</td>
+</tr>
+<tr>
+<td>centerY</td>
+<td>NSLayoutAttributeCenterY</td>
+<td>纵向中点</td>
+</tr>
+<tr>
+<td>baseline</td>
+<td>NSLayoutAttributeBaseline</td>
+<td>文本基线</td>
+</tr>
+</tbody>
+</table>
+<p>  在使用Masonry的时候，我们不需要在手写 <code>self.translatesAutoresizingMaskIntoConstraints = NO;</code>，点进Masonry头文件，查看起方法，我们可以看到他每个方法里面都帮我们加上了这句话。</p>
+<p>  <img src="/image/masonry1.png" alt=""></p>
+<p>  另外需要注意的是在xib或者storyboard中使用masonry框架相关方法的时候要将use Auto layout选项去掉，否则会不起作用。</p>
+<h3 id="1-_u663E_u793A_u4E00_u4E2AView"><a href="#1-_u663E_u793A_u4E00_u4E2AView" class="headerlink" title="1.显示一个View"></a>1.显示一个View</h3><p>我们创建一个项目， 在其中间放上一个尺寸100*100，父视图居中的View</p>
+<figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">UIView * blueView= [UIView new]<span class="comment">;</span></span><br><span class="line">   blueView.backgroundColor  = [UIColor blueColor]<span class="comment">;</span></span><br><span class="line">   [self.view addSubview:blueView]<span class="comment">;</span></span><br><span class="line">   [blueView mas_makeConstraints:^(MASConstraintMaker *make) &#123;</span><br><span class="line">       //尺寸<span class="number">100*100</span> ，父视图居中</span><br><span class="line">       make.width.equalTo(@100)<span class="comment">;</span></span><br><span class="line">       make.height.mas_equalTo(100)<span class="comment">;</span></span><br><span class="line">       make.center.equalTo (self.view)<span class="comment">;</span></span><br><span class="line"></span><br><span class="line">   &#125;]<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+<p><img src="/image/masonry2.png" alt="居中View"></p>
+<p>我们来每行逐一讲解以下，</p>
+<blockquote>
+<p>-首先注意一点，在我们使用masonry约束的时候，一定要先将view先添加到superview上 否则会报错。<code>[self.view addSubview:blueView];</code></p>
+<p>-<code>[blueView mas_makeConstraints:^(MASConstraintMaker *make) { }];</code>这是一个Block块，mas_makeConstraints就是Masonry的autolayout添加函数 将所需的约束添加到block中即可。</p>
+<ul>
+<li><p><code>make.width.equalTo(@100);</code>约束其宽度为100，<code>make.height.mas_equalTo(100);</code>约束其高度为100，</p>
+</li>
+<li><p><code>make.center.equalTo (self.view);</code>设置对self.view居中。</p>
+</li>
+</ul>
+</blockquote>
+<p>对于以上几个地方，我们来简单说下，<br>首先在Masonry中能够添加autolayout约束有三个函数</p>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//mas_makeConstraints 只负责新增约束 Autolayout不能同时存在两条针对于同一对象的约束 否则会报错 </span></span><br><span class="line">- (NSArray *)mas_makeConstraints:(<span class="keyword">void</span>(^)(MASConstraintMaker *make))block;</span><br></pre></td></tr></table></figure>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//mas_updateConstraints 针对上面的情况 会更新在block中出现的约束 不会导致出现两个相同约束的情况</span></span><br><span class="line">- (NSArray *)mas_updateConstraints:(<span class="keyword">void</span>(^)(MASConstraintMaker *make))block;</span><br></pre></td></tr></table></figure>
+<figure class="highlight aspectj"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//mas_remakeConstraints 则会清除之前的所有约束 仅保留最新的约束</span></span><br><span class="line">- (NSArray *)mas_remakeConstraints:(<span class="keyword">void</span>(^)(MASConstraintMaker *make))block;</span><br></pre></td></tr></table></figure>
+<p>在我们清楚了这几个函数的使用条件后，便可轻松应对</p>
+<p>在上面代码中 <code>make.width.equalTo(@100);</code>和<code>make.height.mas_equalTo(100);</code>都是约束代码，但一个使用的是<code>equalTo</code>另一个是<code>mas_equalTo</code>，同样的效果，那他们的区别在哪里呢？其实<code>mas_equalTo</code>是一个MACRO,比较的是值，直接填写数字即可，<code>equalTo</code>比较的是view，是个对象，需要将里面的东西添加@转成ID类型，当然我们也可以用 <code>make.size.mas_equalTo(CGSizeMake(100, 100));</code>来直接设置宽高，<code>make</code>我们则看做当前对象，就像self一样。</p>
+<h3 id="2-_u8BA9View_u7684_u9AD8_u5EA6_u662F_u5BBD_u5EA6_u7684_u4E00_u500D"><a href="#2-_u8BA9View_u7684_u9AD8_u5EA6_u662F_u5BBD_u5EA6_u7684_u4E00_u500D" class="headerlink" title="2.让View的高度是宽度的一倍"></a>2.让View的高度是宽度的一倍</h3><p>  还是刚才的代码， 我们在上面添加约束，</p>
+  <figure class="highlight dns"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">UIView * blueView= [UIView new]<span class="comment">;</span></span><br><span class="line">   blueView.backgroundColor  = [UIColor blueColor]<span class="comment">;</span></span><br><span class="line">   [self.view addSubview:blueView]<span class="comment">;</span></span><br><span class="line">   [blueView mas_makeConstraints:^(MASConstraintMaker *make) &#123;</span><br><span class="line">       //尺寸<span class="number">100*100</span> ，父视图居中</span><br><span class="line">       make.width.equalTo(@100)<span class="comment">;</span></span><br><span class="line">       make.height.mas_equalTo(100)<span class="comment">;</span></span><br><span class="line">       make.center.equalTo (self.view)<span class="comment">;</span></span><br><span class="line">       make.height.equalTo(blueView.mas_width).multipliedBy(2.f).offset(0.f)<span class="comment">;</span></span><br><span class="line"></span><br><span class="line">   &#125;]<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+<p><img src="/image/masonry3.png" alt=""></p>
+<p>我们可以看到在约束中，我们可以直接使用<code>multipliedBy</code>函数，并设置<code>offset</code>。<br>如果我们将<code>offset</code>设置为100，也就是宽的大小<br><code>make.height.equalTo(blueView.mas_width).multipliedBy(2.f).offset(100.f);</code></p>
+<p><img src="/image/masonry4.png" alt=""></p>
+<p>用链式语法去读它，你可以这样读，<strong>它的高度是它宽度的2倍加上100</strong>.</p>
+<p>我们不光可以对其宽高设置，也可以对它的center，edges，size等，同时也可以设置它的优先级</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make.edges.equalTo(self.view).insets(UIEdgeInsetsMake(<span class="number">50</span>, <span class="number">50</span>, <span class="number">50</span>, <span class="number">50</span>));</span><br></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">make</span><span class="class">.size</span><span class="class">.equalTo</span>(<span class="tag">self</span><span class="class">.view</span>)<span class="class">.sizeOffset</span>(<span class="tag">CGSizeMake</span>(<span class="tag">-100</span>, <span class="tag">-100</span>));</span><br></pre></td></tr></table></figure>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">make</span><span class="class">.center</span><span class="class">.equalTo</span>(<span class="tag">self</span><span class="class">.view</span>)<span class="class">.priority</span>(<span class="tag">MASLayoutPriorityFittingSizeLevel</span>);</span><br></pre></td></tr></table></figure>
+<h3 id="u6211_u5E94_u8BE5_u5728_u54EA_u91CC_u4F7F_u7528_u7EA6_u675F_uFF1F"><a href="#u6211_u5E94_u8BE5_u5728_u54EA_u91CC_u4F7F_u7528_u7EA6_u675F_uFF1F" class="headerlink" title="我应该在哪里使用约束？"></a>我应该在哪里使用约束？</h3><p>对于这个问题，直接看官方给的以下代码</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">@implementation</span> <span class="title">DIYCustomView</span></span></span><br><span class="line"></span><br><span class="line">- (<span class="keyword">id</span>)init &#123;</span><br><span class="line">    <span class="keyword">self</span> = [<span class="keyword">super</span> init];</span><br><span class="line">    <span class="keyword">if</span> (!<span class="keyword">self</span>) <span class="keyword">return</span> <span class="literal">nil</span>;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// --- 在这里创建的你View ---</span></span><br><span class="line">    <span class="keyword">self</span><span class="variable">.button</span> = [[<span class="built_in">UIButton</span> alloc] init];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">self</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// tell UIKit that you are using AutoLayout</span></span><br><span class="line">+ (<span class="built_in">BOOL</span>)requiresConstraintBasedLayout &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">YES</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// this is Apple's recommended place for adding/updating constraints</span></span><br><span class="line">- (<span class="keyword">void</span>)updateConstraints &#123;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// --- 在这里删除和更新你的约束</span></span><br><span class="line">    [<span class="keyword">self</span><span class="variable">.button</span> remakeConstraints:^(MASConstraintMaker *make) &#123;</span><br><span class="line">        make<span class="variable">.width</span><span class="variable">.equalTo</span>(@(<span class="keyword">self</span><span class="variable">.buttonSize</span><span class="variable">.width</span>));</span><br><span class="line">        make<span class="variable">.height</span><span class="variable">.equalTo</span>(@(<span class="keyword">self</span><span class="variable">.buttonSize</span><span class="variable">.height</span>));</span><br><span class="line">    &#125;];</span><br><span class="line"></span><br><span class="line">    <span class="comment">//according to apple super should be called at end of method</span></span><br><span class="line">    [<span class="keyword">super</span> updateConstraints];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (<span class="keyword">void</span>)didTapButton:(<span class="built_in">UIButton</span> *)button &#123;</span><br><span class="line">    <span class="comment">// --- 改变控件，会影响你的布局 ---</span></span><br><span class="line">    <span class="keyword">self</span><span class="variable">.buttonSize</span> = <span class="built_in">CGSize</span>(<span class="number">200</span>, <span class="number">200</span>);</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 更新约束</span></span><br><span class="line">    [<span class="keyword">self</span> setNeedsUpdateConstraints];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">@end</span></span><br></pre></td></tr></table></figure>
+<h3 id="u7ED3_u5C3E"><a href="#u7ED3_u5C3E" class="headerlink" title="结尾"></a>结尾</h3><p>Masonry,是一款非常还用的第三方约束， 本文只是简单介绍了它的使用， 相信你对它也有了一定的了解，它的出现对一些喜欢纯代码的童鞋给予了极大的遍历，比如我。。，需要更多的了解它，最好去看他的Github，下载他的示例Demo，你会发现他更强大的地方。  当然你也可以继续关注本blog，我会在以后更深入的讲解它的使用。</p>
+<p><a href="https://github.com/yimouleng/MasonryDemo" target="_blank" rel="external">本文的示例代码， 可以到这里下载。</a></p>
+]]></content>
+    <summary type="html">
+    <![CDATA[<h2 id="u524D_u8A00"><a href="#u524D_u8A00" class="headerlink" title="前言"></a>前言</h2><p>  Masonry是一个轻量级的布局框架 拥有自己的描述语法 采用更优雅的链式语法封装自动布局 简洁明了 并具有高可读性 <code>而且同时支持 iOS 和 Max OS X</code>。<br>  官方的介绍其实是非常详细的了，可以移步到其<a href="https://github.com/SnapKit/Masonry">Masonry-Github</a>下载官方源码Demo,我也非常推荐看官方的介绍。<br>]]>
+    
+    </summary>
+    
+      <category term="Autolayout" scheme="http://yimouleng.com/tags/Autolayout/"/>
+    
+      <category term="Masonry" scheme="http://yimouleng.com/tags/Masonry/"/>
+    
+      <category term="iOS开发" scheme="http://yimouleng.com/categories/iOS%E5%BC%80%E5%8F%91/"/>
+    
+  </entry>
+  
+  <entry>
     <title><![CDATA[ios Block]]></title>
     <link href="http://yimouleng.com/2014/11/23/ios-block/"/>
     <id>http://yimouleng.com/2014/11/23/ios-block/</id>
@@ -1278,142 +1471,6 @@ TypeName blockName = ^returnType(parameters) {…};</code></p>
     </summary>
     
       <category term="WOW" scheme="http://yimouleng.com/tags/WOW/"/>
-    
-      <category term="二三事" scheme="http://yimouleng.com/categories/%E4%BA%8C%E4%B8%89%E4%BA%8B/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[iOS开发 - 圆角]]></title>
-    <link href="http://yimouleng.com/2014/07/20/ios-yuanjiao/"/>
-    <id>http://yimouleng.com/2014/07/20/ios-yuanjiao/</id>
-    <published>2014-07-19T16:00:00.000Z</published>
-    <updated>2015-12-09T11:24:51.000Z</updated>
-    <content type="html"><![CDATA[<p>iOS开发中各种圆角也随处可见,最简单给控件添加圆角的方式就是给视图的layer设置corner属性了:</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">self</span><span class="variable">.blueView</span><span class="variable">.layer</span><span class="variable">.cornerRadius</span> = <span class="number">5.</span>f;  </span><br><span class="line"><span class="keyword">self</span><span class="variable">.blueView</span><span class="variable">.layer</span><span class="variable">.masksToBounds</span> = <span class="literal">YES</span>;</span><br></pre></td></tr></table></figure>
-<a id="more"></a>
-<p>这种方式会带来两个问题: </p>
-<ul>
-<li><p>当图片数量比较多的时候,这种添加圆角方式特别消耗性能,比如在UITableViewCell添加过多圆角的话,甚至会带来视觉可见的卡顿. </p>
-</li>
-<li><p>无法配置圆角数量(只能添加view的四个角全为圆角),无法配置某个圆角大小.</p>
-</li>
-</ul>
-<p>第一个问题实际上是由于数量太多的情况下,系统会频繁的调用GPU的离屏渲染(Offscreen Rendering)机制,导致内存损耗严重.更多关于离屏渲染的详解,可以看这里,本文不多赘述.</p>
-<p>第二个问题,我们可以使用<code>UIBezierPath</code>来完美解决.以下是示例代码:</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">UIBezierPath</span> *maskPath = [<span class="built_in">UIBezierPath</span> bezierPathWithRoundedRect:<span class="keyword">self</span><span class="variable">.blueView</span><span class="variable">.bounds</span> byRoundingCorners:<span class="built_in">UIRectCornerTopLeft</span> | <span class="built_in">UIRectCornerBottomLeft</span> cornerRadii:<span class="built_in">CGSizeMake</span>(<span class="number">20</span>, <span class="number">0</span>)];</span><br><span class="line"></span><br><span class="line">    <span class="built_in">CAShapeLayer</span> *maskLayer = [[<span class="built_in">CAShapeLayer</span> alloc] init];</span><br><span class="line"></span><br><span class="line">    maskLayer<span class="variable">.frame</span> = <span class="keyword">self</span><span class="variable">.blueView</span><span class="variable">.bounds</span>;</span><br><span class="line"></span><br><span class="line">    maskLayer<span class="variable">.path</span> = maskPath<span class="variable">.CGPath</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">self</span><span class="variable">.blueView</span><span class="variable">.layer</span><span class="variable">.mask</span> = maskLayer;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">self</span><span class="variable">.blueView</span><span class="variable">.layer</span><span class="variable">.cornerRadius</span> = <span class="number">5.</span>f;</span><br><span class="line">    <span class="keyword">self</span><span class="variable">.blueView</span><span class="variable">.layer</span><span class="variable">.masksToBounds</span> = <span class="literal">YES</span>;</span><br></pre></td></tr></table></figure>
-<p>想要配置某个角为圆角的话,只需要指定对应的<code>UIRectCorner</code>即可 </p>
-<p><img src="/image/yuanjiao1.jpeg" alt=""></p>
-<p>以下是显示效果: </p>
-<p><img src="/image/yuanjiao2.jpg" alt=""></p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>iOS开发中各种圆角也随处可见,最简单给控件添加圆角的方式就是给视图的layer设置corner属性了:</p>
-<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">self</span><span class="variable">.blueView</span><span class="variable">.layer</span><span class="variable">.cornerRadius</span> = <span class="number">5.</span>f;  </span><br><span class="line"><span class="keyword">self</span><span class="variable">.blueView</span><span class="variable">.layer</span><span class="variable">.masksToBounds</span> = <span class="literal">YES</span>;</span><br></pre></td></tr></table></figure>]]>
-    
-    </summary>
-    
-      <category term="UIBezierPath" scheme="http://yimouleng.com/tags/UIBezierPath/"/>
-    
-      <category term="iOS" scheme="http://yimouleng.com/tags/iOS/"/>
-    
-      <category term="iOS开发" scheme="http://yimouleng.com/categories/iOS%E5%BC%80%E5%8F%91/"/>
-    
-  </entry>
-  
-  <entry>
-    <title><![CDATA[逃生反杀的极限技巧——DOTA2树林小径指南]]></title>
-    <link href="http://yimouleng.com/2014/07/20/DOTA2-three/"/>
-    <id>http://yimouleng.com/2014/07/20/DOTA2-three/</id>
-    <published>2014-07-19T16:00:00.000Z</published>
-    <updated>2015-12-09T09:45:55.000Z</updated>
-    <content type="html"><![CDATA[<p>DOTA2的地图树林和DOTA变化了一点点，整体能钻的地方感觉变多了，可以说树林的小空隙多了很多，随便往树林里跳跳就能进去……下面就来讲讲一些比较常用的，希望能对大家有些帮助~</p>
-<p>同样的开场，为啥要钻树林？同样的答案，因为有战争迷雾啊亲！其实钻树林这一行为和三次元里是差不多的。想象一下为什么你要钻进小树林？答案无非就是两种：一，去做羞羞的事的；二，去看别人做羞羞的事的。因为树林大多阴暗难以被发现，游戏里也是一样~如果你是前者，那后者就一定是来gank你的人了~<br><a id="more"></a><br>好了例行的废话讲完，现在来说说什么时候你该选择钻树林，的小贴士……（这叫格式你懂么！）</p>
-<ol>
-<li><p>自己的移动速度没有对方快，并且里自己的安全区还有一段距离</p>
-</li>
-<li><p>对方有指向性留人技，并在其施法距离之内</p>
-</li>
-<li><p>知道自己难逃一死，拖延对方的时间，为己方支援创造围剿机会</p>
-</li>
-<li><p>觉得对方不足以击杀自己，诱敌深入创造 反杀机会</p>
-</li>
-<li><p>你别告诉我对面有兽王、蜘蛛、先知的情况下你还在往里钻……其实遇到血魔被动、A杖夜魔、VS、发条这种能有你视野的有时还不是很怕，如果你有召唤物堵路，或者确定对方击杀你之后无法安全撤离时也是可以选择进树林的，绕树林最怕的就是那种连树林本身都破坏的家伙……</p>
-</li>
-</ol>
-<p>狗血剧本：</p>
-<ol>
-<li><p>一些有较长施法延迟的英雄，卡视野释放非指向性技能。优势：对方一般无法打断施法，等到意识过来基本已经晚了。例：SF摇大反压，SK摇大穿刺，埋地。</p>
-</li>
-<li><p>同理，卡视野TP。</p>
-</li>
-<li><p>利用阴影拖延时间，等待自己的技能CD。优势：如果对面没有aoe或者开视野技能的话，可以有效拖延时间，让对方无法多次攻击到自己。例：山岭巨人绕视野，等待第二次VT技能CD秒杀对手。敌法技能CD，对方又有指向性减速技，进去绕一圈，B出来。</p>
-</li>
-<li><p>利用召唤物卡单行道。优势：卡住对方追击路线，特别是近战，视情况选择TP或反杀。例：SS钻林，蛇棒堵路，禁锢+羊反杀。</p>
-</li>
-</ol>
-<p>小树林图示：</p>
-<p>红线标出的是树林路径，红点标出的是推荐开的树。</p>
-<p><strong>地图上方（从右向左）：</strong></p>
-<p><code>1. 夜魇出发的第一片树林，表面上看只有外面的一点点阴影树林（3处），但是一旦开树进去，里面的空间是很大的。</code></p>
-<p><img src="http://img1.cache.netease.com/game/2012/3/19/20120319100123030be.jpg" alt=""></p>
-<p><code>2. 向左，第二片树林，不用开任何树，就有很大的一块区域！</code></p>
-<p><img src="http://img6.cache.netease.com/game/2012/3/19/201203191001259067b.jpg" alt=""></p>
-<p><code>3. 这里有最外面的一排树挡着，开树进去的话有一条小道。</code></p>
-<p><img src="http://img4.cache.netease.com/game/2012/3/19/20120319100127a3edf.jpg" alt=""></p>
-<p><code>4. 然后就是喜闻乐见的夜魇上一塔了……非常好绕，而且开了2个树后还能从另外的一端出来~</code></p>
-<p><img src="http://img5.cache.netease.com/game/2012/3/19/201203191001300a694.jpg" alt=""></p>
-<p><strong>地图左侧（从上向下）：</strong></p>
-<p><code>1. 野店~大家应该都熟悉了，开个视野让大家看看清楚~其实硬要砍树出来的话也是可以的，不过上下都要砍两颗，不太划算，TP在CD的时候可以试试。</code></p>
-<p><img src="http://img1.cache.netease.com/catchpic/F/FA/FA911C236DBB45366502320E08A9CB68.jpg" alt=""></p>
-<p><code>2. 天辉上一塔，天辉劣势路的这边树林是非常洗漱的，随便就能进去。最上面还有一排塔前单行道，图不够大，所以彪偏了点。</code></p>
-<p><img src="http://img1.cache.netease.com/catchpic/8/82/82825E16DD99922E3FFDD4EA7DCBE00F.jpg" alt=""></p>
-<p><code>3. 上二塔，这里能钻到很深的地方……你要出来也不熟不行，砍到最下面的2棵树。</code></p>
-<p><img src="http://img1.cache.netease.com/catchpic/8/85/85A0DCBA6F2D8EDB7ACDC7453E764687.jpg" alt=""></p>
-<p><strong>地图下方（从左向右）：</strong></p>
-<p><code>1. 天辉下二塔，几个小角落，最左边可以开树进去开树出来不过没啥用，不推荐。</code></p>
-<p><img src="http://img1.cache.netease.com/catchpic/B/BB/BB09151F9F757438EFE6E9E68E9D912B.jpg" alt=""></p>
-<p><code>2. 二塔之间的一片……这片树林我只能用诡异来形容，看到的和能走的出入比较大，不过熟练掌握以后很容易能甩掉别人。另外后边有很多小空隙，不过应用空间不大。</code></p>
-<p><img src="http://img1.cache.netease.com/catchpic/5/57/575FD4C6AD5425C44ABA5B4DE867BD79.jpg" alt=""></p>
-<p><code>3. 又是喜闻乐见的一块地方，其实左边还有一点小树林可以钻，因为这里的树林普遍比较稀疏，不过应用范围比较小，大家有兴趣可以去看看……构造比较复杂的一块，不过相信大家对最下面的已经比较熟悉了，这里提一下最右边，因为这块林是相同的，所以与其一直躲在最下面的死胡同，不如进去之后转移，往右走，到最右边去，能进很深！非常深！图不够大没标出来，非常不容易被发现！推荐！</code></p>
-<p><img src="http://img1.cache.netease.com/catchpic/E/E0/E0A28454A79179E2318BA86CA678BBDF.jpg" alt=""></p>
-<p><strong>地图右侧（从下向上）：</strong></p>
-<p><code>1. 非常浅的几条小路，而且都不相通，又是血案的高发地点，如果逃命的话极为不推荐，不过是卡视野反杀节奏的好地点。</code></p>
-<p><img src="http://img1.cache.netease.com/catchpic/8/8B/8BE53C066426068ABE1EBFB7B72FB5EB.jpg" alt=""></p>
-<p><code>2. 例行野店，这里的野店我想分2个部分讲，首先下面的话是很难砍树出来的，虽然下面还有一条小径，那也是要已经砍掉一颗树的情况下才有的。一般钻下面的话绕出来就比较难，只能原路返回了。</code></p>
-<p><img src="http://img1.cache.netease.com/catchpic/A/A2/A240C8F9680BD025BF51FC43A2960798.jpg" alt=""></p>
-<p><code>3. 然后是上面的部分，这里有一颗很巧的树，砍掉之后柳暗花明，对夜魇方逃生极为有用！</code></p>
-<p><img src="http://img1.cache.netease.com/catchpic/B/BF/BFF44E306DFFF37FF9DAAF1F91E06CA1.jpg" alt=""></p>
-<p><code>4. 夜魇下一塔，几乎以点分布的空隙，不是很实用，而且就最下面一条可以走进去。</code></p>
-<p><img src="http://img1.cache.netease.com/catchpic/9/93/9350E27C5A0EA1297FB7FB3B0E0C0EB1.jpg" alt=""></p>
-<p><code>5. 别有洞天的一片树林，上下相通，而且各有一处开树能出来，是兵家埋伏的良好选择。</code></p>
-<p><img src="http://img1.cache.netease.com/catchpic/C/C6/C6D5EFFFAAEAB969FF33F5CEA89628B5.jpg" alt=""></p>
-<p><strong>靠夜魇方：</strong></p>
-<p><code>1. 其实这里我真觉得没啥说的必要，战鹰视野一开就看的清清楚楚了，比较“骗小孩子”的树林，虽然如此但还是非常实用……下面野店那条断开树林的就不说了……</code></p>
-<p><img src="http://img1.cache.netease.com/catchpic/1/15/15BE9FF3A0DA95A5F1C312CFADB797C3.jpg" alt=""></p>
-<p><code>2. 远古野位置，这里一提的是如果绕进去马上出来的话，对方如果稍微晚点绕出来可能会被野怪卡住~笑~</code></p>
-<p><img src="http://img1.cache.netease.com/catchpic/A/A4/A44A65259E65B252CA98C3CC909E8DC4.jpg" alt=""></p>
-<p><code>3. 夜魇中路一塔，依然没啥说的必要，战鹰一照就都清楚了。</code></p>
-<p><img src="http://img1.cache.netease.com/catchpic/A/AF/AF134A407ED0852F4036551CCA65721C.jpg" alt=""></p>
-<p><strong>靠天辉方：</strong></p>
-<p><code>1. 感觉使用率比D1高很多的一片，倒山型的三通~</code></p>
-<p><img src="http://img1.cache.netease.com/catchpic/0/05/05754876CF389B3DFB72C1725464FFA5.jpg" alt=""></p>
-<p><code>2. 围绕着这个“石梯？”的一圈，很明显但是又很实用，有位移技能的英雄很容易，跨地形迅速摆脱对手。</code></p>
-<p><img src="http://img1.cache.netease.com/catchpic/5/5F/5FBC7698C52521366A611ED7B8212584.jpg" alt=""></p>
-<p><code>3. 中路反杀的优秀地点，说反杀而不是逃生是因为那是个死胡同，如果要出来的话需要砍2棵树。</code></p>
-<p><img src="http://img1.cache.netease.com/catchpic/3/3A/3A52991B2206A8E29AC9182FE99DB2C3.jpg" alt=""></p>
-<p>好了，基本就到这里了。</p>
-<p>可能有些人会说野区这么多绕视野的树林怎么都不讲，我这里说的都是比较“深”的树林，野区树林普遍比较“浅”，一般都是一目了然的构造，比方说天辉中路一塔下面，以及“三通”高地下的那一圈，那里几乎都是非常短的单行道，只要把握好阴影，地形的阻碍并不是很大，一般不会出现找不到对手的状况。</p>
-<p>由于图片大小和视角的限制，有的地方可能还不是很清楚，其实树林这个东西，自己去走个几遍就很好掌握了。另外钻树林的时候必须冷静，多想想对方的心理活动，多观察一下地形。`</p>
-<p>`本文来源：SGamer论坛</p>
-]]></content>
-    <summary type="html">
-    <![CDATA[<p>DOTA2的地图树林和DOTA变化了一点点，整体能钻的地方感觉变多了，可以说树林的小空隙多了很多，随便往树林里跳跳就能进去……下面就来讲讲一些比较常用的，希望能对大家有些帮助~</p>
-<p>同样的开场，为啥要钻树林？同样的答案，因为有战争迷雾啊亲！其实钻树林这一行为和三次元里是差不多的。想象一下为什么你要钻进小树林？答案无非就是两种：一，去做羞羞的事的；二，去看别人做羞羞的事的。因为树林大多阴暗难以被发现，游戏里也是一样~如果你是前者，那后者就一定是来gank你的人了~<br>]]>
-    
-    </summary>
-    
-      <category term="Dota2" scheme="http://yimouleng.com/tags/Dota2/"/>
     
       <category term="二三事" scheme="http://yimouleng.com/categories/%E4%BA%8C%E4%B8%89%E4%BA%8B/"/>
     
