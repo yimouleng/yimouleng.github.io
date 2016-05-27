@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>ASIHTTPRequest, AFNetworking, MKNetworkingKit网络框架get和post请求 | Yi&#39;mouleng-即便世界与我为敌，只要心还透明，就能折射希望。</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="ASIHTTPRequest, AFNetworking, MKNetworkingKit网络框架get和post请求">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ASIHTTPRequest, AFNetworking, MKNetworkingKit网络框架get和post请求">
+<meta property="og:url" content="http://yimouleng.com/2015/07/21/ASIHTTPRequest-AFNetworking-MKNetworkingKit/index.html">
+<meta property="og:site_name" content="Yi'mouleng-即便世界与我为敌，只要心还透明，就能折射希望。">
+<meta property="og:description" content="ASIHTTPRequest, AFNetworking, MKNetworkingKit网络框架get和post请求">
+<meta property="og:updated_time" content="2016-01-28T09:58:10.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="ASIHTTPRequest, AFNetworking, MKNetworkingKit网络框架get和post请求">
+<meta name="twitter:description" content="ASIHTTPRequest, AFNetworking, MKNetworkingKit网络框架get和post请求">
+  
+    <link rel="alternative" href="/atom.xml" title="Yi&#39;mouleng-即便世界与我为敌，只要心还透明，就能折射希望。" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/resources/avatar.jpg">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/resources/avatar.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Yi&#39;mouleng</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">知止安能定,定而知静,静方可虑,虑而后能得。---iOS交流群67784110</p>
+		
+				
+
+		
+			<div class="switch-btn" id="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area" id="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/archives">目录</a></li>
+				        
+							<li><a href="/categories/iOS开发">iOS开发</a></li>
+				        
+							<li><a href="/categories/二三事">二三事</a></li>
+				        
+							<li><a href="/tags/">标签云</a></li>
+				        
+							<li><a href="/about/">关于</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/yimouleng" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/yimouleng" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+					        
+								<a class="QQ" target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=ac73346414b7bc620d16a1553318221a96d0fb90832d39995c539098731e21b6" title="QQ">QQ</a>
+					        
+								<a class="mail" target="_blank" href="mailto:yimouleng@gamil.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/AFNetworking/" style="font-size: 10px;">AFNetworking</a> <a href="/tags/ASIHTTPRequest/" style="font-size: 10px;">ASIHTTPRequest</a> <a href="/tags/Animation/" style="font-size: 10px;">Animation</a> <a href="/tags/AppStore/" style="font-size: 20px;">AppStore</a> <a href="/tags/AsyncSocket/" style="font-size: 10px;">AsyncSocket</a> <a href="/tags/Autolayout/" style="font-size: 10px;">Autolayout</a> <a href="/tags/CALayer/" style="font-size: 10px;">CALayer</a> <a href="/tags/CoreGraphics/" style="font-size: 10px;">CoreGraphics</a> <a href="/tags/Dota2/" style="font-size: 10px;">Dota2</a> <a href="/tags/GCD/" style="font-size: 10px;">GCD</a> <a href="/tags/HTTPS/" style="font-size: 10px;">HTTPS</a> <a href="/tags/IOS-9/" style="font-size: 10px;">IOS 9</a> <a href="/tags/KVC/" style="font-size: 10px;">KVC</a> <a href="/tags/KVO/" style="font-size: 10px;">KVO</a> <a href="/tags/LLPictureShow/" style="font-size: 10px;">LLPictureShow</a> <a href="/tags/MKNetworkingKit/" style="font-size: 10px;">MKNetworkingKit</a> <a href="/tags/Masonry/" style="font-size: 10px;">Masonry</a> <a href="/tags/QRCode/" style="font-size: 10px;">QRCode</a> <a href="/tags/ReactiveCocoa/" style="font-size: 10px;">ReactiveCocoa</a> <a href="/tags/Socket/" style="font-size: 10px;">Socket</a> <a href="/tags/TouchID/" style="font-size: 10px;">TouchID</a> <a href="/tags/UIActionSheet/" style="font-size: 10px;">UIActionSheet</a> <a href="/tags/UIAlertview/" style="font-size: 10px;">UIAlertview</a> <a href="/tags/UIBezierPath/" style="font-size: 10px;">UIBezierPath</a> <a href="/tags/UIKeyboardType/" style="font-size: 10px;">UIKeyboardType</a> <a href="/tags/WOW/" style="font-size: 10px;">WOW</a> <a href="/tags/ZXingObj/" style="font-size: 10px;">ZXingObj</a> <a href="/tags/block/" style="font-size: 20px;">block</a> <a href="/tags/iOS/" style="font-size: 20px;">iOS</a> <a href="/tags/ios/" style="font-size: 10px;">ios</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/js/" style="font-size: 10px;">js</a> <a href="/tags/runtime/" style="font-size: 10px;">runtime</a> <a href="/tags/scrollView/" style="font-size: 10px;">scrollView</a> <a href="/tags/skill/" style="font-size: 10px;">skill</a> <a href="/tags/内购/" style="font-size: 20px;">内购</a> <a href="/tags/动画/" style="font-size: 10px;">动画</a> <a href="/tags/即时通讯/" style="font-size: 10px;">即时通讯</a> <a href="/tags/四舍五入/" style="font-size: 10px;">四舍五入</a> <a href="/tags/多线程/" style="font-size: 10px;">多线程</a> <a href="/tags/撕裂效果/" style="font-size: 10px;">撕裂效果</a> <a href="/tags/支付/" style="font-size: 20px;">支付</a> <a href="/tags/模式框架/" style="font-size: 10px;">模式框架</a> <a href="/tags/正则/" style="font-size: 10px;">正则</a> <a href="/tags/网络框架/" style="font-size: 10px;">网络框架</a> <a href="/tags/语法/" style="font-size: 10px;">语法</a> <a href="/tags/键盘/" style="font-size: 10px;">键盘</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://yimouleng.com/">我的博客</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Yi&#39;mouleng</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="/resources/avatar.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Yi&#39;mouleng</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">知止安能定,定而知静,静方可虑,虑而后能得。---iOS交流群67784110</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/archives">目录</a></li>
+		        
+					<li><a href="/categories/iOS开发">iOS开发</a></li>
+		        
+					<li><a href="/categories/二三事">二三事</a></li>
+		        
+					<li><a href="/tags/">标签云</a></li>
+		        
+					<li><a href="/about/">关于</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/yimouleng" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/yimouleng" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+			        
+						<a class="QQ" target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=ac73346414b7bc620d16a1553318221a96d0fb90832d39995c539098731e21b6" title="QQ">QQ</a>
+			        
+						<a class="mail" target="_blank" href="mailto:yimouleng@gamil.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-ASIHTTPRequest-AFNetworking-MKNetworkingKit" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/07/21/ASIHTTPRequest-AFNetworking-MKNetworkingKit/" class="article-date">
+  	<time datetime="2015-07-20T16:00:00.000Z" itemprop="datePublished">2015-07-21</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      ASIHTTPRequest, AFNetworking, MKNetworkingKit网络框架get和post请求
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AFNetworking/">AFNetworking</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ASIHTTPRequest/">ASIHTTPRequest</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MKNetworkingKit/">MKNetworkingKit</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/网络框架/">网络框架</a></li></ul>
+	</div>
+
+        
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/iOS开发/">iOS开发</a>
+	</div>
+
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+        <p>ASIHTTPRequest, AFNetworking, MKNetworkingKit网络框架get和post请求</p>
+<a id="more"></a>
+<p></p><h1>目录</h1><p></p>
+<p></p><h3>一. 用第三方库实现get请求</h3><p></p>
+<p></p><h6>1. ASI</h6><p></p>
+<p></p><h6>2. AFNetworking</h6><p></p>
+<p></p><h3>二. Post请求的实现</h3><p></p>
+<p></p><h6>1. NSURLConnection</h6><p></p>
+<p></p><h6>2. ASI</h6><p></p>
+<p></p><h6>3. AFNetworking</h6><p></p>
+<p></p><h3>三. 使用MKNetworkingKit实现get和Post</h3><p></p>
+<p></p><h6>1. get请求</h6><p></p>
+<p></p><h6>2. Post请求</h6><br><p></p>
+<hr>
+
+<p></p><h2>一. 用第三方库实现get请求</h2><p></p>
+<p><blockquote></blockquote></p>
+<p></p><p>ASI  </p><p></p>
+<p><ol></ol></p>
+<p><li>ASI是较老的第三方库, 功能非常强大, 可以实现get/post请求, 实现数据的缓存, 实现断点续传功能  </li></p>
+<p><li>由于ASI不支持ARC, 并且ASI库的作者已经不再维护这个工程, 所有支持ARC的功能没有实现, 一般新的项目不推荐使用  </li></p>
+<p><li>ASIHttpRequest: ASI最主要的一个类, 这个类是继承于NSOperation    </li><br></p>
+<p></p><p>AFNetworking  </p><p></p>
+<p><ol></ol></p>
+<p><li>AFNetworking是iOS6之后的网络请求库, 能够实现get/post请求, 可以实现断点续传等功能  </li></p>
+<p><li>AFNetworking使用简单, 支持ARC, 一般新的工程都会使用其进行</li><br><br></p>
+<p></p><h5>1. ASI实现get请求的使用步骤</h5><p></p>
+<p><blockquote><ol></ol></blockquote></p>
+<p><li>导入ASI第三方库</li></p>
+<p><li>设置为-fno-objc-arc</li></p>
+<p><li>添加系统库文件<ol></ol></li></p>
+<p><li>SystemConfiguration,</li></p>
+<p><li>CFNetwork,</li></p>
+<p><li>MobileCoreServices  </li></p>
+<p><li>libz.1.1.3.dylib    </li><br><br></p>
+<p><li>导入头文件使用   <pre><code>1. 创建ASIHttpRequest对象  </code></pre></li></p>
+<ol>
+<li>设置代理, 遵守协议  </li>
+<li><p>发送请求(异步请求)<br></p></li><br></ol><br><ol><br><li><br><p>代码         </p><br><pre><code>    ASIHTTPRequest *request = [ASIHTTPRequest requestWithURL:[NSURL URLWithString:@”<a href="http://api.chengmi.com/shindex?passdate=20150108&amp;curlng=121.5093155189223&amp;curlat=31.27483773025054" target="_blank" rel="external">http://api.chengmi.com/shindex?passdate=20150108&amp;curlng=121.5093155189223&amp;curlat=31.27483773025054</a>“]];<br> request. delegate = self;<br> [request startAsynchronous];</code></pre><br></li><br><li><br><p>ASIHttpRequest代理方法    </p><br><pre><code> // 下载失败时调用<p></p>
+<ul>
+<li>(void)requestFailed:(ASIHTTPRequest *)request<br>{<br>NSLog(@”%s”, <strong>func</strong>);<br>}</li>
+</ul>
+<p>// 下载结束后调用</p>
+<ul>
+<li><p>(void)requestFinished:(ASIHTTPRequest *)request<br>{<br>// request.responseData存储下载回来的二进制数据</p>
+<p>// JSON解析<br>id result = [NSJSONSerialization JSONObjectWithData:request.responseData options:NSJSONReadingMutableContainers error:nil];  </p>
+</li>
+</ul>
+<p>…………………………………………………………………………………………<br>}</p></code></pre><br></li><br><li><br><p>常规流程: 创建数据源和表格视图, 实现表格视图代理方法    </p><br></li><br></ol><br><hr><br><h5>2. AFNetworking</h5><br><blockquote><ol><br><li>导入AFNetworking库文件</li><br><li>导入头文件使用<ol><br><li>创建”AFHTTPRequestOperationManager”类型的对象</li><br><li>设置返回值的解析方式(二进制)<br>manager.responseSerializer = [AFHTTPResponseSerializer serializer];</li><br><li>发送请求<br>第一个参数: 请求的url字符串<br>第二个参数: 附加的参数(传nil)<br>第三个参数: 请求成功返回时调用的代码块(block)<br>第四个参数: 请求失败时调用的代码块</li><br></ol><br></li><br><li>注意的两点<ol><br><li>block代码块的执行是异步的</li><br><li>block里面的变量通常会拷贝, 所以里面使用self指向的视图控制器对象时, 通常使用弱引用, 否则会有内存泄露</li><br></ol><br></li><br></ol></blockquote><br><ol><br><li><br><p>用AFNetworking实现get请求  </p><br><pre><code> - (void)downloadData<br>{<br>  // 1. 导入AFNetworking库文件<br>  // 2. 导入头文件使用<br>  // 1) 创建”AFHTTPRequestOperationManager”类型的对象<br>  AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] init];<p></p>
+<p>  // 2) 设置返回值的解析方式(二进制)<br>  manager.responseSerializer = [AFHTTPResponseSerializer serializer];</p>
+<p>  // 3) 发送请求<br>  /<em><br>   第一个参数: 请求的url字符串<br>   第二个参数: 附加的参数(传nil)<br>   第三个参数: 请求成功返回时调用的代码块(block)<br>   第四个参数: 请求失败时调用的代码块
+   </em>/</p>
+<p>  // 4) 注意的两点<br>  // 1. block代码块的执行是异步的<br>  // 2. block里面的变量通常会拷贝, 所以里面使用self指向的视图控制器对象时, 通常使用弱引用, 否则会有内存泄露</p>
+<p>   __weak ViewController <em>weakSelf = self;<br>  [manager GET:@”<a href="http://api.chengmi.com/shindex?passdate=20150108&amp;curlng=121.5093155189223&amp;curlat=31.27483773025054" target="_blank" rel="external">http://api.chengmi.com/shindex?passdate=20150108&amp;curlng=121.5093155189223&amp;curlat=31.27483773025054</a>“ parameters:nil success:^(AFHTTPRequestOperation </em>operation, id responseObject) {</p>
+<pre><code>// responseObject 存储了下载回来的数据
+// JSON解析
+id result = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
+if ([result isKindOfClass:[NSDictionary class]]) {
+    NSDictionary *dict = result;
+    for (NSDictionary *sectionDict in dict[@&quot;sectioninfo&quot;]) {
+        DataModel *model = [[DataModel alloc] init];
+        [model setValuesForKeysWithDictionary:sectionDict];
+        [weakSelf.dataArray addObject:model];
+    }
+    [weakSelf.tableView reloadData];
+}
+</code></pre><p>  } failure:^(AFHTTPRequestOperation <em>operation, NSError </em>error) {</p>
+<pre><code>NSLog(@&quot;error:%@&quot;, error);
+</code></pre><p>  }];<br>}</p></code></pre><br></li><br><li><br><p>常规流程: 创建数据源和表格视图, 调用下载数据方法, 实现表格视图代理方法     </p><br></li><br></ol><br><hr><br><h2>二. Post请求的实现</h2><br><blockquote><p>post请求: 参数不放在url字符串里面, 而是放在请求体里面, 安全性比较高, 而且传递的参数数据量会比较大<br>post请求不能直接在浏览器访问  </p></blockquote><br><h5>1. 使用系统的NSURLConnection完成Post请求</h5><br><blockquote><ol><br><li>创建NSURL类型对象  </li><br><li>创建NSMutableURLRequest类型对象, 设置对象的属性  <ol><br><li>设置请求体    </li><br><li>设置请求方式  </li><br><li>设置请求参数的大小  </li><br></ol><br></li><br><li>发送请求</li><br></ol></blockquote><br><ol><br><li><br><p>downloadData方法  </p><br><pre><code> - (void)downloadData<br>{<p></p>
+<pre><code>// 1. 创建NSURL类型对象
+</code></pre><p>  NSURL <em>url = [NSURL URLWithString:@”<a href="http://services.xingshulin.com/ApricotForestWirelessServiceForLiterature/LiteratureDataServlet" target="_blank" rel="external">http://services.xingshulin.com/ApricotForestWirelessServiceForLiterature/LiteratureDataServlet</a>“];<br>  // 2. 创建NSMutableURLRequest类型对象<br>  NSMutableURLRequest </em>request = [[NSMutableURLRequest alloc] initWithURL:url];<br>  NSString <em>param = @”sessionKey=7B63373363386530373034366164393262633633373039326138356238366366307D2C7B336464363563386338626263653130663531623832616632343963363832323065363964656161627D2C7B66616C73657D2C7B307D2C7B307D2C7B66373539333863642D326162352D346232342D616336622D3132386538626434663366397D2C7B37363033396665333533326461623034656561353162363734643131636532617D2C7B323031352D30332D30372031313A31383A33337D2C7B312E382E367D2C7B696F736C6974657261747572657D2C7B494F536C6974657261747572655F312E382E365F696F73382E312E335F6950686F6E65352D327D&amp;pageSize=10&amp;rtype=2&amp;pageIndex=0&amp;m=getLiteraturegroupBySpecialty”;<br>  // 转化为二进制数据<br>  NSData </em>paramData = [param dataUsingEncoding:NSUTF8StringEncoding];</p>
+<p>  // 1) 设置请求体<br>  [request setHTTPBody:paramData];</p>
+<p>  // 2) 设置请求方式<br>  [request setHTTPMethod:@”post”];</p>
+<p>  // 3) 设置请求参数的大小<br>  NSString *lengthStr = [NSString stringWithFormat:@”%ld”, paramData.length];<br>  [request setValue:lengthStr forHTTPHeaderField:@”content-length”];</p>
+<p>  // 4) 设置类型<br>  [request setValue:@”application/x-www-form-urlencoded” forHTTPHeaderField:@”content-type”];</p>
+<p>  // 3.发送请求<br>  _connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];<br>}</p></code></pre><br></li><br><li><br><p>创建数据源和表格视图, 实现NSURLConnection代理方法和表格视图代理方法</p><br></li><br></ol><br><hr><br><h5>2. 使用第三方库ASI完成Post请求</h5><br><ol><br><li><br><p>使用ASI进行Post请求</p><br><pre><code> - (void)downloadData<br>{<br>  // 1. 导入ASI第三方库<br>  // 2. 添加编译属性-fno-objc-arc<br>  // 3. 添加系统库<br>  // 4. 导入头文件<br>  // 1)<br>  ASIFormDataRequest <em>request = [ASIFormDataRequest requestWithURL:[NSURL URLWithString:@”<a href="http://services.xingshulin.com/ApricotForestWirelessServiceForLiterature/LiteratureDataServlet" target="_blank" rel="external">http://services.xingshulin.com/ApricotForestWirelessServiceForLiterature/LiteratureDataServlet</a>“]];<br>  // 2) 设置代理<br>  request.delegate = self;<br>  // 3) 请求方式<br>  request.requestMethod = @”POST”;<br>  // 4)<br>  [request setPostValue:@”7B63373363386530373034366164393262633633373039326138356238366366307D2C7B336464363563386338626263653130663531623832616632343963363832323065363964656161627D2C7B66616C73657D2C7B307D2C7B307D2C7B66373539333863642D326162352D346232342D616336622D3132386538626434663366397D2C7B37363033396665333533326461623034656561353162363734643131636532617D2C7B323031352D30332D30372031313A31383A33337D2C7B312E382E367D2C7B696F736C6974657261747572657D2C7B494F536C6974657261747572655F312E382E365F696F73382E312E335F6950686F6E65352D327D” forKey:@”sessionKey”];<br>  [request setPostValue:@”10” forKey:@”pageSize”];<br>  [request setPostValue:@”2” forKey:@”rtype”];<br>  [request setPostValue:@”0” forKey:@”pageIndex”];<br>  [request setPostValue:@”getLiteraturegroupBySpecialty” forKey:@”m”];<br>  // 5) 发送请求(异步请求)<br>  [request startAsynchronous];<br>}</em></code></pre><br></li><br><li><br><p>创建数据源和表格视图, 实现ASIHttpRequest代理方法和表格视图代理方法  </p><br></li><br><li><br><p>ASI可以上传文件或图片(代码写在发送请求之前)    </p><br><pre><code> // 上传文件<br>// 第一个参数: 文件的路径<br>// 第二个参数: key值<br>// request setFile:&lt;#(NSString )#&gt; forKey:&lt;#(NSString *)#&gt;<p></p>
+<p>// 上传图片<br>// 第一个参数: 文件的路径<br>// 第二个参数: 文件的名字<br>// 第三个参数: 文件的类型(image/png)<br>// 第四个参数: key<br>// request setFile:&lt;#(NSString <em>)#&gt; withFileName:&lt;#(NSString </em>)#&gt; andContentType:&lt;#(NSString <em>)#&gt; forKey:&lt;#(NSString </em>)#&gt;</p></code></pre><br></li><br></ol><br><hr><br><h5>3. 使用AFNetworking完成Post请求</h5><br><ol><br><li><br><p>AFNetworking进行Post请求  </p><br><pre><code> - (void)downloadData<br>{<br>  // 1. 导入AFnetworking库文件<br>  // 2. 导入头文件使用<p></p>
+<p>  // 1) 创建AFHTTPRequestOperationManager<br>  AFHTTPRequestOperationManager *manager = [[AFHTTPRequestOperationManager alloc] init];</p>
+<p>  // 2) 设置返回值为二进制类型<br>  manager.responseSerializer = [AFHTTPResponseSerializer serializer];</p>
+<p>  // 3) 请求数据<br>  /<em><br>   第一个参数: url地址<br>   第二个参数: Post请求的参数, 放在一个字典中<br>   第三个参数: 请求成功返回调用的代码块<br>   第四个参数: 请求失败调用的代码块
+   </em>/</p>
+<p>  // 请求参数放到一个字典里面<br>  NSMutableDictionary *parameterDict = [NSMutableDictionary dictionary];<br>  [parameterDict setObject:@”7B63373363386530373034366164393262633633373039326138356238366366307D2C7B336464363563386338626263653130663531623832616632343963363832323065363964656161627D2C7B66616C73657D2C7B307D2C7B307D2C7B66373539333863642D326162352D346232342D616336622D3132386538626434663366397D2C7B37363033396665333533326461623034656561353162363734643131636532617D2C7B323031352D30332D30372031313A31383A33337D2C7B312E382E367D2C7B696F736C6974657261747572657D2C7B494F536C6974657261747572655F312E382E365F696F73382E312E335F6950686F6E65352D327D” forKey:@”sessionKey”];<br>  [parameterDict setObject:@”10” forKey:@”pageSize”];<br>  [parameterDict setObject:@”2” forKey:@”rtype”];<br>  [parameterDict setObject:@”0” forKey:@”pageIndex”];<br>  [parameterDict setObject:@”getLiteraturegroupBySpecialty” forKey:@”m”];</p>
+<p>  // 4) 注意的两点<br>  // 1. block代码块的执行是异步的<br>  // 2. block里面的变量通常会拷贝, 所以里面使用self指向的视图控制器对象时, 通常使用弱引用, 否则会有内存泄露<br>  __weak ViewController <em>weakSelf = self;<br>  [manager POST:@”<a href="http://services.xingshulin.com/ApricotForestWirelessServiceForLiterature/LiteratureDataServlet" target="_blank" rel="external">http://services.xingshulin.com/ApricotForestWirelessServiceForLiterature/LiteratureDataServlet</a>“ parameters:parameterDict success:^(AFHTTPRequestOperation </em>operation, id responseObject) {</p>
+<pre><code>// JSON数据
+id result = [NSJSONSerialization JSONObjectWithData:responseObject options:NSJSONReadingMutableContainers error:nil];
+
+if ([result isKindOfClass:[NSDictionary class]]) {
+    NSDictionary *dict = result;
+    NSLog(@&quot;%@&quot;, dict);
+
+    for (NSDictionary *objDict in dict[@&quot;obj&quot;]) {
+        DataModel *model = [[DataModel alloc] init];
+        [model setValuesForKeysWithDictionary:objDict];
+        [weakSelf.dataArray addObject:model];
+    }
+    [weakSelf.tableView reloadData];
+}
+</code></pre><p>  } failure:^(AFHTTPRequestOperation <em>operation, NSError </em>error) {</p>
+<pre><code>NSLog(@&quot;error:%@&quot;, error);
+</code></pre><p>  }];<br>}</p></code></pre><br></li><br><li><br><p>创建数据源和表格视图, 实现表格视图代理方法    </p><br></li><br><li><br><p>AFNetworking可以上传文件或图片  </p><br><pre><code> manager POST:(NSString *) parameters:(id) constructingBodyWithBlock:^(id&lt;AFMultipartFormData&gt; formData) {<p></p>
+<p>  // 上传文件的时候会使用<br>  // formData appendPartWithFileURL:&lt;#(NSURL <em>)#&gt; name:&lt;#(NSString </em>)#&gt; error:&lt;#(NSError <em>__autoreleasing </em>)#&gt;</p>
+<p>  // 上传图片<br>  // 第四个参数:@”image/png”<br>  // formData appendPartWithFileData:&lt;#(NSData <em>)#&gt; name:&lt;#(NSString </em>)#&gt; fileName:&lt;#(NSString <em>)#&gt; mimeType:&lt;#(NSString </em>)#&gt;</p>
+<p>} success:&lt;#^(AFHTTPRequestOperation <em>operation, id responseObject)success#&gt; failure:&lt;#^(AFHTTPRequestOperation </em>operation, NSError *error)failure#&gt;</p></code></pre><br></li><br></ol><br><hr><br><h2>三. 使用MKNetworkingKit实现get和Post</h2><br><h5>1. get请求</h5><br><ol><br><li><br><p>下载数据方法   </p><br><pre><code> - (void)downloadData<br>{<br>  // 1. MKNetworkKit文件夹拖入项目，然后引入4个framework：<br>  //       CFNetwork.framework  , SystemConfiguration.framework  , Security.framework, ImageIO.framework<p></p>
+<p>  // 2. 注意主机名HostName不能加”http://“, 程序会自动添加, 主机要指向一个目录, 不可以是一个具体文件, 如上类不可以是”www.<em>*</em>.net/json/conn.asp”</p>
+<p>  MKNetworkEngine <em>engine = [[MKNetworkEngine alloc] initWithHostName:@”iappfree.candou.com:8080” customHeaderFields:nil];<br>  MKNetworkOperation </em>operation = [engine operationWithPath:@”/free/applications/limited?currency=rmb&amp;page=1” params:nil httpMethod:@”GET” ssl:NO];</p>
+<p>  [operation addCompletionHandler:^(MKNetworkOperation *operation) {</p>
+<pre><code>id result = [NSJSONSerialization JSONObjectWithData:operation.responseData options:NSJSONReadingMutableContainers error:nil];
+if ([result isKindOfClass:[NSDictionary class]]) {
+    NSDictionary *dict = result;
+    for (NSDictionary *appDict in dict[@&quot;applications&quot;]) {
+        DataModel *model = [[DataModel alloc] init];
+        [model setValuesForKeysWithDictionary:appDict];
+        [self.dataArray addObject:model];
+    }
+    [self.tableView reloadData];
+}
+</code></pre><p>  } errorHandler:^(MKNetworkOperation <em>errorOp, NSError</em> err) {</p>
+<pre><code>NSLog(@&quot;MKNetwork request error : %@&quot;, [err localizedDescription]);
+</code></pre><p>  }];</p>
+<p>  [engine enqueueOperation:operation];<br>}</p></code></pre><br></li><br><li><br><p>创建数据源和表格视图, 实现表格视图代理方法    </p><br></li><br></ol><br><hr><br><h5>2. Post请求</h5><br><ol><br><li><br><p>下载数据方法  </p><br><pre><code> - (void)downloadData<br>{<br>  // 1. MKNetworkKit文件夹拖入项目，然后引入4个framework：<br>  // CFNetwork.Framework  , SystemConfiguration.framework  , Security.framework<p></p>
+<p>  // 2. 注意主机名HostName不能加”http://“, 程序会自动添加, 主机要指向一个目录, 不可以是一个具体文件, 如上类不可以是”www.<em>*</em>.net/json/conn.asp”</p>
+<p>  MKNetworkEngine *engine = [[MKNetworkEngine alloc] initWithHostName:@”services.xingshulin.com/ApricotForestWirelessServiceForLiterature/LiteratureDataServlet” customHeaderFields:nil];</p>
+<p>  NSMutableDictionary *paramsDict = [NSMutableDictionary dictionary];<br>  [paramsDict setObject:@”7B63373363386530373034366164393262633633373039326138356238366366307D2C7B336464363563386338626263653130663531623832616632343963363832323065363964656161627D2C7B66616C73657D2C7B307D2C7B307D2C7B66373539333863642D326162352D346232342D616336622D3132386538626434663366397D2C7B37363033396665333533326461623034656561353162363734643131636532617D2C7B323031352D30332D30372031313A31383A33337D2C7B312E382E367D2C7B696F736C6974657261747572657D2C7B494F536C6974657261747572655F312E382E365F696F73382E312E335F6950686F6E65352D327D” forKey:@”sessionKey”];<br>  [paramsDict setObject:@”10” forKey:@”pageSize”];<br>  [paramsDict setObject:@”2” forKey:@”rtype”];<br>  [paramsDict setObject:@”0” forKey:@”pageIndex”];<br>  [paramsDict setObject:@”getLiteraturegroupBySpecialty” forKey:@”m”];</p>
+<p>  MKNetworkOperation *operation = [engine operationWithPath:nil params:paramsDict httpMethod:@”POST”];</p>
+<p>  [operation addCompletionHandler:^(MKNetworkOperation *operation) {</p>
+<pre><code>id result = [NSJSONSerialization JSONObjectWithData:operation.responseData options:NSJSONReadingMutableContainers error:nil];
+
+if ([result isKindOfClass:[NSDictionary class]]) {
+    NSDictionary *dict = result;
+    NSLog(@&quot;%@&quot;, dict);
+
+    for (NSDictionary *objDict in dict[@&quot;obj&quot;]) {
+        DataModel *model = [[DataModel alloc] init];
+        [model setValuesForKeysWithDictionary:objDict];
+        [_dataArray addObject:model];
+    }
+    [_tableView reloadData];
+}
+</code></pre><p>  } errorHandler:^(MKNetworkOperation <em>errorOp, NSError</em> err) {</p>
+<pre><code>NSLog(@&quot;MKNetwork request error : %@&quot;, [err localizedDescription]);
+</code></pre><p>  }];</p>
+<p>  [engine enqueueOperation:operation];<br>}</p></code></pre><br></li><br><li><br><p>创建数据源和表格视图, 实现表格视图代理方法</p><br></li><br></ol><br><p></p>
+
+
+
+      
+    </div>
+    
+  </div>
+  
+    
+<div class="copyright">
+  <p><span>本文标题:</span><a href="/2015/07/21/ASIHTTPRequest-AFNetworking-MKNetworkingKit/">ASIHTTPRequest, AFNetworking, MKNetworkingKit网络框架get和post请求</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 Yi&#39;mouleng 的个人博客">Yi&#39;mouleng</a></p>
+  <p><span>发布时间:</span>2015年07月21日 - 00时00分</p>
+  <p><span>最后更新:</span>2016年01月28日 - 17时58分</p>
+  <p>
+    <span>原始链接:</span><a class="post-url" href="/2015/07/21/ASIHTTPRequest-AFNetworking-MKNetworkingKit/" title="ASIHTTPRequest, AFNetworking, MKNetworkingKit网络框架get和post请求">http://yimouleng.com/2015/07/21/ASIHTTPRequest-AFNetworking-MKNetworkingKit/</a>
+    <span class="copy-path" data-clipboard-text="原文: http://yimouleng.com/2015/07/21/ASIHTTPRequest-AFNetworking-MKNetworkingKit/　　作者: Yi&#39;mouleng" title="点击复制文章链接">
+        <i class="fa fa-clipboard"></i>
+    </span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。</p>
+  <script src="/js/clipboard.min.js"></script>
+  <script> var clipboard = new Clipboard('.copy-path'); </script>
+</div>
+
+
+
+<nav id="article-nav">
+  
+    <a href="/2015/09/30/ios-PortalTransition/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          iOS开发 - 开门/撕裂效果-基于PortalTransition修改撕裂动画
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/07/20/block-Weak-Strong/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">block的循环引用 ------ Weak-Strong Dance</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+  <strong class="toc-title">文章目录</strong>
+  <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#undefined"><span class="toc-number">1.</span> <span class="toc-text">目录</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">1.0.1.</span> <span class="toc-text">一. 用第三方库实现get请求</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#undefined"><span class="toc-number">1.0.1.0.0.1.</span> <span class="toc-text">1. ASI</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#undefined"><span class="toc-number">1.0.1.0.0.2.</span> <span class="toc-text">2. AFNetworking</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">1.0.2.</span> <span class="toc-text">二. Post请求的实现</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#undefined"><span class="toc-number">1.0.2.0.0.1.</span> <span class="toc-text">1. NSURLConnection</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#undefined"><span class="toc-number">1.0.2.0.0.2.</span> <span class="toc-text">2. ASI</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#undefined"><span class="toc-number">1.0.2.0.0.3.</span> <span class="toc-text">3. AFNetworking</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#undefined"><span class="toc-number">1.0.3.</span> <span class="toc-text">三. 使用MKNetworkingKit实现get和Post</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#undefined"><span class="toc-number">1.0.3.0.0.1.</span> <span class="toc-text">1. get请求</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#undefined"><span class="toc-number">1.0.3.0.0.2.</span> <span class="toc-text">2. Post请求</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">1.1.</span> <span class="toc-text">一. 用第三方库实现get请求</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#undefined"><span class="toc-number">1.1.0.0.1.</span> <span class="toc-text">1. ASI实现get请求的使用步骤</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#undefined"><span class="toc-number">1.1.0.0.2.</span> <span class="toc-text">2. AFNetworking</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">1.2.</span> <span class="toc-text">二. Post请求的实现</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#undefined"><span class="toc-number">1.2.0.0.1.</span> <span class="toc-text">1. 使用系统的NSURLConnection完成Post请求</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#undefined"><span class="toc-number">1.2.0.0.2.</span> <span class="toc-text">2. 使用第三方库ASI完成Post请求</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#undefined"><span class="toc-number">1.2.0.0.3.</span> <span class="toc-text">3. 使用AFNetworking完成Post请求</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#undefined"><span class="toc-number">1.3.</span> <span class="toc-text">三. 使用MKNetworkingKit实现get和Post</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#undefined"><span class="toc-number">1.3.0.0.1.</span> <span class="toc-text">1. get请求</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#undefined"><span class="toc-number">1.3.0.0.2.</span> <span class="toc-text">2. Post请求</span></a></li></ol></li></ol></li></ol></li></ol></li></ol>
+</div>
+
+<style>
+  .left-col .switch-btn {
+    display: none;
+  }
+  .left-col .switch-area {
+    display: none;
+  }
+</style>
+
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+<script>
+  var toc_button= document.getElementById("tocButton");
+  var toc_div= document.getElementById("toc");
+  toc_button.onclick=function(){
+    if(toc_div.style.display=="none"){
+      toc_div.style.display="block";
+      toc_button.value="隐藏目录";
+      document.getElementById("switch-btn").style.display="none";
+      document.getElementById("switch-area").style.display="none";
+    }
+    else{
+      toc_div.style.display="none";
+      toc_button.value="显示目录";
+      document.getElementById("switch-btn").style.display="block";
+      document.getElementById("switch-area").style.display="block";
+    }
+  }
+</script>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="ASIHTTPRequest-AFNetworking-MKNetworkingKit" data-title="ASIHTTPRequest, AFNetworking, MKNetworkingKit网络框架get和post请求" data-url="http://yimouleng.com/2015/07/21/ASIHTTPRequest-AFNetworking-MKNetworkingKit/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"yimouleng"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//yimouleng.com/js/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0]
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 本站由 <a href="https://weibo.com/yimouleng" target="_blank">@yimouleng</a> 创建，采用
+        <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> 作为主题并加以修改
+    	</div>
+      	<div class="footer-right">
+      		感谢 <a href="https://pages.github.com/" target="_blank">Github Pages</a> 提供稳定的空间服务
+      	</div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>

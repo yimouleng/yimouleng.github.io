@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>iOS开发 Socket - AsyncSocket | Yi&#39;mouleng-即便世界与我为敌，只要心还透明，就能折射希望。</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="一、前言
+公司的项目用到了Socket编程，之前在学习的过程当中，用到的更多的还是http请求的方式。但是既然用到了就必须学习一下，所以就在网上找一些例子，然后想自己写一个demo。可是发现很多写iOS Socket的博客并没有很详细的说明，也可能是大神们觉得其他东西都浅显易懂。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS开发 Socket - AsyncSocket">
+<meta property="og:url" content="http://yimouleng.com/2015/02/04/Socket-AsyncSocket/index.html">
+<meta property="og:site_name" content="Yi'mouleng-即便世界与我为敌，只要心还透明，就能折射希望。">
+<meta property="og:description" content="一、前言
+公司的项目用到了Socket编程，之前在学习的过程当中，用到的更多的还是http请求的方式。但是既然用到了就必须学习一下，所以就在网上找一些例子，然后想自己写一个demo。可是发现很多写iOS Socket的博客并没有很详细的说明，也可能是大神们觉得其他东西都浅显易懂。">
+<meta property="og:image" content="http://images.cnitblog.com/i/615535/201407/140948458653023.png">
+<meta property="og:updated_time" content="2016-01-28T09:58:10.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS开发 Socket - AsyncSocket">
+<meta name="twitter:description" content="一、前言
+公司的项目用到了Socket编程，之前在学习的过程当中，用到的更多的还是http请求的方式。但是既然用到了就必须学习一下，所以就在网上找一些例子，然后想自己写一个demo。可是发现很多写iOS Socket的博客并没有很详细的说明，也可能是大神们觉得其他东西都浅显易懂。">
+<meta name="twitter:image" content="http://images.cnitblog.com/i/615535/201407/140948458653023.png">
+  
+    <link rel="alternative" href="/atom.xml" title="Yi&#39;mouleng-即便世界与我为敌，只要心还透明，就能折射希望。" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/resources/avatar.jpg">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/resources/avatar.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Yi&#39;mouleng</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">知止安能定,定而知静,静方可虑,虑而后能得。---iOS交流群67784110</p>
+		
+				
+
+		
+			<div class="switch-btn" id="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area" id="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/archives">目录</a></li>
+				        
+							<li><a href="/categories/iOS开发">iOS开发</a></li>
+				        
+							<li><a href="/categories/二三事">二三事</a></li>
+				        
+							<li><a href="/tags/">标签云</a></li>
+				        
+							<li><a href="/about/">关于</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/yimouleng" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/yimouleng" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+					        
+								<a class="QQ" target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=ac73346414b7bc620d16a1553318221a96d0fb90832d39995c539098731e21b6" title="QQ">QQ</a>
+					        
+								<a class="mail" target="_blank" href="mailto:yimouleng@gamil.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/AFNetworking/" style="font-size: 10px;">AFNetworking</a> <a href="/tags/ASIHTTPRequest/" style="font-size: 10px;">ASIHTTPRequest</a> <a href="/tags/Animation/" style="font-size: 10px;">Animation</a> <a href="/tags/AppStore/" style="font-size: 20px;">AppStore</a> <a href="/tags/AsyncSocket/" style="font-size: 10px;">AsyncSocket</a> <a href="/tags/Autolayout/" style="font-size: 10px;">Autolayout</a> <a href="/tags/CALayer/" style="font-size: 10px;">CALayer</a> <a href="/tags/CoreGraphics/" style="font-size: 10px;">CoreGraphics</a> <a href="/tags/Dota2/" style="font-size: 10px;">Dota2</a> <a href="/tags/GCD/" style="font-size: 10px;">GCD</a> <a href="/tags/HTTPS/" style="font-size: 10px;">HTTPS</a> <a href="/tags/IOS-9/" style="font-size: 10px;">IOS 9</a> <a href="/tags/KVC/" style="font-size: 10px;">KVC</a> <a href="/tags/KVO/" style="font-size: 10px;">KVO</a> <a href="/tags/LLPictureShow/" style="font-size: 10px;">LLPictureShow</a> <a href="/tags/MKNetworkingKit/" style="font-size: 10px;">MKNetworkingKit</a> <a href="/tags/Masonry/" style="font-size: 10px;">Masonry</a> <a href="/tags/QRCode/" style="font-size: 10px;">QRCode</a> <a href="/tags/ReactiveCocoa/" style="font-size: 10px;">ReactiveCocoa</a> <a href="/tags/Socket/" style="font-size: 10px;">Socket</a> <a href="/tags/TouchID/" style="font-size: 10px;">TouchID</a> <a href="/tags/UIActionSheet/" style="font-size: 10px;">UIActionSheet</a> <a href="/tags/UIAlertview/" style="font-size: 10px;">UIAlertview</a> <a href="/tags/UIBezierPath/" style="font-size: 10px;">UIBezierPath</a> <a href="/tags/UIKeyboardType/" style="font-size: 10px;">UIKeyboardType</a> <a href="/tags/WOW/" style="font-size: 10px;">WOW</a> <a href="/tags/ZXingObj/" style="font-size: 10px;">ZXingObj</a> <a href="/tags/block/" style="font-size: 20px;">block</a> <a href="/tags/iOS/" style="font-size: 20px;">iOS</a> <a href="/tags/ios/" style="font-size: 10px;">ios</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/js/" style="font-size: 10px;">js</a> <a href="/tags/runtime/" style="font-size: 10px;">runtime</a> <a href="/tags/scrollView/" style="font-size: 10px;">scrollView</a> <a href="/tags/skill/" style="font-size: 10px;">skill</a> <a href="/tags/内购/" style="font-size: 20px;">内购</a> <a href="/tags/动画/" style="font-size: 10px;">动画</a> <a href="/tags/即时通讯/" style="font-size: 10px;">即时通讯</a> <a href="/tags/四舍五入/" style="font-size: 10px;">四舍五入</a> <a href="/tags/多线程/" style="font-size: 10px;">多线程</a> <a href="/tags/撕裂效果/" style="font-size: 10px;">撕裂效果</a> <a href="/tags/支付/" style="font-size: 20px;">支付</a> <a href="/tags/模式框架/" style="font-size: 10px;">模式框架</a> <a href="/tags/正则/" style="font-size: 10px;">正则</a> <a href="/tags/网络框架/" style="font-size: 10px;">网络框架</a> <a href="/tags/语法/" style="font-size: 10px;">语法</a> <a href="/tags/键盘/" style="font-size: 10px;">键盘</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://yimouleng.com/">我的博客</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Yi&#39;mouleng</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="/resources/avatar.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Yi&#39;mouleng</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">知止安能定,定而知静,静方可虑,虑而后能得。---iOS交流群67784110</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/archives">目录</a></li>
+		        
+					<li><a href="/categories/iOS开发">iOS开发</a></li>
+		        
+					<li><a href="/categories/二三事">二三事</a></li>
+		        
+					<li><a href="/tags/">标签云</a></li>
+		        
+					<li><a href="/about/">关于</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/yimouleng" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/yimouleng" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+			        
+						<a class="QQ" target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=ac73346414b7bc620d16a1553318221a96d0fb90832d39995c539098731e21b6" title="QQ">QQ</a>
+			        
+						<a class="mail" target="_blank" href="mailto:yimouleng@gamil.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-Socket-AsyncSocket" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/02/04/Socket-AsyncSocket/" class="article-date">
+  	<time datetime="2015-02-03T16:00:00.000Z" itemprop="datePublished">2015-02-04</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      iOS开发 Socket - AsyncSocket
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AsyncSocket/">AsyncSocket</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Socket/">Socket</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/即时通讯/">即时通讯</a></li></ul>
+	</div>
+
+        
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/iOS开发/">iOS开发</a>
+	</div>
+
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+        <p></p><p>一、前言</p><p></p>
+<p></p><p><span style="font-size: 12px;">公司的项目用到了Socket编程，之前在学习的过程当中，用到的更多的还是http请求的方式。但是既然用到了就必须学习一下，所以就在网上找一些例子，然后想自己写一个demo。可是发现很多写iOS Socket的博客并没有很详细的说明，也可能是大神们觉得其他东西都浅显易懂。</span></p><br><a id="more"></a><p></p>
+<p></p><p><span style="font-size: 12px;">自己专研了一下，将自己的一些理解总结出来，一方面整理自己的学习思路，另一方面，为一些和我有同样困惑的小伙伴们，稍做指引。</span></p><p></p>
+<p><hr></p>
+<p></p><p>&nbsp;<span style="font-size: 12px;"><span style="font-size: 13px;">二、</span></span>AsyncSocket介绍</p><p></p>
+<p></p><p><span style="font-size: 12px;">1⃣️iOS中Socket编程的方式有哪些？</span></p><p></p>
+<p></p><p><span style="font-size: 12px;">－BSD Socket</span></p><p></p>
+<p></p><p><span style="font-size: 12px;">BSD Socket 是UNIX系统中通用的网络接口，它不仅支持各种不同的网络类型，而且也是一种内部进程之间的通信机制。而iOS系统其实本质就是UNIX，所以可以用，但是比较复杂。</span></p><p></p>
+<p></p><p><span style="font-size: 12px;">－CFSocket</span></p><p></p>
+<p></p><p><span style="font-size: 12px;">CFSocket是苹果提供给我们的使用Socket的方式，但是用起来还是会不太顺手。当然想使用的话，可以细细研究一下。</span></p><p></p>
+<p></p><p><span style="font-size: 12px;">－AsyncSocket</span></p><p></p>
+<p></p><p><span style="font-size: 12px;">这次博客的主讲内容，也是我们在开发项目中经常会用到的。</span></p><p></p>
+<p></p><p><span style="font-size: 12px;">2⃣️为什么选择AsyncSocket？</span></p><p></p>
+<p></p><p><span style="font-size: 12px;">iphone的CFNetwork编程比较艰深。使用AsyncSocket开源库来开发相对较简单，帮助我们封装了很多东西。</span></p><p></p>
+<p><hr></p>
+<p></p><p><span style="font-size: 14px;">三、AsyncSocket详解</span></p><p></p>
+<p></p><p><span style="font-size: 12px;">&nbsp;1⃣️说明</span></p><p></p>
+<p></p><p><span style="font-size: 12px;">在我们开发当中，我们主要的任务是开发客户端。所以详解里主要将客户端的整个连接建立过程，以及在说明时候回调哪些函数。在后面的示例代码中，也会给出服务器端的简单开发。</span></p><p></p>
+<p></p><p><span style="font-size: 12px;">2⃣️过程详解</span></p><p></p>
+<p></p><p><span style="font-size: 12px;">1.建立连接</span></p><p></p>
+<p></p><p><span style="font-size: 12px;">- (int)connectServer:(NSString *)hostIP port:(int)hostPort</span></p><p></p>
+<p></p><p><span style="font-size: 12px;">2.连接成功后，会回调的函数</span></p><p></p>
+<p></p><p><span style="font-size: 12px;">- (void)onSocket:(AsyncSocket <em>)sock didConnectToHost:(NSString </em>)host port:(UInt16)port</span></p><p></p>
+<p></p><p><span style="font-size: 12px;">3.发送数据</span></p><p></p>
+<p></p><p><span style="font-size: 12px;">- (void)writeData:(NSData *)data withTimeout:(NSTimeInterval)timeout tag:(long)tag;</span></p><p></p>
+<p></p><p><span style="font-size: 12px;">4.接受数据</span></p><p></p>
+<p></p><p><span style="font-size: 12px;">-(void)onSocket:(AsyncSocket <em>)sock didReadData:(NSData </em>)data withTag:(long)tag</span></p><p></p>
+<p></p><p><span style="font-size: 12px;">5.断开连接</span></p><p></p>
+<p></p><p><span style="font-size: 12px;">- (void)onSocket:(AsyncSocket <em>)sock willDisconnectWithError:(NSError </em>)err</span></p><p></p>
+<p></p><p><span style="font-size: 12px;">- (void)onSocketDidDisconnect:(AsyncSocket *)sock</span></p><p></p>
+<p></p><p><span style="font-size: 12px;">主要就是上述的几个方法，只是说在真正开发当中，很可能我们在收发数据的时候，我们收发的数据并不仅仅是一个字符串包装成NSData即可，我们很可能会发送结构体等类型，这个时候我们就需要和服务器端的人员协作来开发：定义怎样的结构体。</span></p><p></p>
+<p><hr></p>
+<p></p><p>四、AsyncSocket示例</p><p></p>
+<p></p><p>客户端代码</p><p></p>
+<div class="cnblogs_code"><br><pre><span style="color: #0000ff;">#import</span> <span style="color: #800000;">“</span><span style="color: #800000;">ViewController.h</span><span style="color: #800000;">“</span><br><br><span style="color: #0000ff;">#define</span> SRV_CONNECTED 0<br><span style="color: #0000ff;">#define</span> SRV_CONNECT_SUC 1<br><span style="color: #0000ff;">#define</span> SRV_CONNECT_FAIL 2<br><span style="color: #0000ff;">#define</span> HOST_IP @”192.168.83.40”<br><span style="color: #0000ff;">#define</span> HOST_PORT 8008<br><br><span style="color: #0000ff;">@interface</span><span style="color: #000000;"> ViewController ()<br>{<br>    NSString </span><em><span style="color: #000000;">_content;<br>}<br></span>-(<span style="color: #0000ff;">int</span>) connectServer: (NSString </em>) hostIP port:(<span style="color: #0000ff;">int</span><span style="color: #000000;">) hostPort;<br></span>-(<span style="color: #0000ff;">void</span>)showMessage:(NSString <em><span style="color: #000000;">) msg;<br></span><span style="color: #0000ff;">@end</span><br><br><span style="color: #0000ff;">@implementation</span><span style="color: #000000;"> ViewController<br><br></span><span style="color: #0000ff;">@synthesize</span><span style="color: #000000;"> clientSocket,tbInputMsg,lblOutputMsg;<br><br></span><span style="color: #0000ff;">#pragma</span> mark - view lifecycle<br>- (<span style="color: #0000ff;">void</span><span style="color: #000000;">)viewDidLoad<br>{<br>    [super viewDidLoad];<br><br>    [self connectServer:HOST_IP port:HOST_PORT];<br>}<br></span>- (<span style="color: #0000ff;">void</span><span style="color: #000000;">)viewDidUnload<br>{<br>    [super viewDidUnload];<br>    [clientSocket release], clientSocket </span>=<span style="color: #000000;"> nil;<br>    [tbInputMsg release], tbInputMsg </span>=<span style="color: #000000;"> nil;<br>    [lblOutputMsg release], lblOutputMsg </span>=<span style="color: #000000;"> nil;<br>}<br><br></span>- (<span style="color: #0000ff;">int</span>)connectServer:(NSString </em>)hostIP port:(<span style="color: #0000ff;">int</span><span style="color: #000000;">)hostPort<br>{<br>    </span><span style="color: #0000ff;">if</span> (clientSocket ==<span style="color: #000000;"> nil)<br>    {<br>        </span><span style="color: #008000;">//</span><span style="color: #008000;"> 在需要联接地方使用connectToHost联接服务器</span><br>        clientSocket =<span style="color: #000000;"> [[AsyncSocket alloc] initWithDelegate:self];<br>        NSError </span><em>err =<span style="color: #000000;"> nil;<br>        </span><span style="color: #0000ff;">if</span> (![clientSocket connectToHost:hostIP onPort:hostPort error:&amp;<span style="color: #000000;">err])<br>        {<br>            NSLog(</span><span style="color: #800000;">@”</span><span style="color: #800000;">Error %d:%@</span><span style="color: #800000;">“</span><span style="color: #000000;">, err.code, [err localizedDescription]);<br><br>            UIAlertView </span></em>alert = [[UIAlertView alloc] initWithTitle:[<span style="color: #800000;">@”</span><span style="color: #800000;">Connection failed to host</span><span style="color: #800000;">“</span> stringByAppendingString:hostIP] message:[NSString stringWithFormat:<span style="color: #800000;">@”</span><span style="color: #800000;">%d:%@</span><span style="color: #800000;">“</span>,err.code,err.localizedDescription] <span style="color: #0000ff;">delegate</span>:self cancelButtonTitle:<span style="color: #800000;">@”</span><span style="color: #800000;">OK</span><span style="color: #800000;">“</span><span style="color: #000000;"> otherButtonTitles:nil];<br>            [alert show];<br>            [alert release];<br>            </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> SRV_CONNECT_FAIL;<br>        } </span><span style="color: #0000ff;">else</span><span style="color: #000000;"> {<br>            NSLog(</span><span style="color: #800000;">@”</span><span style="color: #800000;">Connected!</span><span style="color: #800000;">“</span><span style="color: #000000;">);<br>            </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> SRV_CONNECT_SUC;<br>        }<br>    }<br>    </span><span style="color: #0000ff;">else</span><span style="color: #000000;"> {<br>        </span><span style="color: #0000ff;">return</span><span style="color: #000000;"> SRV_CONNECTED;<br>    }<br>}<br><br></span><span style="color: #0000ff;">#pragma</span> mark - IBAction<br><span style="color: #008000;">//</span><span style="color: #008000;"> 发送数据</span><br>- (IBAction) sendMsg:(<span style="color: #0000ff;">id</span><span style="color: #000000;">)sender<br>{<br>    NSString </span><em>inputMsgStr =<span style="color: #000000;"> tbInputMsg.text;<br>    NSString </span></em> content = [inputMsgStr stringByAppendingString:<span style="color: #800000;">@”</span><span style="color: #800000;">\r\n</span><span style="color: #800000;">“</span><span style="color: #000000;">];<br>    NSLog(</span><span style="color: #800000;">@”</span><span style="color: #800000;">%@</span><span style="color: #800000;">“</span><span style="color: #000000;">,content);<br>    NSData </span><em>data =<span style="color: #000000;"> [content dataUsingEncoding:NSUTF8StringEncoding];<br>    </span><span style="color: #008000;">//</span><span style="color: #008000;"> NSData </span></em>data = [content dataUsingEncoding:NSISOLatin1StringEncoding];<br>    [clientSocket writeData:data withTimeout:-<span style="color: #800080;">1</span> tag:<span style="color: #800080;">0</span><span style="color: #000000;">];<br>}<br></span><span style="color: #008000;">//</span><span style="color: #008000;"> 连接/重新连接</span><br>- (IBAction) reconnect:(<span style="color: #0000ff;">id</span><span style="color: #000000;">)sender<br>{<br>    </span><span style="color: #0000ff;">int</span> stat =<span style="color: #000000;"> [self connectServer:HOST_IP port:HOST_PORT];<br>    </span><span style="color: #0000ff;">switch</span><span style="color: #000000;"> (stat) {<br>        </span><span style="color: #0000ff;">case</span><span style="color: #000000;"> SRV_CONNECT_SUC:<br>            [self showMessage:</span><span style="color: #800000;">@”</span><span style="color: #800000;">connect success</span><span style="color: #800000;">“</span><span style="color: #000000;">];<br>            </span><span style="color: #0000ff;">break</span><span style="color: #000000;">;<br>        </span><span style="color: #0000ff;">case</span><span style="color: #000000;"> SRV_CONNECTED:<br>            [self showMessage:</span><span style="color: #800000;">@”</span><span style="color: #800000;">It’s connected,don’t agian</span><span style="color: #800000;">“</span><span style="color: #000000;">];<br>            </span><span style="color: #0000ff;">break</span><span style="color: #000000;">;<br>        </span><span style="color: #0000ff;">default</span><span style="color: #000000;">:<br>            </span><span style="color: #0000ff;">break</span><span style="color: #000000;">;<br>    }<br>}<br></span>- (<span style="color: #0000ff;">void</span>)showMessage:(NSString <em><span style="color: #000000;">)msg<br>{<br>    UIAlertView </span></em> alert = [[UIAlertView alloc]initWithTitle:<span style="color: #800000;">@”</span><span style="color: #800000;">Alert!</span><span style="color: #800000;">“</span><span style="color: #000000;"><br>                                                    message:msg<br>                                                   </span><span style="color: #0000ff;">delegate</span><span style="color: #000000;">:nil<br>                                          cancelButtonTitle:</span><span style="color: #800000;">@”</span><span style="color: #800000;">OK</span><span style="color: #800000;">“</span><span style="color: #000000;"><br>                                          otherButtonTitles:nil];<br>    [alert show];<br>    [alert release];<br>}<br></span>- (IBAction)textFieldDoneEditing:(<span style="color: #0000ff;">id</span><span style="color: #000000;">)sender<br>{<br>    [tbInputMsg resignFirstResponder];<br>}<br></span>- (IBAction)backgroundTouch:(<span style="color: #0000ff;">id</span><span style="color: #000000;">)sender<br>{<br>    [tbInputMsg resignFirstResponder];<br>}<br><br></span><span style="color: #0000ff;">#pragma</span> mark socket delegate<br>- (<span style="color: #0000ff;">void</span>)onSocket:(AsyncSocket <em>)sock didConnectToHost:(NSString </em><span style="color: #000000;">)host port:(UInt16)port<br>{<br>    [clientSocket readDataWithTimeout:</span>-<span style="color: #800080;">1</span> tag:<span style="color: #800080;">0</span><span style="color: #000000;">];<br>}<br><br></span>- (<span style="color: #0000ff;">void</span>)onSocket:(AsyncSocket <em>)sock willDisconnectWithError:(NSError </em><span style="color: #000000;">)err<br>{<br>    NSLog(</span><span style="color: #800000;">@”</span><span style="color: #800000;">Error</span><span style="color: #800000;">“</span><span style="color: #000000;">);<br>}<br><br></span>- (<span style="color: #0000ff;">void</span>)onSocketDidDisconnect:(AsyncSocket <em><span style="color: #000000;">)sock<br>{<br>    NSString </span></em>msg = <span style="color: #800000;">@”</span><span style="color: #800000;">Sorry this connect is failure</span><span style="color: #800000;">“</span><span style="color: #000000;">;<br>    [self showMessage:msg];<br>    [msg release];<br>    clientSocket </span>=<span style="color: #000000;"> nil;<br>}<br><br></span>- (<span style="color: #0000ff;">void</span>)onSocketDidSecure:(AsyncSocket <em><span style="color: #000000;">)sock<br>{<br>}<br><br></span><span style="color: #008000;">//</span><span style="color: #008000;"> 接收到数据（可以通过tag区分）</span><br>-(<span style="color: #0000ff;">void</span>)onSocket:(AsyncSocket </em>)sock didReadData:(NSData <em>)data withTag:(<span style="color: #0000ff;">long</span><span style="color: #000000;">)tag<br>{<br>    NSString</span></em> aStr =<span style="color: #000000;"> [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];<br>    _content </span>=<span style="color: #000000;"> lblOutputMsg.text;<br>    NSLog(</span><span style="color: #800000;">@”</span><span style="color: #800000;">Hava received datas is :%@</span><span style="color: #800000;">“</span><span style="color: #000000;">,aStr);<br>    NSString </span><em>newStr = [NSString stringWithFormat:<span style="color: #800000;">@”</span><span style="color: #800000;">\n%@</span><span style="color: #800000;">“</span><span style="color: #000000;">, aStr];<br>    lblOutputMsg.text </span>=<span style="color: #000000;"> [_content stringByAppendingString:newStr];<br>    [aStr release];<br>    [clientSocket readDataWithTimeout:</span>-<span style="color: #800080;">1</span> tag:<span style="color: #800080;">0</span><span style="color: #000000;">];<br>}<br><br></span><span style="color: #0000ff;">@end</span></em></pre><br></div><br><p>服务器端代码</p><br><div class="cnblogs_code"><br><pre><span style="color: #0000ff;">#import</span> <span style="color: #800000;">“</span><span style="color: #800000;">SocketView.h</span><span style="color: #800000;">“</span><br><span style="color: #0000ff;">#import</span> <span style="color: #800000;">“</span><span style="color: #800000;">AsyncSocket.h</span><span style="color: #800000;">“</span><br><br><span style="color: #0000ff;">#define</span> WELCOME_MSG  0<br><span style="color: #0000ff;">#define</span> ECHO_MSG     1<br><br><span style="color: #0000ff;">#define</span> FORMAT(format, …) [NSString stringWithFormat:(format), ##<strong>VA_ARGS</strong>]<br><br><span style="color: #0000ff;">@interface</span><span style="color: #000000;"> SocketView (PrivateAPI)<br></span>- (<span style="color: #0000ff;">void</span>)logError:(NSString <span style="color: #000000;">)msg;<br></span>- (<span style="color: #0000ff;">void</span>)logInfo:(NSString <em><span style="color: #000000;">)msg;<br></span>- (<span style="color: #0000ff;">void</span>)logMessage:(NSString </em><span style="color: #000000;">)msg;<br></span><span style="color: #0000ff;">@end</span><br><br><span style="color: #0000ff;">@implementation</span><span style="color: #000000;"> SocketView<br><br></span><span style="color: #008000;">//</span><span style="color: #008000;"> 初始化</span><br>- (<span style="color: #0000ff;">void</span><span style="color: #000000;">)awakeFromNib<br>{<br>    listenSocket </span>=<span style="color: #000000;"> [[AsyncSocket alloc] initWithDelegate:self];<br>    [listenSocket setRunLoopModes:[NSArray arrayWithObject:NSRunLoopCommonModes]];<br><br>    connectedSockets </span>= [[NSMutableArray alloc] initWithCapacity:<span style="color: #800080;">1</span><span style="color: #000000;">];<br>    isRunning </span>=<span style="color: #000000;"> NO;<br><br>    [logView setString:</span><span style="color: #800000;">@””</span><span style="color: #000000;">];<br>    </span><span style="color: #008000;">//</span><span style="color: #008000;"> [portField setString:@”8080”];</span><br><span style="color: #000000;">}<br><br></span>- (IBAction)startStop:(<span style="color: #0000ff;">id</span><span style="color: #000000;">)sender<br>{<br>    </span><span style="color: #0000ff;">if</span>(!<span style="color: #000000;">isRunning)<br>    {<br>        </span><span style="color: #0000ff;">int</span> port =<span style="color: #000000;"> [portField intValue];<br><br>        </span><span style="color: #0000ff;">if</span>(port &lt; <span style="color: #800080;">0</span> || port &gt; <span style="color: #800080;">65535</span><span style="color: #000000;">)<br>        {<br>            port </span>= <span style="color: #800080;">0</span>; <span style="color: #008000;">//</span><span style="color: #008000;"> 会随即取端口</span><br><span style="color: #000000;">        }<br><br>        NSError </span><em>error =<span style="color: #000000;"> nil;<br>        </span><span style="color: #0000ff;">if</span>(![listenSocket acceptOnPort:port error:&amp;<span style="color: #000000;">error])<br>        {<br>            [self logError:FORMAT(</span><span style="color: #800000;">@”</span><span style="color: #800000;">Error starting server: %@</span><span style="color: #800000;">“</span><span style="color: #000000;">, error)];<br>            </span><span style="color: #0000ff;">return</span><span style="color: #000000;">;<br>        }<br><br>        [self logInfo:FORMAT(</span><span style="color: #800000;">@”</span><span style="color: #800000;">Echo server started on port %hu</span><span style="color: #800000;">“</span><span style="color: #000000;">, [listenSocket localPort])];<br>        isRunning </span>=<span style="color: #000000;"> YES;<br><br>        [portField setEnabled:NO];<br>        [startStopButton setTitle:</span><span style="color: #800000;">@”</span><span style="color: #800000;">Stop</span><span style="color: #800000;">“</span><span style="color: #000000;">];<br>    }<br>    </span><span style="color: #0000ff;">else</span><span style="color: #000000;"><br>    {<br>        </span><span style="color: #008000;">//</span><span style="color: #008000;"> Stop accepting connections</span><br><span style="color: #000000;">        [listenSocket disconnect];<br><br>        </span><span style="color: #008000;">//</span><span style="color: #008000;"> Stop any client connections</span><br>        <span style="color: #0000ff;">int</span><span style="color: #000000;"> i;<br>        </span><span style="color: #0000ff;">for</span>(i = <span style="color: #800080;">0</span>; i &lt; [connectedSockets count]; i++<span style="color: #000000;">)<br>        {<br>            </span><span style="color: #008000;">//</span><span style="color: #008000;"> Call disconnect on the socket,<br>            </span><span style="color: #008000;">//</span><span style="color: #008000;"> which will invoke the onSocketDidDisconnect: method,<br>            </span><span style="color: #008000;">//</span><span style="color: #008000;"> which will remove the socket from the list.</span><br><span style="color: #000000;">            [[connectedSockets objectAtIndex:i] disconnect];<br>        }<br><br>        [self logInfo:</span><span style="color: #800000;">@”</span><span style="color: #800000;">Stopped Echo server</span><span style="color: #800000;">“</span><span style="color: #000000;">];<br>        isRunning </span>= <span style="color: #0000ff;">false</span><span style="color: #000000;">;<br><br>        [portField setEnabled:YES];<br>        [startStopButton setTitle:</span><span style="color: #800000;">@”</span><span style="color: #800000;">Start</span><span style="color: #800000;">“</span><span style="color: #000000;">];<br>    }<br>}<br><br></span>- (<span style="color: #0000ff;">void</span><span style="color: #000000;">)scrollToBottom<br>{<br>    NSScrollView </span></em>scrollView =<span style="color: #000000;"> [logView enclosingScrollView];<br>    NSPoint newScrollOrigin;<br><br>    </span><span style="color: #0000ff;">if</span><span style="color: #000000;"> ([[scrollView documentView] isFlipped])<br>        newScrollOrigin </span>= NSMakePoint(<span style="color: #800080;">0.0</span><span style="color: #000000;">, NSMaxY([[scrollView documentView] frame]));<br>    </span><span style="color: #0000ff;">else</span><span style="color: #000000;"><br>        newScrollOrigin </span>= NSMakePoint(<span style="color: #800080;">0.0</span>, <span style="color: #800080;">0.0</span><span style="color: #000000;">);<br><br>    [[scrollView documentView] scrollPoint:newScrollOrigin];<br>}<br><br></span>- (<span style="color: #0000ff;">void</span>)logError:(NSString <em><span style="color: #000000;">)msg<br>{<br>    NSString </span></em>paragraph = [NSString stringWithFormat:<span style="color: #800000;">@”</span><span style="color: #800000;">%@\n</span><span style="color: #800000;">“</span><span style="color: #000000;">, msg];<br><br>    NSMutableDictionary </span><em>attributes = [NSMutableDictionary dictionaryWithCapacity:<span style="color: #800080;">1</span><span style="color: #000000;">];<br>    [attributes setObject:[NSColor redColor] forKey:NSForegroundColorAttributeName];<br><br>    NSAttributedString </span></em><span style="color: #0000ff;">as</span> =<span style="color: #000000;"> [[NSAttributedString alloc] initWithString:paragraph attributes:attributes];<br>    [</span><span style="color: #0000ff;">as</span><span style="color: #000000;"> autorelease];<br><br>    [[logView textStorage] appendAttributedString:</span><span style="color: #0000ff;">as</span><span style="color: #000000;">];<br>    [self scrollToBottom];<br>}<br><br></span>- (<span style="color: #0000ff;">void</span>)logInfo:(NSString <em><span style="color: #000000;">)msg<br>{<br>    NSString </span></em>paragraph = [NSString stringWithFormat:<span style="color: #800000;">@”</span><span style="color: #800000;">%@\n</span><span style="color: #800000;">“</span><span style="color: #000000;">, msg];<br><br>    NSMutableDictionary </span><em>attributes = [NSMutableDictionary dictionaryWithCapacity:<span style="color: #800080;">1</span><span style="color: #000000;">];<br>    [attributes setObject:[NSColor purpleColor] forKey:NSForegroundColorAttributeName];<br><br>    NSAttributedString </span></em><span style="color: #0000ff;">as</span> =<span style="color: #000000;"> [[NSAttributedString alloc] initWithString:paragraph attributes:attributes];<br>    [</span><span style="color: #0000ff;">as</span><span style="color: #000000;"> autorelease];<br><br>    [[logView textStorage] appendAttributedString:</span><span style="color: #0000ff;">as</span><span style="color: #000000;">];<br>    [self scrollToBottom];<br>}<br><br></span>- (<span style="color: #0000ff;">void</span>)logMessage:(NSString <em><span style="color: #000000;">)msg<br>{<br>    NSString </span></em>paragraph = [NSString stringWithFormat:<span style="color: #800000;">@”</span><span style="color: #800000;">%@\n</span><span style="color: #800000;">“</span><span style="color: #000000;">, msg];<br><br>    NSMutableDictionary </span><em>attributes = [NSMutableDictionary dictionaryWithCapacity:<span style="color: #800080;">1</span><span style="color: #000000;">];<br>    [attributes setObject:[NSColor blackColor] forKey:NSForegroundColorAttributeName];<br><br>    NSAttributedString </span></em><span style="color: #0000ff;">as</span> =<span style="color: #000000;"> [[NSAttributedString alloc] initWithString:paragraph attributes:attributes];<br>    [</span><span style="color: #0000ff;">as</span><span style="color: #000000;"> autorelease];<br><br>    [[logView textStorage] appendAttributedString:</span><span style="color: #0000ff;">as</span><span style="color: #000000;">];<br>    [self scrollToBottom];<br>}<br><br></span>- (<span style="color: #0000ff;">void</span>)onSocket:(AsyncSocket <em>)sock didAcceptNewSocket:(AsyncSocket </em><span style="color: #000000;">)newSocket<br>{<br>    [connectedSockets addObject:newSocket];<br>}<br><br></span><span style="color: #008000;">//</span><span style="color: #008000;"> 客户连接成功！</span><br>- (<span style="color: #0000ff;">void</span>)onSocket:(AsyncSocket <em>)sock didConnectToHost:(NSString </em><span style="color: #000000;">)host port:(UInt16)port<br>{<br>    [self logInfo:FORMAT(</span><span style="color: #800000;">@”</span><span style="color: #800000;">Accepted client %@:%hu</span><span style="color: #800000;">“</span><span style="color: #000000;">, host, port)];<br><br>    NSString </span><em>welcomeMsg = <span style="color: #800000;">@”</span><span style="color: #800000;">恭喜您,已经通过scoket连接上服务器!</span><span style="color: #800000;">“</span><span style="color: #000000;">;<br>    NSData </span></em>welcomeData =<span style="color: #000000;"> [welcomeMsg dataUsingEncoding:NSUTF8StringEncoding];<br><br>    [sock writeData:welcomeData withTimeout:</span>-<span style="color: #800080;">1</span><span style="color: #000000;"> tag:WELCOME_MSG];<br><br>    </span><span style="color: #008000;">//</span><span style="color: #008000;"> We could call readDataToData:withTimeout:tag: here - that would be perfectly fine.<br>    </span><span style="color: #008000;">//</span><span style="color: #008000;"> If we did this, we’d want to add a check in onSocket:didWriteDataWithTag: and only<br>    </span><span style="color: #008000;">//</span><span style="color: #008000;"> queue another read if tag != WELCOME_MSG.</span><br><span style="color: #000000;">}<br><br></span>- (<span style="color: #0000ff;">void</span>)onSocket:(AsyncSocket <em>)sock didWriteDataWithTag:(<span style="color: #0000ff;">long</span><span style="color: #000000;">)tag<br>{<br>   [sock readDataToData:[AsyncSocket CRLFData] withTimeout:</span>-<span style="color: #800080;">1</span> tag:<span style="color: #800080;">0</span><span style="color: #000000;">];<br>}<br></span><span style="color: #008000;">//</span><span style="color: #008000;"> 接收到数据</span><br>- (<span style="color: #0000ff;">void</span>)onSocket:(AsyncSocket </em>)sock didReadData:(NSData <em>)data withTag:(<span style="color: #0000ff;">long</span><span style="color: #000000;">)tag<br>{<br>    NSData </span></em>strData = [data subdataWithRange:NSMakeRange(<span style="color: #800080;">0</span>, [data length] - <span style="color: #800080;">2</span><span style="color: #000000;">)];<br>    NSString </span><em>recvMsg =<span style="color: #000000;"> [[[NSString alloc] initWithData:strData encoding:NSUTF8StringEncoding] autorelease];<br>    </span><span style="color: #0000ff;">if</span><span style="color: #000000;">(recvMsg)<br>    {<br>        [self logMessage:recvMsg];<br>    }<br>    </span><span style="color: #0000ff;">else</span><span style="color: #000000;"><br>    {<br>        [self logError:</span><span style="color: #800000;">@”</span><span style="color: #800000;">Error converting received data into UTF-8 String</span><span style="color: #800000;">“</span><span style="color: #000000;">];<br>    }<br>    NSString </span></em>backStr =<span style="color: #000000;"> nil;<br>    </span><span style="color: #0000ff;">for</span> (AsyncSocket <em>socket <span style="color: #0000ff;">in</span><span style="color: #000000;"> connectedSockets) {<br>        </span><span style="color: #0000ff;">if</span><span style="color: #000000;"> ([sock isEqualTo:socket]) {<br>            backStr </span>= [NSString stringWithFormat:<span style="color: #800000;">@”</span><span style="color: #800000;">我说: %@</span><span style="color: #800000;">“</span><span style="color: #000000;">,recvMsg];<br>        } </span><span style="color: #0000ff;">else</span><span style="color: #000000;"> {<br>            backStr </span>= [NSString stringWithFormat:<span style="color: #800000;">@”</span><span style="color: #800000;">他说: %@</span><span style="color: #800000;">“</span><span style="color: #000000;">,recvMsg];<br>        }<br>    }<br><br>    </span><span style="color: #008000;">//</span><span style="color: #008000;"> 回发数据</span><br>    NSData</em> backData =<span style="color: #000000;"> [backStr dataUsingEncoding:NSUTF8StringEncoding];<br>    [sock writeData:backData withTimeout:</span>-<span style="color: #800080;">1</span><span style="color: #000000;"> tag:ECHO_MSG];<br>}<br><br></span>- (<span style="color: #0000ff;">void</span>)onSocket:(AsyncSocket <em>)sock willDisconnectWithError:(NSError </em><span style="color: #000000;">)err<br>{<br>    [self logInfo:FORMAT(</span><span style="color: #800000;">@”</span><span style="color: #800000;">Client Disconnected: %@:%hu</span><span style="color: #800000;">“</span><span style="color: #000000;">, [sock connectedHost], [sock connectedPort])];<br>}<br><br></span>- (<span style="color: #0000ff;">void</span>)onSocketDidDisconnect:(AsyncSocket *<span style="color: #000000;">)sock<br>{<br>    [connectedSockets removeObject:sock];<br>}<br><br></span><span style="color: #0000ff;">@end</span></pre><br></div><br><p><span style="font-size: 12px; line-height: 18px;">界面搭建</span></p><br><p><span style="font-size: 12px; line-height: 18px;"><img src="http://images.cnitblog.com/i/615535/201407/140948458653023.png" alt=""></span></p><div id="MySignature"></div><br><div class="clear"></div><br><div id="blog_post_info_block"><br><div id="BlogPostCategory"></div><br><div id="EntryTag"></div><br><div id="blog_post_info"><br></div><br><div class="clear"></div><br><div id="post_next_prev"></div><br></div>
+
+
+      
+    </div>
+    
+  </div>
+  
+    
+<div class="copyright">
+  <p><span>本文标题:</span><a href="/2015/02/04/Socket-AsyncSocket/">iOS开发 Socket - AsyncSocket</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 Yi&#39;mouleng 的个人博客">Yi&#39;mouleng</a></p>
+  <p><span>发布时间:</span>2015年02月04日 - 00时00分</p>
+  <p><span>最后更新:</span>2016年01月28日 - 17时58分</p>
+  <p>
+    <span>原始链接:</span><a class="post-url" href="/2015/02/04/Socket-AsyncSocket/" title="iOS开发 Socket - AsyncSocket">http://yimouleng.com/2015/02/04/Socket-AsyncSocket/</a>
+    <span class="copy-path" data-clipboard-text="原文: http://yimouleng.com/2015/02/04/Socket-AsyncSocket/　　作者: Yi&#39;mouleng" title="点击复制文章链接">
+        <i class="fa fa-clipboard"></i>
+    </span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。</p>
+  <script src="/js/clipboard.min.js"></script>
+  <script> var clipboard = new Clipboard('.copy-path'); </script>
+</div>
+
+
+
+<nav id="article-nav">
+  
+    <a href="/2015/02/20/kvc-kvo/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          iOS开发 KVC和KVO
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/12/17/ios-TouchID/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">iOS封装 - TouchID 指纹验证</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+  <strong class="toc-title">文章目录</strong>
+  
+</div>
+
+<style>
+  .left-col .switch-btn {
+    display: none;
+  }
+  .left-col .switch-area {
+    display: none;
+  }
+</style>
+
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+<script>
+  var toc_button= document.getElementById("tocButton");
+  var toc_div= document.getElementById("toc");
+  toc_button.onclick=function(){
+    if(toc_div.style.display=="none"){
+      toc_div.style.display="block";
+      toc_button.value="隐藏目录";
+      document.getElementById("switch-btn").style.display="none";
+      document.getElementById("switch-area").style.display="none";
+    }
+    else{
+      toc_div.style.display="none";
+      toc_button.value="显示目录";
+      document.getElementById("switch-btn").style.display="block";
+      document.getElementById("switch-area").style.display="block";
+    }
+  }
+</script>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="Socket-AsyncSocket" data-title="iOS开发 Socket - AsyncSocket" data-url="http://yimouleng.com/2015/02/04/Socket-AsyncSocket/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"yimouleng"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//yimouleng.com/js/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0]
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 本站由 <a href="https://weibo.com/yimouleng" target="_blank">@yimouleng</a> 创建，采用
+        <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> 作为主题并加以修改
+    	</div>
+      	<div class="footer-right">
+      		感谢 <a href="https://pages.github.com/" target="_blank">Github Pages</a> 提供稳定的空间服务
+      	</div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>

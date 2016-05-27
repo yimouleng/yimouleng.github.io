@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>iOS封装 - TouchID 指纹验证 | Yi&#39;mouleng-即便世界与我为敌，只要心还透明，就能折射希望。</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="前言  TouchID已经出来一段时间了，感觉大家已经不再陌生，它是苹果公司在iOS 7中引入并在iPhone 5s上使用的新特性，基于一个Local Authentication的新框架，允许用户解锁设备和在App Store购物的生物识别技术。  它的强大毋庸置疑，在微信，支付宝等等的App中，我们也在市场的使用它，极大的便利我们生活等，在这篇文章中，我会封装一个TouchID类，方便大家在以">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS封装 - TouchID 指纹验证">
+<meta property="og:url" content="http://yimouleng.com/2014/12/17/ios-TouchID/index.html">
+<meta property="og:site_name" content="Yi'mouleng-即便世界与我为敌，只要心还透明，就能折射希望。">
+<meta property="og:description" content="前言  TouchID已经出来一段时间了，感觉大家已经不再陌生，它是苹果公司在iOS 7中引入并在iPhone 5s上使用的新特性，基于一个Local Authentication的新框架，允许用户解锁设备和在App Store购物的生物识别技术。  它的强大毋庸置疑，在微信，支付宝等等的App中，我们也在市场的使用它，极大的便利我们生活等，在这篇文章中，我会封装一个TouchID类，方便大家在以">
+<meta property="og:image" content="http://yimouleng.com/image/TouchId1.png">
+<meta property="og:image" content="http://yimouleng.com/image/TouchId2.png">
+<meta property="og:updated_time" content="2016-01-28T09:58:10.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS封装 - TouchID 指纹验证">
+<meta name="twitter:description" content="前言  TouchID已经出来一段时间了，感觉大家已经不再陌生，它是苹果公司在iOS 7中引入并在iPhone 5s上使用的新特性，基于一个Local Authentication的新框架，允许用户解锁设备和在App Store购物的生物识别技术。  它的强大毋庸置疑，在微信，支付宝等等的App中，我们也在市场的使用它，极大的便利我们生活等，在这篇文章中，我会封装一个TouchID类，方便大家在以">
+<meta name="twitter:image" content="http://yimouleng.com/image/TouchId1.png">
+  
+    <link rel="alternative" href="/atom.xml" title="Yi&#39;mouleng-即便世界与我为敌，只要心还透明，就能折射希望。" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/resources/avatar.jpg">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/resources/avatar.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Yi&#39;mouleng</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">知止安能定,定而知静,静方可虑,虑而后能得。---iOS交流群67784110</p>
+		
+				
+
+		
+			<div class="switch-btn" id="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area" id="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/archives">目录</a></li>
+				        
+							<li><a href="/categories/iOS开发">iOS开发</a></li>
+				        
+							<li><a href="/categories/二三事">二三事</a></li>
+				        
+							<li><a href="/tags/">标签云</a></li>
+				        
+							<li><a href="/about/">关于</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/yimouleng" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/yimouleng" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+					        
+								<a class="QQ" target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=ac73346414b7bc620d16a1553318221a96d0fb90832d39995c539098731e21b6" title="QQ">QQ</a>
+					        
+								<a class="mail" target="_blank" href="mailto:yimouleng@gamil.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/AFNetworking/" style="font-size: 10px;">AFNetworking</a> <a href="/tags/ASIHTTPRequest/" style="font-size: 10px;">ASIHTTPRequest</a> <a href="/tags/Animation/" style="font-size: 10px;">Animation</a> <a href="/tags/AppStore/" style="font-size: 20px;">AppStore</a> <a href="/tags/AsyncSocket/" style="font-size: 10px;">AsyncSocket</a> <a href="/tags/Autolayout/" style="font-size: 10px;">Autolayout</a> <a href="/tags/CALayer/" style="font-size: 10px;">CALayer</a> <a href="/tags/CoreGraphics/" style="font-size: 10px;">CoreGraphics</a> <a href="/tags/Dota2/" style="font-size: 10px;">Dota2</a> <a href="/tags/GCD/" style="font-size: 10px;">GCD</a> <a href="/tags/HTTPS/" style="font-size: 10px;">HTTPS</a> <a href="/tags/IOS-9/" style="font-size: 10px;">IOS 9</a> <a href="/tags/KVC/" style="font-size: 10px;">KVC</a> <a href="/tags/KVO/" style="font-size: 10px;">KVO</a> <a href="/tags/LLPictureShow/" style="font-size: 10px;">LLPictureShow</a> <a href="/tags/MKNetworkingKit/" style="font-size: 10px;">MKNetworkingKit</a> <a href="/tags/Masonry/" style="font-size: 10px;">Masonry</a> <a href="/tags/QRCode/" style="font-size: 10px;">QRCode</a> <a href="/tags/ReactiveCocoa/" style="font-size: 10px;">ReactiveCocoa</a> <a href="/tags/Socket/" style="font-size: 10px;">Socket</a> <a href="/tags/TouchID/" style="font-size: 10px;">TouchID</a> <a href="/tags/UIActionSheet/" style="font-size: 10px;">UIActionSheet</a> <a href="/tags/UIAlertview/" style="font-size: 10px;">UIAlertview</a> <a href="/tags/UIBezierPath/" style="font-size: 10px;">UIBezierPath</a> <a href="/tags/UIKeyboardType/" style="font-size: 10px;">UIKeyboardType</a> <a href="/tags/WOW/" style="font-size: 10px;">WOW</a> <a href="/tags/ZXingObj/" style="font-size: 10px;">ZXingObj</a> <a href="/tags/block/" style="font-size: 20px;">block</a> <a href="/tags/iOS/" style="font-size: 20px;">iOS</a> <a href="/tags/ios/" style="font-size: 10px;">ios</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/js/" style="font-size: 10px;">js</a> <a href="/tags/runtime/" style="font-size: 10px;">runtime</a> <a href="/tags/scrollView/" style="font-size: 10px;">scrollView</a> <a href="/tags/skill/" style="font-size: 10px;">skill</a> <a href="/tags/内购/" style="font-size: 20px;">内购</a> <a href="/tags/动画/" style="font-size: 10px;">动画</a> <a href="/tags/即时通讯/" style="font-size: 10px;">即时通讯</a> <a href="/tags/四舍五入/" style="font-size: 10px;">四舍五入</a> <a href="/tags/多线程/" style="font-size: 10px;">多线程</a> <a href="/tags/撕裂效果/" style="font-size: 10px;">撕裂效果</a> <a href="/tags/支付/" style="font-size: 20px;">支付</a> <a href="/tags/模式框架/" style="font-size: 10px;">模式框架</a> <a href="/tags/正则/" style="font-size: 10px;">正则</a> <a href="/tags/网络框架/" style="font-size: 10px;">网络框架</a> <a href="/tags/语法/" style="font-size: 10px;">语法</a> <a href="/tags/键盘/" style="font-size: 10px;">键盘</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://yimouleng.com/">我的博客</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Yi&#39;mouleng</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="/resources/avatar.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Yi&#39;mouleng</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">知止安能定,定而知静,静方可虑,虑而后能得。---iOS交流群67784110</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/archives">目录</a></li>
+		        
+					<li><a href="/categories/iOS开发">iOS开发</a></li>
+		        
+					<li><a href="/categories/二三事">二三事</a></li>
+		        
+					<li><a href="/tags/">标签云</a></li>
+		        
+					<li><a href="/about/">关于</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/yimouleng" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/yimouleng" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+			        
+						<a class="QQ" target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=ac73346414b7bc620d16a1553318221a96d0fb90832d39995c539098731e21b6" title="QQ">QQ</a>
+			        
+						<a class="mail" target="_blank" href="mailto:yimouleng@gamil.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-ios-TouchID" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2014/12/17/ios-TouchID/" class="article-date">
+  	<time datetime="2014-12-16T16:00:00.000Z" itemprop="datePublished">2014-12-17</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      iOS封装 - TouchID 指纹验证
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TouchID/">TouchID</a></li></ul>
+	</div>
+
+        
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/iOS开发/">iOS开发</a>
+	</div>
+
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>  TouchID已经出来一段时间了，感觉大家已经不再陌生，它是苹果公司在iOS 7中引入并在iPhone 5s上使用的新特性，基于一个Local Authentication的新框架，允许用户解锁设备和在App Store购物的生物识别技术。<br>  它的强大毋庸置疑，在微信，支付宝等等的App中，我们也在市场的使用它，极大的便利我们生活等，在这篇文章中，我会封装一个TouchID类，方便大家在以后使用。<br><a id="more"></a></p>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><p>  Local Authentication这个框架的核心类便是<code>LAContext</code>类，我们会实例化一个<code>LAContext</code>类来进行操作。</p>
+  <figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//初始化上下文对象</span></span><br><span class="line">  LAContext* context = [[LAContext alloc] init];</span><br><span class="line">  <span class="comment">//错误对象</span></span><br><span class="line">  <span class="built_in">NSError</span>* error = <span class="literal">nil</span>;</span><br></pre></td></tr></table></figure>
+<p> 如果框架无法验证，它抛出一个错误。有多种原因的设备不能够认证。  </p>
+<blockquote>
+<p>LAErrorTouchIDNotAvailable 该设备不具有指纹传感器<br>LAErrorPasscodeNotSet 没有密码的设备，这意味着触摸ID是禁用上设置<br>LAErrorTouchIDNotEnrolled 有一种密码设定，但该设备还没有被任何指纹配置</p>
+</blockquote>
+<p>其实也就是说，我们需要先去验证设备是否支持TouchID的功能，在老的机型上，比如4，4s，显然是不具备的。</p>
+<figure class="highlight maxima"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[<span class="built_in">context</span> canEvaluatePolicy: LAPolicyDeviceOwnerAuthenticationWithBiometrics <span class="built_in">error</span>:&amp;<span class="built_in">error</span>]</span><br></pre></td></tr></table></figure>
+<p>我们用上面这句代码验证，失败则会返回刚才的三种信息。</p>
+<p>如果成功， 我们则会经行下一步的操作，看看验证指纹的成功与失败</p>
+<figure class="highlight scheme"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">[<span class="name">context</span> evaluatePolicy:LAPolicyDeviceOwnerAuthenticationWithBiometrics</span><br><span class="line">               localizedReason:localizedReason</span><br><span class="line">                         reply:</span><br><span class="line">        ^(<span class="name">BOOL</span> succes, NSError *error) &#123;</span><br><span class="line">            if (<span class="name">succes</span>) &#123;</span><br><span class="line">                //验证成功，返回主线程处理</span><br><span class="line">                NSLog(<span class="name">@</span><span class="string">"验证成功"</span>)<span class="comment">;</span></span><br><span class="line">                dispatch_async(<span class="name">dispatch_get_main_queue</span>(), ^&#123;</span><br><span class="line">                    backSucces(<span class="name">succes</span>)<span class="comment">;</span></span><br><span class="line">                &#125;)<span class="comment">;</span></span><br><span class="line">                </span><br><span class="line">            &#125; else &#123;</span><br><span class="line">                NSLog(<span class="name">@</span><span class="string">"验证失败"</span>)<span class="comment">;</span></span><br><span class="line">                NSLog(<span class="name">@</span><span class="string">"%@"</span>,error.localizedDescription)<span class="comment">;</span></span><br><span class="line">                dispatch_async(<span class="name">dispatch_get_main_queue</span>(), ^&#123;</span><br><span class="line">                    backFailure(<span class="name">error.code</span>)<span class="comment">;</span></span><br><span class="line">                &#125;)<span class="comment">;</span></span><br><span class="line">            &#125;</span><br><span class="line">        &#125;]<span class="comment">;</span></span><br></pre></td></tr></table></figure>
+<p>其实整个过程并不难， 这里我用block返回了<code>LAError</code>枚举， 本来我想自己自定义枚举进行返回，如下代码</p>
+<figure class="highlight objectivec"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">typedef</span> <span class="built_in">NS_ENUM</span>(<span class="built_in">NSInteger</span>, TouchIdValidationResult)</span><br><span class="line">&#123;</span><br><span class="line">    kTouchIdSystemCancel,   <span class="comment">// 切换到其他APP</span></span><br><span class="line">    kTouchIdUserCancel,     <span class="comment">// 用户取消验证Touch ID</span></span><br><span class="line">    kTouchIdUserFallback,   <span class="comment">// 用户点击其他按钮</span></span><br><span class="line">    kTouchIdNotEnrolled,    <span class="comment">// 不支持TouchId机型</span></span><br><span class="line">    kTouchIdPasscodeNotSet, <span class="comment">// 没有设置验证密码</span></span><br><span class="line">    kTouchIdOther           <span class="comment">// 其他</span></span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>但我发现，没有什么比自带的<code>LAError</code>枚举更加详细了，同时他也给出了各个枚举的说明含义，如下</p>
+<figure class="highlight protobuf"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">typedef NS_ENUM(NSInteger, LAError)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">/// Authentication was not successful, because user failed to provide valid credentials.</span></span><br><span class="line">    LAErrorAuthenticationFailed = kLAErrorAuthenticationFailed,</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// Authentication was canceled by user (e.g. tapped Cancel button).</span></span><br><span class="line">    LAErrorUserCancel           = kLAErrorUserCancel,</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// Authentication was canceled, because the user tapped the fallback button (Enter Password).</span></span><br><span class="line">    LAErrorUserFallback         = kLAErrorUserFallback,</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// Authentication was canceled by system (e.g. another application went to foreground).</span></span><br><span class="line">    LAErrorSystemCancel         = kLAErrorSystemCancel,</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// Authentication could not start, because passcode is not set on the device.</span></span><br><span class="line">    LAErrorPasscodeNotSet       = kLAErrorPasscodeNotSet,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// Authentication could not start, because Touch ID is not available on the device.</span></span><br><span class="line">    LAErrorTouchIDNotAvailable  = kLAErrorTouchIDNotAvailable,</span><br><span class="line">    </span><br><span class="line">    <span class="comment">/// Authentication could not start, because Touch ID has no enrolled fingers.</span></span><br><span class="line">    LAErrorTouchIDNotEnrolled   = kLAErrorTouchIDNotEnrolled,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// Authentication was not successful, because there were too many failed Touch ID attempts and</span></span><br><span class="line">    <span class="comment">/// Touch ID is now locked. Passcode is required to unlock Touch ID, e.g. evaluating</span></span><br><span class="line">    <span class="comment">/// LAPolicyDeviceOwnerAuthenticationWithBiometrics will ask for passcode as a prerequisite.</span></span><br><span class="line">    LAErrorTouchIDLockout   NS_ENUM_AVAILABLE(10_11, 9_0) = kLAErrorTouchIDLockout,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// Authentication was canceled by application (e.g. invalidate was called while</span></span><br><span class="line">    <span class="comment">/// authentication was in progress).</span></span><br><span class="line">    LAErrorAppCancel        NS_ENUM_AVAILABLE(10_11, 9_0) = kLAErrorAppCancel,</span><br><span class="line"></span><br><span class="line">    <span class="comment">/// LAContext passed to this call has been previously invalidated.</span></span><br><span class="line">    LAErrorInvalidContext   NS_ENUM_AVAILABLE(10_11, 9_0) = kLAErrorInvalidContext</span><br><span class="line">&#125; NS_ENUM_AVAILABLE(<span class="number">10</span>_10, <span class="number">8</span>_0);</span><br></pre></td></tr></table></figure>
+<p>你若觉得系统枚举过于复杂，你当然也可以自定义，我在封装的类中保留自定义枚举，方便修改。</p>
+<p>封装类在使用的时候，直接调用方法即可，但是返回失败的时候需要自行判断。如下</p>
+<figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)clickTouchID</span><br><span class="line">&#123;</span><br><span class="line">    [[MTTouchIdTool sharedInstance]<span class="string">evaluatePolicy:</span>@<span class="string">"这是测试的Touch ID"</span> <span class="string">fallbackTitle:</span>@<span class="string">"输入密码"</span> <span class="string">SuccesResult:</span>^&#123;</span><br><span class="line">        NSLog(@<span class="string">"验证成功"</span>);</span><br><span class="line">    &#125; <span class="string">FailureResult:</span>^(LAError result) &#123;</span><br><span class="line">        <span class="keyword">switch</span> (result) &#123;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">LAErrorSystemCancel:</span></span><br><span class="line">            &#123;</span><br><span class="line">                 NSLog(@<span class="string">"切换到其他APP"</span>);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">LAErrorUserCancel:</span></span><br><span class="line">            &#123;</span><br><span class="line">                NSLog(@<span class="string">"用户取消验证Touch ID"</span>);</span><br><span class="line">                </span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">LAErrorTouchIDNotEnrolled:</span></span><br><span class="line">            &#123;</span><br><span class="line">                NSLog(@<span class="string">"TouchID is not enrolled"</span>);</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">case</span> <span class="string">LAErrorUserFallback:</span></span><br><span class="line">            &#123;</span><br><span class="line"></span><br><span class="line">                NSLog(@<span class="string">"用户选择输入密码"</span>);</span><br><span class="line"></span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line"><span class="symbol">            default:</span></span><br><span class="line">            &#123;</span><br><span class="line">  </span><br><span class="line">                NSLog(@<span class="string">"其他情况"</span>);</span><br><span class="line"></span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        </span><br><span class="line">        &#125;</span><br><span class="line">    &#125;];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>使用结果如下图，经行验证</p>
+<p><img src="/image/TouchId1.png" alt=""></p>
+<p>验证错误，出现输入密码按钮</p>
+<p><img src="/image/TouchId2.png" alt=""></p>
+<h2 id="结尾"><a href="#结尾" class="headerlink" title="结尾"></a>结尾</h2><p>  TouchID使用起来非常的方便，封装类的下载地址 <a href="https://github.com/yimouleng/MTTouchIdDemo" target="_blank" rel="external">点击这里</a></p>
+<p>  若有建议和bug请及时联系我，非常感谢。</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<div class="copyright">
+  <p><span>本文标题:</span><a href="/2014/12/17/ios-TouchID/">iOS封装 - TouchID 指纹验证</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 Yi&#39;mouleng 的个人博客">Yi&#39;mouleng</a></p>
+  <p><span>发布时间:</span>2014年12月17日 - 00时00分</p>
+  <p><span>最后更新:</span>2016年01月28日 - 17时58分</p>
+  <p>
+    <span>原始链接:</span><a class="post-url" href="/2014/12/17/ios-TouchID/" title="iOS封装 - TouchID 指纹验证">http://yimouleng.com/2014/12/17/ios-TouchID/</a>
+    <span class="copy-path" data-clipboard-text="原文: http://yimouleng.com/2014/12/17/ios-TouchID/　　作者: Yi&#39;mouleng" title="点击复制文章链接">
+        <i class="fa fa-clipboard"></i>
+    </span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。</p>
+  <script src="/js/clipboard.min.js"></script>
+  <script> var clipboard = new Clipboard('.copy-path'); </script>
+</div>
+
+
+
+<nav id="article-nav">
+  
+    <a href="/2015/02/04/Socket-AsyncSocket/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          iOS开发 Socket - AsyncSocket
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/12/02/ios-Masonry/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">iOS - Masonry自动布局(Autolayout)</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+  <strong class="toc-title">文章目录</strong>
+  <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#前言"><span class="toc-number">1.</span> <span class="toc-text">前言</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#代码"><span class="toc-number">2.</span> <span class="toc-text">代码</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#结尾"><span class="toc-number">3.</span> <span class="toc-text">结尾</span></a></li></ol>
+</div>
+
+<style>
+  .left-col .switch-btn {
+    display: none;
+  }
+  .left-col .switch-area {
+    display: none;
+  }
+</style>
+
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+<script>
+  var toc_button= document.getElementById("tocButton");
+  var toc_div= document.getElementById("toc");
+  toc_button.onclick=function(){
+    if(toc_div.style.display=="none"){
+      toc_div.style.display="block";
+      toc_button.value="隐藏目录";
+      document.getElementById("switch-btn").style.display="none";
+      document.getElementById("switch-area").style.display="none";
+    }
+    else{
+      toc_div.style.display="none";
+      toc_button.value="显示目录";
+      document.getElementById("switch-btn").style.display="block";
+      document.getElementById("switch-area").style.display="block";
+    }
+  }
+</script>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="ios-TouchID" data-title="iOS封装 - TouchID 指纹验证" data-url="http://yimouleng.com/2014/12/17/ios-TouchID/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"yimouleng"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//yimouleng.com/js/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0]
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 本站由 <a href="https://weibo.com/yimouleng" target="_blank">@yimouleng</a> 创建，采用
+        <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> 作为主题并加以修改
+    	</div>
+      	<div class="footer-right">
+      		感谢 <a href="https://pages.github.com/" target="_blank">Github Pages</a> 提供稳定的空间服务
+      	</div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>

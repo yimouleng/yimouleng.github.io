@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>iOS开发之内购-内购时遇到的问题和解决办法-In App Purchase | Yi&#39;mouleng-即便世界与我为敌，只要心还透明，就能折射希望。</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="这篇文章主要针对，上篇的iOS开发之内购-AppStore中，In App Purchase的问题和解决办法。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="iOS开发之内购-内购时遇到的问题和解决办法-In App Purchase">
+<meta property="og:url" content="http://yimouleng.com/2015/12/17/ios-appstore-question/index.html">
+<meta property="og:site_name" content="Yi'mouleng-即便世界与我为敌，只要心还透明，就能折射希望。">
+<meta property="og:description" content="这篇文章主要针对，上篇的iOS开发之内购-AppStore中，In App Purchase的问题和解决办法。">
+<meta property="og:updated_time" content="2016-01-28T09:58:10.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="iOS开发之内购-内购时遇到的问题和解决办法-In App Purchase">
+<meta name="twitter:description" content="这篇文章主要针对，上篇的iOS开发之内购-AppStore中，In App Purchase的问题和解决办法。">
+  
+    <link rel="alternative" href="/atom.xml" title="Yi&#39;mouleng-即便世界与我为敌，只要心还透明，就能折射希望。" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/resources/avatar.jpg">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/resources/avatar.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Yi&#39;mouleng</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">知止安能定,定而知静,静方可虑,虑而后能得。---iOS交流群67784110</p>
+		
+				
+
+		
+			<div class="switch-btn" id="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area" id="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/archives">目录</a></li>
+				        
+							<li><a href="/categories/iOS开发">iOS开发</a></li>
+				        
+							<li><a href="/categories/二三事">二三事</a></li>
+				        
+							<li><a href="/tags/">标签云</a></li>
+				        
+							<li><a href="/about/">关于</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="https://github.com/yimouleng" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="http://weibo.com/yimouleng" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+					        
+								<a class="QQ" target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=ac73346414b7bc620d16a1553318221a96d0fb90832d39995c539098731e21b6" title="QQ">QQ</a>
+					        
+								<a class="mail" target="_blank" href="mailto:yimouleng@gamil.com" title="mail">mail</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/AFNetworking/" style="font-size: 10px;">AFNetworking</a> <a href="/tags/ASIHTTPRequest/" style="font-size: 10px;">ASIHTTPRequest</a> <a href="/tags/Animation/" style="font-size: 10px;">Animation</a> <a href="/tags/AppStore/" style="font-size: 20px;">AppStore</a> <a href="/tags/AsyncSocket/" style="font-size: 10px;">AsyncSocket</a> <a href="/tags/Autolayout/" style="font-size: 10px;">Autolayout</a> <a href="/tags/CALayer/" style="font-size: 10px;">CALayer</a> <a href="/tags/CoreGraphics/" style="font-size: 10px;">CoreGraphics</a> <a href="/tags/Dota2/" style="font-size: 10px;">Dota2</a> <a href="/tags/GCD/" style="font-size: 10px;">GCD</a> <a href="/tags/HTTPS/" style="font-size: 10px;">HTTPS</a> <a href="/tags/IOS-9/" style="font-size: 10px;">IOS 9</a> <a href="/tags/KVC/" style="font-size: 10px;">KVC</a> <a href="/tags/KVO/" style="font-size: 10px;">KVO</a> <a href="/tags/LLPictureShow/" style="font-size: 10px;">LLPictureShow</a> <a href="/tags/MKNetworkingKit/" style="font-size: 10px;">MKNetworkingKit</a> <a href="/tags/Masonry/" style="font-size: 10px;">Masonry</a> <a href="/tags/QRCode/" style="font-size: 10px;">QRCode</a> <a href="/tags/ReactiveCocoa/" style="font-size: 10px;">ReactiveCocoa</a> <a href="/tags/Socket/" style="font-size: 10px;">Socket</a> <a href="/tags/TouchID/" style="font-size: 10px;">TouchID</a> <a href="/tags/UIActionSheet/" style="font-size: 10px;">UIActionSheet</a> <a href="/tags/UIAlertview/" style="font-size: 10px;">UIAlertview</a> <a href="/tags/UIBezierPath/" style="font-size: 10px;">UIBezierPath</a> <a href="/tags/UIKeyboardType/" style="font-size: 10px;">UIKeyboardType</a> <a href="/tags/WOW/" style="font-size: 10px;">WOW</a> <a href="/tags/ZXingObj/" style="font-size: 10px;">ZXingObj</a> <a href="/tags/block/" style="font-size: 20px;">block</a> <a href="/tags/iOS/" style="font-size: 20px;">iOS</a> <a href="/tags/ios/" style="font-size: 10px;">ios</a> <a href="/tags/javascript/" style="font-size: 10px;">javascript</a> <a href="/tags/js/" style="font-size: 10px;">js</a> <a href="/tags/runtime/" style="font-size: 10px;">runtime</a> <a href="/tags/scrollView/" style="font-size: 10px;">scrollView</a> <a href="/tags/skill/" style="font-size: 10px;">skill</a> <a href="/tags/内购/" style="font-size: 20px;">内购</a> <a href="/tags/动画/" style="font-size: 10px;">动画</a> <a href="/tags/即时通讯/" style="font-size: 10px;">即时通讯</a> <a href="/tags/四舍五入/" style="font-size: 10px;">四舍五入</a> <a href="/tags/多线程/" style="font-size: 10px;">多线程</a> <a href="/tags/撕裂效果/" style="font-size: 10px;">撕裂效果</a> <a href="/tags/支付/" style="font-size: 20px;">支付</a> <a href="/tags/模式框架/" style="font-size: 10px;">模式框架</a> <a href="/tags/正则/" style="font-size: 10px;">正则</a> <a href="/tags/网络框架/" style="font-size: 10px;">网络框架</a> <a href="/tags/语法/" style="font-size: 10px;">语法</a> <a href="/tags/键盘/" style="font-size: 10px;">键盘</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://yimouleng.com/">我的博客</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Yi&#39;mouleng</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="/resources/avatar.jpg" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Yi&#39;mouleng</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">知止安能定,定而知静,静方可虑,虑而后能得。---iOS交流群67784110</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/archives">目录</a></li>
+		        
+					<li><a href="/categories/iOS开发">iOS开发</a></li>
+		        
+					<li><a href="/categories/二三事">二三事</a></li>
+		        
+					<li><a href="/tags/">标签云</a></li>
+		        
+					<li><a href="/about/">关于</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/yimouleng" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="http://weibo.com/yimouleng" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+			        
+						<a class="QQ" target="_blank" href="http://shang.qq.com/wpa/qunwpa?idkey=ac73346414b7bc620d16a1553318221a96d0fb90832d39995c539098731e21b6" title="QQ">QQ</a>
+			        
+						<a class="mail" target="_blank" href="mailto:yimouleng@gamil.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-ios-appstore-question" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/12/17/ios-appstore-question/" class="article-date">
+  	<time datetime="2015-12-16T16:00:00.000Z" itemprop="datePublished">2015-12-17</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      iOS开发之内购-内购时遇到的问题和解决办法-In App Purchase
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AppStore/">AppStore</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/内购/">内购</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/支付/">支付</a></li></ul>
+	</div>
+
+        
+	<div class="article-category tagcloud">
+	<a class="article-category-link" href="/categories/iOS开发/">iOS开发</a>
+	</div>
+
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+        <p> 这篇文章主要针对，上篇的<a href="http://yimouleng.com/2015/12/17/ios-AppStore/">iOS开发之内购-AppStore</a>中，In App Purchase的问题和解决办法。<br><a id="more"></a></p>
+<h3 id="我要在app里添加IAP，必须要注册自己的产品标识符（product-identifiers）。产品标识符是什么？"><a href="#我要在app里添加IAP，必须要注册自己的产品标识符（product-identifiers）。产品标识符是什么？" class="headerlink" title="我要在app里添加IAP，必须要注册自己的产品标识符（product identifiers）。产品标识符是什么？"></a>我要在app里添加IAP，必须要注册自己的产品标识符（product identifiers）。产品标识符是什么？</h3><p>  产品标识符（Product Identifiers）是一串字符串，它用来识别你在应用内贩卖的每件商品。App Store用产品标识符来检索产品信息，标识符只能包含大小写字母（A-Z）、数字（0-9）、下划线（-）、以及圆点(.)。你可以任意排列这些元素，但我们建议你创建标识符时使用反向域名，比如<code>com.companyname.application.productid</code><br>  备注：产品标识符和Apple ID以及Bundle ID没有关系，它们看起来可能比较像Bundle ID，但是两者是不一样的。所以，在代码里你不能用Apple ID或者Bundle ID代替产品标识符。</p>
+<h3 id="怎么创建产品标识符？"><a href="#怎么创建产品标识符？" class="headerlink" title="怎么创建产品标识符？"></a>怎么创建产品标识符？</h3><p>  IAP表单（TheIn-App Purchases form）是用来生成IAP产品的，它包含了产品ID的字段，这个字段必须要填到表里。这个字段可以为你的产品指定产品标识符。你可以按下面的步骤来创建产品标识符：<br>  1.登入iTunes Connect, 点击主页面上的Manage Your Applications模块。<br>  2.进入Manage Your Apps 页面，你可以看到你所有的应用列表。选择你想要创建IAP的产品的app，在下个页面中点击Manage In-App Purchases按键，然后在点击创建。<br>  3.选择IAP产品的类型。iTunes Connect会带你进入IAP表单，在这个表单里有“保存”按键。完整填写Product ID以及表单里的其他字段。<br>  注意事项：产品标识符一旦创建无法修改，此外，如果应用审核没有通过，这个产品标识符也无法再次使用。</p>
+<h3 id="如何在app中如何使用产品标识符？"><a href="#如何在app中如何使用产品标识符？" class="headerlink" title="如何在app中如何使用产品标识符？"></a>如何在app中如何使用产品标识符？</h3><p>  首先创建SKProductsRequest，然后把产品标识符列表传至<code>initWithProductIdentifiers</code>来读取产品信息。</p>
+<h3 id="当在Sandbox-环境测试In-App-Purchase-时，为什么我得到的是“Payment-requests-are-restricted-to-products-returned-as-valid-via-Store-Kit’s-didReceiveResponse-method”错误信息？"><a href="#当在Sandbox-环境测试In-App-Purchase-时，为什么我得到的是“Payment-requests-are-restricted-to-products-returned-as-valid-via-Store-Kit’s-didReceiveResponse-method”错误信息？" class="headerlink" title="当在Sandbox 环境测试In-App Purchase 时，为什么我得到的是“Payment requests are restricted to products returned as valid via Store Kit’s didReceiveResponse method”错误信息？"></a>当在Sandbox 环境测试In-App Purchase 时，为什么我得到的是“Payment requests are restricted to products returned as valid via Store Kit’s didReceiveResponse method”错误信息？</h3><p>  执行In-App Purchase的app的用户界面必须有App Store允许的可供购买的产品。在你决定在用户界面展示用于购买的产品之前，你的app必须先向App Store发送一个产品请求。</p>
+<h3 id="StoreKit提供了两种支付支付请求的解决办法："><a href="#StoreKit提供了两种支付支付请求的解决办法：" class="headerlink" title="StoreKit提供了两种支付支付请求的解决办法："></a>StoreKit提供了两种支付支付请求的解决办法：</h3><p>  <code>[SKPayment paymentWithProductIdentifier:PRODUCT_ID] [SKPayment paymentWithProduct:YOUR_SKPRODUCT_OBJECT]</code> 苹果建议您使用 <code>[SKPayment paymentWithProduct:YOUR_SKPRODUCT_OBJECT]</code>使用这个方法可以确保你一直处于有效的产品支付请求状态，同时也确保用户可以购买你的产品。 所以，务必只展现App Store返回的产品信息。了解更多有关于app内产品展现信息，请查看In-App Purchase 编程指南的<code>Feature Delivery</code>部分。</p>
+<h3 id="In-App-Purchase有几种类型？"><a href="#In-App-Purchase有几种类型？" class="headerlink" title="In-App Purchase有几种类型？"></a>In-App Purchase有几种类型？</h3><p>In-App Purchase共有3中类型</p>
+<blockquote>
+<p>Consumable：一次性购买，最简单的类型，不用保存历史记录。<br>Nonconsumable：每个产品，用户只买一次，此后就可以在自己的所有设备上看到该产品。<br>Subscriptions：订阅模式允许多次购买末一个产品，但是购买后，用户可以在自己的所有设备上看到该产品。</p>
+</blockquote>
+<h3 id="iOS-中使用-IAP-方式在程序内购买的内容在重装系统后还需要再次购买吗？-比如Camera-内的滤镜。"><a href="#iOS-中使用-IAP-方式在程序内购买的内容在重装系统后还需要再次购买吗？-比如Camera-内的滤镜。" class="headerlink" title="iOS 中使用 IAP 方式在程序内购买的内容在重装系统后还需要再次购买吗？ 比如Camera+内的滤镜。"></a>iOS 中使用 IAP 方式在程序内购买的内容在重装系统后还需要再次购买吗？ 比如Camera+内的滤镜。</h3><p>   不必。以 Camera+ 为例，Menu 里最下方的选项 Restore purchases 即可帮你解锁已经购买的滤镜。任何实现了 IAP 功能的 App 基本都会提供这一选项，或者在第二次购买时提示已购。<br>消耗类（如游戏金币）需要购买。 功能类不需要购买，有些应用提供“Restore purchases”，没有的可以再次尝试购买，会提示已付费。</p>
+<h3 id="IAP-能做限时免费吗？-想做一个免费下载、部分内容免费，但是阅读更多内容需要付费解锁的阅读应用。这样可以把IAP的价格限时免费为0吗？"><a href="#IAP-能做限时免费吗？-想做一个免费下载、部分内容免费，但是阅读更多内容需要付费解锁的阅读应用。这样可以把IAP的价格限时免费为0吗？" class="headerlink" title="IAP 能做限时免费吗？ 想做一个免费下载、部分内容免费，但是阅读更多内容需要付费解锁的阅读应用。这样可以把IAP的价格限时免费为0吗？"></a>IAP 能做限时免费吗？ 想做一个免费下载、部分内容免费，但是阅读更多内容需要付费解锁的阅读应用。这样可以把IAP的价格限时免费为0吗？</h3><p>  可以的，你可以设定价格为0时就不走IAP了。</p>
+<h3 id="创建产品ID的时候，选择多少钱的时候选错了，程序还未提交，还能修改吗？"><a href="#创建产品ID的时候，选择多少钱的时候选错了，程序还未提交，还能修改吗？" class="headerlink" title="创建产品ID的时候，选择多少钱的时候选错了，程序还未提交，还能修改吗？"></a>创建产品ID的时候，选择多少钱的时候选错了，程序还未提交，还能修改吗？</h3><p>  可以的，在应用程序的信息中。</p>
+<h3 id="升级iOS5-GM的过程中恢复备份出了问题，导致In-App-Purchase也丢失了。有没有办法恢复？-在iPad上曾经进行过一些In-App-Purchase，但是在升级iOS5-GM的过程中恢复备份出了问题，导致除了恢复升级前的所有应用程序之外，其余个人信息一概丢失。iTunes上可以查询到购买记录。具体来说，买的是Splashtop的把iPad作为第二显示器的软件，Xdisplay。"><a href="#升级iOS5-GM的过程中恢复备份出了问题，导致In-App-Purchase也丢失了。有没有办法恢复？-在iPad上曾经进行过一些In-App-Purchase，但是在升级iOS5-GM的过程中恢复备份出了问题，导致除了恢复升级前的所有应用程序之外，其余个人信息一概丢失。iTunes上可以查询到购买记录。具体来说，买的是Splashtop的把iPad作为第二显示器的软件，Xdisplay。" class="headerlink" title="升级iOS5 GM的过程中恢复备份出了问题，导致In-App Purchase也丢失了。有没有办法恢复？ 在iPad上曾经进行过一些In-App Purchase，但是在升级iOS5 GM的过程中恢复备份出了问题，导致除了恢复升级前的所有应用程序之外，其余个人信息一概丢失。iTunes上可以查询到购买记录。具体来说，买的是Splashtop的把iPad作为第二显示器的软件，Xdisplay。"></a>升级iOS5 GM的过程中恢复备份出了问题，导致In-App Purchase也丢失了。有没有办法恢复？ 在iPad上曾经进行过一些In-App Purchase，但是在升级iOS5 GM的过程中恢复备份出了问题，导致除了恢复升级前的所有应用程序之外，其余个人信息一概丢失。iTunes上可以查询到购买记录。具体来说，买的是Splashtop的把iPad作为第二显示器的软件，Xdisplay。</h3><p>  In-App Purchase 分好几种，最常见的是 Non-Consumable，就是只需要用户购买一次的。如果是这种类型的，再购买一次同一个商品就能够恢复了，不会收取额外费用。如果 app 做得好的话，应该提供一个 Restore 功能，以专门恢复以前购买过的 Non-Consumable 的商品。</p>
+<h3 id="在iTunes-Connect中每个应用可以创建多少个IAP产品ID？"><a href="#在iTunes-Connect中每个应用可以创建多少个IAP产品ID？" class="headerlink" title="在iTunes Connect中每个应用可以创建多少个IAP产品ID？"></a>在iTunes Connect中每个应用可以创建多少个IAP产品ID？</h3><p>  请参阅<a href="https://itunesconnect.apple.com/docs/iTunesConnect_DeveloperGuide.pdf" target="_blank" rel="external">iTunes Connect Developer Guide</a>的注册IAP部分</p>
+<h3 id="在iTunes-Connect里找不到Manage-In-App-Purchase-（管理IAP）按键怎么办？"><a href="#在iTunes-Connect里找不到Manage-In-App-Purchase-（管理IAP）按键怎么办？" class="headerlink" title="在iTunes Connect里找不到Manage In-App Purchase （管理IAP）按键怎么办？"></a>在iTunes Connect里找不到Manage In-App Purchase （管理IAP）按键怎么办？</h3><p>  以下是可能导致“Manage In-App Purchase”按键无法使用的原因</p>
+<blockquote>
+<p>a.不是iTunes Connnect的管理员（Admin）或开发者（Technical）账号。<br>b.没有同意最新的iOS或Mac开发者许可协议。<br>c.最新的付费应用协议<code>（Paid Applications contract）</code>没有生效</p>
+</blockquote>
+<h3 id="必须上传程序的二进制码才能测试IAP吗？"><a href="#必须上传程序的二进制码才能测试IAP吗？" class="headerlink" title="必须上传程序的二进制码才能测试IAP吗？"></a>必须上传程序的二进制码才能测试IAP吗？</h3><p>  没有这个必要。<br>重要事项：除非你的应用已经做好了接受苹果审核的准备，否则请不要上传Development Binary至iTunes Connect。如果iTunes Connect里的二进制编码不完整，二进制编码被拒的可能性很大。一旦二进制编码通过审核，就可以测试In-App Purchase功能了。</p>
+<h3 id="出现了“您的账号信息已变”错误怎么办？"><a href="#出现了“您的账号信息已变”错误怎么办？" class="headerlink" title="出现了“您的账号信息已变”错误怎么办？"></a>出现了“您的账号信息已变”错误怎么办？</h3><p>  “您的账号信息已变”错误出现的原因是在测试IAP的时候你使用的是设备的测试账号。解决方法是退出账号，然后在iTunes Connect创建一个新的测试账号，使用新的测试账号来测试IAP。</p>
+<h3 id="为什么我的产品标识符在invalidProductIdentifiers中被退返？"><a href="#为什么我的产品标识符在invalidProductIdentifiers中被退返？" class="headerlink" title="为什么我的产品标识符在invalidProductIdentifiers中被退返？"></a>为什么我的产品标识符在invalidProductIdentifiers中被退返？</h3><p> 有可能是以下原因：</p>
+<blockquote>
+<p>a.没有填完财政需求表（请参阅本文档的“合同、税务以及银行信息”部分）<br>b.没有使用正确的App ID。<br>c.没有使用正确的与App ID紧密关联的<code>Provisioning Profile</code>。<br>d.代码中没有使用正确的产品标识符。更多产品标识符的信息请参阅技术问答，第1329条—IAP产品标识符。<br>e.你没有清除iTunes Connect中促销的IAP产品。<br>f.也许你已经修改了你的产品，但它没有在App Store的服务器中生效。<br>g.苹果拒绝了你最新向iTunes Connect提交的二进制码。</p>
+</blockquote>
+<h3 id="出现了“你已购买本商品，但商品没有被下载”错误怎么办？"><a href="#出现了“你已购买本商品，但商品没有被下载”错误怎么办？" class="headerlink" title="出现了“你已购买本商品，但商品没有被下载”错误怎么办？"></a>出现了“你已购买本商品，但商品没有被下载”错误怎么办？</h3><p>  你的应用没有调用<code>SKPaymentQueue ‘s finishTransaction</code>。调用<code>finishTransaction:</code>允许你从支付队列中移除交易。</p>
+<h3 id="出现“你已成功购买，点击‘确认’再次进行免费下载”错误怎么办？"><a href="#出现“你已成功购买，点击‘确认’再次进行免费下载”错误怎么办？" class="headerlink" title="出现“你已成功购买，点击‘确认’再次进行免费下载”错误怎么办？"></a>出现“你已成功购买，点击‘确认’再次进行免费下载”错误怎么办？</h3><p>  这个信息是个提醒，不是错误。这表明你试图购买一个你已经购买了的非消耗性产品。购买一个非消耗性的产品时不会被扣费。</p>
+<h3 id="调用-payment-queue的-restoreCompletedTransactions-方法不能恢复app的任何产品。"><a href="#调用-payment-queue的-restoreCompletedTransactions-方法不能恢复app的任何产品。" class="headerlink" title="调用 payment queue的 restoreCompletedTransactions: 方法不能恢复app的任何产品。"></a>调用 payment queue的 restoreCompletedTransactions: 方法不能恢复app的任何产品。</h3><p>  可能由于以下原因：</p>
+<blockquote>
+<p>你没有任何先前购买过的非消耗类产品。<br>你试图恢复的订阅产品或者非消耗类产品是不可恢复的类型。<br><code>restoreCompletedTransactions:</code>方法只能恢复非消耗类产品。<br>注意: 在没有可恢复产品的情况下，Store Kit不会调用<code>paymentQueue:updatedTransactions:</code>方法。</p>
+</blockquote>
+<h3 id="应该什么时候恢复In-App-Purchase产品？"><a href="#应该什么时候恢复In-App-Purchase产品？" class="headerlink" title="应该什么时候恢复In-App Purchase产品？"></a>应该什么时候恢复In-App Purchase产品？</h3><p>在以下两种情况下你可以恢复自动更新的订阅产品和非消耗类产品：</p>
+<blockquote>
+<p>a.在客户其他设备上安装<br>b.在删除了关联应用的其他设备上重新安装</p>
+</blockquote>
+<h3 id="如何解决“这不是测试用的用户账号，请在Sandbox环境下创建一个新的账号”的问题？"><a href="#如何解决“这不是测试用的用户账号，请在Sandbox环境下创建一个新的账号”的问题？" class="headerlink" title="如何解决“这不是测试用的用户账号，请在Sandbox环境下创建一个新的账号”的问题？"></a>如何解决“这不是测试用的用户账号，请在Sandbox环境下创建一个新的账号”的问题？</h3><p>  出现这个错误的原因是在确认购买信息时你使用的是iTunes用户账号。解决的办法是退出账号，然后使用你的IAP测试账号。</p>
+<h3 id="回单（receipt-）核实失败，并且出现字符串-iOS-。"><a href="#回单（receipt-）核实失败，并且出现字符串-iOS-。" class="headerlink" title="回单（receipt ）核实失败，并且出现字符串 (iOS)。"></a>回单（receipt ）核实失败，并且出现字符串 (iOS)。</h3><p>  可能有以下几个原因：</p>
+<blockquote>
+<p>a.在你的iOS app里，你没有使用64位编码对回单数据进行编码，<br>b.没有有效的回单，你的回单大概使用了等号隔开键和值，用分号隔开了关键字。<br>c.有效的回单使用冒号来隔开键和值，用逗号隔开关键字，</p>
+</blockquote>
+<p>下表是有效的回单样本</p>
+<figure class="highlight ada"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">receipt: &#123; “signature” : “…”, “<span class="type">purchase</span>-info” : “…”, “<span class="type">pod</span>” : “…”, “<span class="type">signing</span>-status” : “…” &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="我更新了使用In-App-Purchase的iOS-app，如何对它进行测试呢（iOS）？"><a href="#我更新了使用In-App-Purchase的iOS-app，如何对它进行测试呢（iOS）？" class="headerlink" title="我更新了使用In-App Purchase的iOS app，如何对它进行测试呢（iOS）？"></a>我更新了使用In-App Purchase的iOS app，如何对它进行测试呢（iOS）？</h3><p>不管更新后的app是否正确执行地了In-App Purchase，如果你要测试的话就按照以下步骤：</p>
+<blockquote>
+<p>通过<code>Ad Hoc Distribution</code>方式安装原始app。<br>通过<code>Ad Hoc Distribution</code>方式安装更新后的app来验证它是否完全覆盖了原始的app。<br>试着从更新后的app中执行In-App Purchase。</p>
+</blockquote>
+<h3 id="我应该使用哪个url核实回单（receipt）-iOS"><a href="#我应该使用哪个url核实回单（receipt）-iOS" class="headerlink" title="我应该使用哪个url核实回单（receipt）(iOS)?"></a>我应该使用哪个url核实回单（receipt）(iOS)?</h3><p>  在sandbox环境测试app时使用 sandbox URL ，当应用处于审核状态时也可以使用这个<code>URL:https://sandbox.itunes.apple.com/verifyReceipt</code> 使用产品 URL 一旦你的app上架App Store，你就要用产品<code>URL: http://buy.itunes.apple.com/verifyReceipt</code></p>
+<h3 id="如何核实receipt（iOS）？"><a href="#如何核实receipt（iOS）？" class="headerlink" title="如何核实receipt（iOS）？"></a>如何核实receipt（iOS）？</h3><p>  第一次一般使用产品的URL核实收据。如果你收到一个21007状态代码，那么接下来要用sandbox URL。当app处于测试状态或者在sandbox环境下进行检测，或者上架App Store，你可以使用这种方法，从而避免在URL之间进行切换，<br>注明：21007 状态码表明receipt是一个sandbox receipt。</p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<div class="copyright">
+  <p><span>本文标题:</span><a href="/2015/12/17/ios-appstore-question/">iOS开发之内购-内购时遇到的问题和解决办法-In App Purchase</a></p>
+  <p><span>文章作者:</span><a href="/" title="访问 Yi&#39;mouleng 的个人博客">Yi&#39;mouleng</a></p>
+  <p><span>发布时间:</span>2015年12月17日 - 00时00分</p>
+  <p><span>最后更新:</span>2016年01月28日 - 17时58分</p>
+  <p>
+    <span>原始链接:</span><a class="post-url" href="/2015/12/17/ios-appstore-question/" title="iOS开发之内购-内购时遇到的问题和解决办法-In App Purchase">http://yimouleng.com/2015/12/17/ios-appstore-question/</a>
+    <span class="copy-path" data-clipboard-text="原文: http://yimouleng.com/2015/12/17/ios-appstore-question/　　作者: Yi&#39;mouleng" title="点击复制文章链接">
+        <i class="fa fa-clipboard"></i>
+    </span>
+  </p>
+  <p><span>许可协议:</span><i class="fa fa-creative-commons"></i> <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/3.0/cn/" title="中国大陆 (CC BY-NC-SA 3.0 CN)">"署名-非商用-相同方式共享 3.0"</a> 转载请保留原文链接及作者。</p>
+  <script src="/js/clipboard.min.js"></script>
+  <script> var clipboard = new Clipboard('.copy-path'); </script>
+</div>
+
+
+
+<nav id="article-nav">
+  
+    <a href="/2015/12/20/ios-ReactiveCocoa/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption"><</strong>
+      <div class="article-nav-title">
+        
+          iOS开发-ReactiveCocoa(RAC)框架
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/12/17/ios-AppStore/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">iOS开发之内购-AppStore</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+    <div id="toc" class="toc-article">
+  <strong class="toc-title">文章目录</strong>
+  <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#我要在app里添加IAP，必须要注册自己的产品标识符（product-identifiers）。产品标识符是什么？"><span class="toc-number">1.</span> <span class="toc-text">我要在app里添加IAP，必须要注册自己的产品标识符（product identifiers）。产品标识符是什么？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#怎么创建产品标识符？"><span class="toc-number">2.</span> <span class="toc-text">怎么创建产品标识符？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如何在app中如何使用产品标识符？"><span class="toc-number">3.</span> <span class="toc-text">如何在app中如何使用产品标识符？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#当在Sandbox-环境测试In-App-Purchase-时，为什么我得到的是“Payment-requests-are-restricted-to-products-returned-as-valid-via-Store-Kit’s-didReceiveResponse-method”错误信息？"><span class="toc-number">4.</span> <span class="toc-text">当在Sandbox 环境测试In-App Purchase 时，为什么我得到的是“Payment requests are restricted to products returned as valid via Store Kit’s didReceiveResponse method”错误信息？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#StoreKit提供了两种支付支付请求的解决办法："><span class="toc-number">5.</span> <span class="toc-text">StoreKit提供了两种支付支付请求的解决办法：</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#In-App-Purchase有几种类型？"><span class="toc-number">6.</span> <span class="toc-text">In-App Purchase有几种类型？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#iOS-中使用-IAP-方式在程序内购买的内容在重装系统后还需要再次购买吗？-比如Camera-内的滤镜。"><span class="toc-number">7.</span> <span class="toc-text">iOS 中使用 IAP 方式在程序内购买的内容在重装系统后还需要再次购买吗？ 比如Camera+内的滤镜。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#IAP-能做限时免费吗？-想做一个免费下载、部分内容免费，但是阅读更多内容需要付费解锁的阅读应用。这样可以把IAP的价格限时免费为0吗？"><span class="toc-number">8.</span> <span class="toc-text">IAP 能做限时免费吗？ 想做一个免费下载、部分内容免费，但是阅读更多内容需要付费解锁的阅读应用。这样可以把IAP的价格限时免费为0吗？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#创建产品ID的时候，选择多少钱的时候选错了，程序还未提交，还能修改吗？"><span class="toc-number">9.</span> <span class="toc-text">创建产品ID的时候，选择多少钱的时候选错了，程序还未提交，还能修改吗？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#升级iOS5-GM的过程中恢复备份出了问题，导致In-App-Purchase也丢失了。有没有办法恢复？-在iPad上曾经进行过一些In-App-Purchase，但是在升级iOS5-GM的过程中恢复备份出了问题，导致除了恢复升级前的所有应用程序之外，其余个人信息一概丢失。iTunes上可以查询到购买记录。具体来说，买的是Splashtop的把iPad作为第二显示器的软件，Xdisplay。"><span class="toc-number">10.</span> <span class="toc-text">升级iOS5 GM的过程中恢复备份出了问题，导致In-App Purchase也丢失了。有没有办法恢复？ 在iPad上曾经进行过一些In-App Purchase，但是在升级iOS5 GM的过程中恢复备份出了问题，导致除了恢复升级前的所有应用程序之外，其余个人信息一概丢失。iTunes上可以查询到购买记录。具体来说，买的是Splashtop的把iPad作为第二显示器的软件，Xdisplay。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#在iTunes-Connect中每个应用可以创建多少个IAP产品ID？"><span class="toc-number">11.</span> <span class="toc-text">在iTunes Connect中每个应用可以创建多少个IAP产品ID？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#在iTunes-Connect里找不到Manage-In-App-Purchase-（管理IAP）按键怎么办？"><span class="toc-number">12.</span> <span class="toc-text">在iTunes Connect里找不到Manage In-App Purchase （管理IAP）按键怎么办？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#必须上传程序的二进制码才能测试IAP吗？"><span class="toc-number">13.</span> <span class="toc-text">必须上传程序的二进制码才能测试IAP吗？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#出现了“您的账号信息已变”错误怎么办？"><span class="toc-number">14.</span> <span class="toc-text">出现了“您的账号信息已变”错误怎么办？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#为什么我的产品标识符在invalidProductIdentifiers中被退返？"><span class="toc-number">15.</span> <span class="toc-text">为什么我的产品标识符在invalidProductIdentifiers中被退返？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#出现了“你已购买本商品，但商品没有被下载”错误怎么办？"><span class="toc-number">16.</span> <span class="toc-text">出现了“你已购买本商品，但商品没有被下载”错误怎么办？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#出现“你已成功购买，点击‘确认’再次进行免费下载”错误怎么办？"><span class="toc-number">17.</span> <span class="toc-text">出现“你已成功购买，点击‘确认’再次进行免费下载”错误怎么办？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#调用-payment-queue的-restoreCompletedTransactions-方法不能恢复app的任何产品。"><span class="toc-number">18.</span> <span class="toc-text">调用 payment queue的 restoreCompletedTransactions: 方法不能恢复app的任何产品。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#应该什么时候恢复In-App-Purchase产品？"><span class="toc-number">19.</span> <span class="toc-text">应该什么时候恢复In-App Purchase产品？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如何解决“这不是测试用的用户账号，请在Sandbox环境下创建一个新的账号”的问题？"><span class="toc-number">20.</span> <span class="toc-text">如何解决“这不是测试用的用户账号，请在Sandbox环境下创建一个新的账号”的问题？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#回单（receipt-）核实失败，并且出现字符串-iOS-。"><span class="toc-number">21.</span> <span class="toc-text">回单（receipt ）核实失败，并且出现字符串 (iOS)。</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#我更新了使用In-App-Purchase的iOS-app，如何对它进行测试呢（iOS）？"><span class="toc-number">22.</span> <span class="toc-text">我更新了使用In-App Purchase的iOS app，如何对它进行测试呢（iOS）？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#我应该使用哪个url核实回单（receipt）-iOS"><span class="toc-number">23.</span> <span class="toc-text">我应该使用哪个url核实回单（receipt）(iOS)?</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#如何核实receipt（iOS）？"><span class="toc-number">24.</span> <span class="toc-text">如何核实receipt（iOS）？</span></a></li></ol>
+</div>
+
+<style>
+  .left-col .switch-btn {
+    display: none;
+  }
+  .left-col .switch-area {
+    display: none;
+  }
+</style>
+
+<input type="button" id="tocButton" value="隐藏目录"  title="点击按钮隐藏或者显示文章目录">
+<script>
+  var toc_button= document.getElementById("tocButton");
+  var toc_div= document.getElementById("toc");
+  toc_button.onclick=function(){
+    if(toc_div.style.display=="none"){
+      toc_div.style.display="block";
+      toc_button.value="隐藏目录";
+      document.getElementById("switch-btn").style.display="none";
+      document.getElementById("switch-area").style.display="none";
+    }
+    else{
+      toc_div.style.display="none";
+      toc_button.value="显示目录";
+      document.getElementById("switch-btn").style.display="block";
+      document.getElementById("switch-area").style.display="block";
+    }
+  }
+</script>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="ios-appstore-question" data-title="iOS开发之内购-内购时遇到的问题和解决办法-In App Purchase" data-url="http://yimouleng.com/2015/12/17/ios-appstore-question/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"yimouleng"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//yimouleng.com/js/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0]
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2016 本站由 <a href="https://weibo.com/yimouleng" target="_blank">@yimouleng</a> 创建，采用
+        <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> 作为主题并加以修改
+    	</div>
+      	<div class="footer-right">
+      		感谢 <a href="https://pages.github.com/" target="_blank">Github Pages</a> 提供稳定的空间服务
+      	</div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js"></script>
+<script src="/js/main.js"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>
