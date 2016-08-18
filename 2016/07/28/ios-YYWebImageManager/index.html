@@ -5,16 +5,16 @@
   
   <title>YYWebImage清除缓存 | Yi&#39;mouleng-即便世界与我为敌，只要心还透明，就能折射希望。</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="12345678910YYImageCache *cache = [YYWebImageManager sharedManager].cache;      float tmpSize =  cache.diskCache.totalCost / 1024 /1024;      NSString *clearCacheName = tmpSize &amp;gt;= 1 ? [NSString stri">
+  <meta name="description" content="123456789YYImageCache *cache = [YYWebImageManager sharedManager].cache;      float tmpSize =  cache.diskCache.totalCost / 1024 /1024;      NSString *clearCacheName = tmpSize &amp;gt;= 1 ? [NSString string">
 <meta property="og:type" content="article">
 <meta property="og:title" content="YYWebImage清除缓存">
 <meta property="og:url" content="http://yimouleng.com/2016/07/28/ios-YYWebImageManager/index.html">
 <meta property="og:site_name" content="Yi'mouleng-即便世界与我为敌，只要心还透明，就能折射希望。">
-<meta property="og:description" content="12345678910YYImageCache *cache = [YYWebImageManager sharedManager].cache;      float tmpSize =  cache.diskCache.totalCost / 1024 /1024;      NSString *clearCacheName = tmpSize &amp;gt;= 1 ? [NSString stri">
-<meta property="og:updated_time" content="2016-08-18T02:02:53.000Z">
+<meta property="og:description" content="123456789YYImageCache *cache = [YYWebImageManager sharedManager].cache;      float tmpSize =  cache.diskCache.totalCost / 1024 /1024;      NSString *clearCacheName = tmpSize &amp;gt;= 1 ? [NSString string">
+<meta property="og:updated_time" content="2016-08-18T02:08:16.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="YYWebImage清除缓存">
-<meta name="twitter:description" content="12345678910YYImageCache *cache = [YYWebImageManager sharedManager].cache;      float tmpSize =  cache.diskCache.totalCost / 1024 /1024;      NSString *clearCacheName = tmpSize &amp;gt;= 1 ? [NSString stri">
+<meta name="twitter:description" content="123456789YYImageCache *cache = [YYWebImageManager sharedManager].cache;      float tmpSize =  cache.diskCache.totalCost / 1024 /1024;      NSString *clearCacheName = tmpSize &amp;gt;= 1 ? [NSString string">
   
     <link rel="alternative" href="/atom.xml" title="Yi&#39;mouleng-即便世界与我为敌，只要心还透明，就能折射希望。" type="application/atom+xml">
   
@@ -231,7 +231,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         
-        <figure class="highlight prolog"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="symbol">YYImageCache</span> *cache = [<span class="symbol">YYWebImageManager</span> sharedManager].cache;</span><br><span class="line">   </span><br><span class="line">   float tmpSize =  cache.diskCache.totalCost / <span class="number">1024</span> /<span class="number">1024</span>;</span><br><span class="line">   </span><br><span class="line">   <span class="symbol">NSString</span> *clearCacheName = tmpSize &gt;= <span class="number">1</span> ? [<span class="symbol">NSString</span> stringWithFormat:@<span class="string">"清理缓存(%.2f M)"</span>,tmpSize] : [<span class="symbol">NSString</span> stringWithFormat:@<span class="string">"清理缓存(%.2f K)"</span>,tmpSize * <span class="number">1024</span>];</span><br><span class="line">   [cache.memoryCache removeAllObjects];</span><br><span class="line">   [cache.diskCache removeAllObjects];</span><br><span class="line">   [<span class="symbol">ITTPromptView</span> showMessage:[<span class="symbol">NSString</span> stringWithFormat:@<span class="string">"已%@"</span>,clearCacheName]];</span><br><span class="line">    <span class="symbol">NSLog</span>(@<span class="string">"%l@"</span>,[<span class="symbol">NSString</span> stringWithFormat:@<span class="string">"已%@"</span>,clearCacheName]);</span><br></pre></td></tr></table></figure>
+        <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">YYImageCache *cache = [YYWebImageManager sharedManager].cache;</span><br><span class="line">   </span><br><span class="line">   <span class="keyword">float</span> tmpSize =  cache.diskCache.totalCost / <span class="number">1024</span> /<span class="number">1024</span>;</span><br><span class="line">   </span><br><span class="line">   <span class="built_in">NSString</span> *clearCacheName = tmpSize &gt;= <span class="number">1</span> ? [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"清理缓存(%.2f M)"</span>,tmpSize] : [<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"清理缓存(%.2f K)"</span>,tmpSize * <span class="number">1024</span>];</span><br><span class="line">   [cache.memoryCache removeAllObjects];</span><br><span class="line">   [cache.diskCache removeAllObjects];</span><br><span class="line">    <span class="built_in">NSLog</span>(<span class="string">@"%l@"</span>,[<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"已%@"</span>,clearCacheName]);</span><br></pre></td></tr></table></figure>
       
     </div>
     
@@ -242,7 +242,7 @@
   <p><span>本文标题:</span><a href="/2016/07/28/ios-YYWebImageManager/">YYWebImage清除缓存</a></p>
   <p><span>文章作者:</span><a href="/" title="访问 Yi&#39;mouleng 的个人博客">Yi&#39;mouleng</a></p>
   <p><span>发布时间:</span>2016年07月28日 - 00时00分</p>
-  <p><span>最后更新:</span>2016年08月18日 - 10时02分</p>
+  <p><span>最后更新:</span>2016年08月18日 - 10时08分</p>
   <p>
     <span>原始链接:</span><a class="post-url" href="/2016/07/28/ios-YYWebImageManager/" title="YYWebImage清除缓存">http://yimouleng.com/2016/07/28/ios-YYWebImageManager/</a>
     <span class="copy-path" data-clipboard-text="原文: http://yimouleng.com/2016/07/28/ios-YYWebImageManager/　　作者: Yi&#39;mouleng" title="点击复制文章链接">
