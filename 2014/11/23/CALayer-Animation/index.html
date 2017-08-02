@@ -8,11 +8,11 @@
   <meta name="description" content="概览在iOS中随处都可以看到绚丽的动画效果，实现这些动画的过程并不复杂，今天将带大家一窥iOS动画全貌。在这里你可以看到iOS中如何使用图层精简非交互式绘图，如何通过核心动画创建基础动画、关键帧动画、动画组、转场动画，如何通过UIView的装饰方法对这些动画操作进行简化等。在今天的文章里您可以看到动画操作在iOS中是如何简单和高效，很多原来想做但是苦于没有思路的动画在iOS中将变得越发简单：">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS开发 - 动画-CALayer-Core Animation-UIView封装">
-<meta property="og:url" content="http://yimouleng.com/2014/11/23/CALayer-Animation/index.html">
+<meta property="og:url" content="http://yimouleng.github.io/2014/11/23/CALayer-Animation/index.html">
 <meta property="og:site_name" content="Yi'mouleng-即便世界与我为敌，只要心还透明，就能折射希望。">
 <meta property="og:description" content="概览在iOS中随处都可以看到绚丽的动画效果，实现这些动画的过程并不复杂，今天将带大家一窥iOS动画全貌。在这里你可以看到iOS中如何使用图层精简非交互式绘图，如何通过核心动画创建基础动画、关键帧动画、动画组、转场动画，如何通过UIView的装饰方法对这些动画操作进行简化等。在今天的文章里您可以看到动画操作在iOS中是如何简单和高效，很多原来想做但是苦于没有思路的动画在iOS中将变得越发简单：">
 <meta property="og:image" content="http://images.cnitblog.com/blog/62046/201409/150628367066332.png">
-<meta property="og:image" content="http://yimouleng.com/image/animation1.png">
+<meta property="og:image" content="http://yimouleng.github.io/image/animation1.png">
 <meta property="og:image" content="http://images.cnitblog.com/blog/62046/201409/150628373935488.png">
 <meta property="og:image" content="http://images.cnitblog.com/blog/62046/201409/150628379878373.gif">
 <meta property="og:image" content="http://images.cnitblog.com/blog/62046/201409/150628385812260.jpg">
@@ -27,8 +27,8 @@
 <meta property="og:image" content="http://images.cnitblog.com/blog/62046/201409/150628450189925.gif">
 <meta property="og:image" content="http://images.cnitblog.com/blog/62046/201409/150628458466039.png">
 <meta property="og:image" content="http://images.cnitblog.com/blog/62046/201409/150628465964410.gif">
-<meta property="og:image" content="http://yimouleng.com/image/animation2.png">
-<meta property="og:image" content="http://yimouleng.com/image/animation3.png">
+<meta property="og:image" content="http://yimouleng.github.io/image/animation2.png">
+<meta property="og:image" content="http://yimouleng.github.io/image/animation3.png">
 <meta property="og:image" content="http://images.cnitblog.com/blog/62046/201409/150628587684058.gif">
 <meta property="og:image" content="http://images.cnitblog.com/blog/62046/201409/150629077379751.gif">
 <meta property="og:image" content="http://images.cnitblog.com/blog/62046/201409/150629086121851.gif">
@@ -474,8 +474,8 @@
   <p><span>发布时间:</span>2014年11月23日 - 03时01分</p>
   <p><span>最后更新:</span>2016年01月28日 - 17时58分</p>
   <p>
-    <span>原始链接:</span><a class="post-url" href="/2014/11/23/CALayer-Animation/" title="iOS开发 - 动画-CALayer-Core Animation-UIView封装">http://yimouleng.com/2014/11/23/CALayer-Animation/</a>
-    <span class="copy-path" data-clipboard-text="原文: http://yimouleng.com/2014/11/23/CALayer-Animation/　　作者: Yi&#39;mouleng" title="点击复制文章链接">
+    <span>原始链接:</span><a class="post-url" href="/2014/11/23/CALayer-Animation/" title="iOS开发 - 动画-CALayer-Core Animation-UIView封装">http://yimouleng.github.io/2014/11/23/CALayer-Animation/</a>
+    <span class="copy-path" data-clipboard-text="原文: http://yimouleng.github.io/2014/11/23/CALayer-Animation/　　作者: Yi&#39;mouleng" title="点击复制文章链接">
         <i class="fa fa-clipboard"></i>
     </span>
   </p>
@@ -488,18 +488,18 @@
 
 <nav id="article-nav">
   
-    <a href="/2014/11/23/ios-block/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2014/11/23/ios-CoreGraphics/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption"><</strong>
       <div class="article-nav-title">
         
-          ios Block
+          iOS绘图
         
       </div>
     </a>
   
   
-    <a href="/2014/11/23/ios-CoreGraphics/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">iOS绘图</div>
+    <a href="/2014/11/16/iso-duoxiancheng-GCD/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">iOS 多线程编程 GCD</div>
       <strong class="article-nav-caption">></strong>
     </a>
   

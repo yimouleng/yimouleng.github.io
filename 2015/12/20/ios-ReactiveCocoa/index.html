@@ -8,15 +8,15 @@
   <meta name="description" content="前言  本文是根据DeveloperLx在斗鱼直播ReactiveCocoa时整理的文章，同时加上本人的见解，若有错误希望指出。  感谢 DeveloperLx 为大家做出的贡献，虽然直播声音小了点，但满满的都是干货 ^v^">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS开发-ReactiveCocoa(RAC)框架">
-<meta property="og:url" content="http://yimouleng.com/2015/12/20/ios-ReactiveCocoa/index.html">
+<meta property="og:url" content="http://yimouleng.github.io/2015/12/20/ios-ReactiveCocoa/index.html">
 <meta property="og:site_name" content="Yi'mouleng-即便世界与我为敌，只要心还透明，就能折射希望。">
 <meta property="og:description" content="前言  本文是根据DeveloperLx在斗鱼直播ReactiveCocoa时整理的文章，同时加上本人的见解，若有错误希望指出。  感谢 DeveloperLx 为大家做出的贡献，虽然直播声音小了点，但满满的都是干货 ^v^">
-<meta property="og:image" content="http://yimouleng.com/image/RAC.gif">
+<meta property="og:image" content="http://yimouleng.github.io/image/RAC.gif">
 <meta property="og:updated_time" content="2016-12-06T08:31:13.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS开发-ReactiveCocoa(RAC)框架">
 <meta name="twitter:description" content="前言  本文是根据DeveloperLx在斗鱼直播ReactiveCocoa时整理的文章，同时加上本人的见解，若有错误希望指出。  感谢 DeveloperLx 为大家做出的贡献，虽然直播声音小了点，但满满的都是干货 ^v^">
-<meta name="twitter:image" content="http://yimouleng.com/image/RAC.gif">
+<meta name="twitter:image" content="http://yimouleng.github.io/image/RAC.gif">
   
     <link rel="alternative" href="/atom.xml" title="Yi&#39;mouleng-即便世界与我为敌，只要心还透明，就能折射希望。" type="application/atom+xml">
   
@@ -243,7 +243,7 @@
 <p>作为一个iOS开发者，你写的每一行代码几乎都是在响应某个事件，例如按钮的点击，收到网络消息，属性的变化（通过KVO）或者用户位置的变化（通过CoreLocation）。但是这些事件都用不同的方式来处理，比如action、delegate、KVO、callback等。ReactiveCocoa为事件定义了一个标准接口，从而可以使用一些基本工具来更容易的连接、过滤和组合。</p>
 </blockquote>
 <p>  RAC是由 <code>Mattt Thompson</code> 大神开发的，很多开发者对其的评价是<code>开启一个新Objective-C纪元</code>，可见对其评价有多高。<br> 以下是RAC的Github主页：<a href="https://github.com/ReactiveCocoa/ReactiveCocoa" target="_blank" rel="external">ReactiveCocoa</a><br> 以及官方给出的<a href="https://github.com/ReactiveCocoa/ReactiveCocoa/tree/master/Documentation/Legacy" target="_blank" rel="external">用法链接</a></p>
-<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>  ReactiveCocoa安装教程我就不说了，用pod安装即可。<br>  本文的Demo可在文章最后下载,在阅读本文的时候，强烈推荐边看Demo边看博文。<br>  项目中加入了ReactiveCocoa 和 DeveloperLx 大神的打印插件 <a href="https://github.com/DeveloperLx/LxDBAnything" target="_blank" rel="external">LxDBAnything</a>。<br>  同时加入了键盘相应的第三方<a href="https://github.com/hackiftekhar/IQKeyboardManager" target="_blank" rel="external">IQKeyboardManager</a>，然而没有怎么用到。<br>  以及<a href="https://github.com/SnapKit/Masonry" target="_blank" rel="external">Masonry</a>,使用方法可以看这篇文章，<a href="http://yimouleng.com/2014/12/02/ios-Masonry/">iOS - Masonry自动布局(Autolayout)</a>。</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>  ReactiveCocoa安装教程我就不说了，用pod安装即可。<br>  本文的Demo可在文章最后下载,在阅读本文的时候，强烈推荐边看Demo边看博文。<br>  项目中加入了ReactiveCocoa 和 DeveloperLx 大神的打印插件 <a href="https://github.com/DeveloperLx/LxDBAnything" target="_blank" rel="external">LxDBAnything</a>。<br>  同时加入了键盘相应的第三方<a href="https://github.com/hackiftekhar/IQKeyboardManager" target="_blank" rel="external">IQKeyboardManager</a>，然而没有怎么用到。<br>  以及<a href="https://github.com/SnapKit/Masonry" target="_blank" rel="external">Masonry</a>,使用方法可以看这篇文章，<a href="http://yimouleng.com/2014/12/02/ios-Masonry/" target="_blank" rel="external">iOS - Masonry自动布局(Autolayout)</a>。</p>
 <h2 id="撸代码"><a href="#撸代码" class="headerlink" title="撸代码"></a>撸代码</h2><h3 id="第一部分-简单使用"><a href="#第一部分-简单使用" class="headerlink" title="第一部分 简单使用"></a>第一部分 简单使用</h3><h4 id="文本框事件"><a href="#文本框事件" class="headerlink" title="文本框事件"></a>文本框事件</h4><p>原来我们在使用<code>textFiled</code>的时候我们需要写到</p>
 <figure class="highlight groovy"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[textField <span class="string">addTarget:</span>self <span class="string">action:</span><span class="meta">@selector</span>(<span class="string">textChanged:</span>) <span class="string">forControlEvents:</span>UIControlEventEditingChanged];</span><br></pre></td></tr></table></figure>
 <p> 然后实现<code>textChanged:</code>方法，在RAC中，对于文本框的监听，是非常简单的一件事情，看如下代码：</p>
@@ -326,8 +326,8 @@
   <p><span>发布时间:</span>2015年12月20日 - 00时00分</p>
   <p><span>最后更新:</span>2016年12月06日 - 16时31分</p>
   <p>
-    <span>原始链接:</span><a class="post-url" href="/2015/12/20/ios-ReactiveCocoa/" title="iOS开发-ReactiveCocoa(RAC)框架">http://yimouleng.com/2015/12/20/ios-ReactiveCocoa/</a>
-    <span class="copy-path" data-clipboard-text="原文: http://yimouleng.com/2015/12/20/ios-ReactiveCocoa/　　作者: Yi&#39;mouleng" title="点击复制文章链接">
+    <span>原始链接:</span><a class="post-url" href="/2015/12/20/ios-ReactiveCocoa/" title="iOS开发-ReactiveCocoa(RAC)框架">http://yimouleng.github.io/2015/12/20/ios-ReactiveCocoa/</a>
+    <span class="copy-path" data-clipboard-text="原文: http://yimouleng.github.io/2015/12/20/ios-ReactiveCocoa/　　作者: Yi&#39;mouleng" title="点击复制文章链接">
         <i class="fa fa-clipboard"></i>
     </span>
   </p>
@@ -350,8 +350,8 @@
     </a>
   
   
-    <a href="/2015/12/17/ios-appstore-question/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">iOS开发之内购-内购时遇到的问题和解决办法-In App Purchase</div>
+    <a href="/2015/12/17/ios-AppStore/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">iOS开发之内购-AppStore</div>
       <strong class="article-nav-caption">></strong>
     </a>
   

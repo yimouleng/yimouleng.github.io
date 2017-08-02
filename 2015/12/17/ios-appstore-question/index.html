@@ -8,7 +8,7 @@
   <meta name="description" content="这篇文章主要针对，上篇的iOS开发之内购-AppStore中，In App Purchase的问题和解决办法。">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS开发之内购-内购时遇到的问题和解决办法-In App Purchase">
-<meta property="og:url" content="http://yimouleng.com/2015/12/17/ios-appstore-question/index.html">
+<meta property="og:url" content="http://yimouleng.github.io/2015/12/17/ios-appstore-question/index.html">
 <meta property="og:site_name" content="Yi'mouleng-即便世界与我为敌，只要心还透明，就能折射希望。">
 <meta property="og:description" content="这篇文章主要针对，上篇的iOS开发之内购-AppStore中，In App Purchase的问题和解决办法。">
 <meta property="og:updated_time" content="2016-01-28T09:58:10.000Z">
@@ -231,7 +231,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         
-        <p> 这篇文章主要针对，上篇的<a href="http://yimouleng.com/2015/12/17/ios-AppStore/">iOS开发之内购-AppStore</a>中，In App Purchase的问题和解决办法。<br><a id="more"></a></p>
+        <p> 这篇文章主要针对，上篇的<a href="http://yimouleng.com/2015/12/17/ios-AppStore/" target="_blank" rel="external">iOS开发之内购-AppStore</a>中，In App Purchase的问题和解决办法。<br><a id="more"></a></p>
 <h3 id="我要在app里添加IAP，必须要注册自己的产品标识符（product-identifiers）。产品标识符是什么？"><a href="#我要在app里添加IAP，必须要注册自己的产品标识符（product-identifiers）。产品标识符是什么？" class="headerlink" title="我要在app里添加IAP，必须要注册自己的产品标识符（product identifiers）。产品标识符是什么？"></a>我要在app里添加IAP，必须要注册自己的产品标识符（product identifiers）。产品标识符是什么？</h3><p>  产品标识符（Product Identifiers）是一串字符串，它用来识别你在应用内贩卖的每件商品。App Store用产品标识符来检索产品信息，标识符只能包含大小写字母（A-Z）、数字（0-9）、下划线（-）、以及圆点(.)。你可以任意排列这些元素，但我们建议你创建标识符时使用反向域名，比如<code>com.companyname.application.productid</code><br>  备注：产品标识符和Apple ID以及Bundle ID没有关系，它们看起来可能比较像Bundle ID，但是两者是不一样的。所以，在代码里你不能用Apple ID或者Bundle ID代替产品标识符。</p>
 <h3 id="怎么创建产品标识符？"><a href="#怎么创建产品标识符？" class="headerlink" title="怎么创建产品标识符？"></a>怎么创建产品标识符？</h3><p>  IAP表单（TheIn-App Purchases form）是用来生成IAP产品的，它包含了产品ID的字段，这个字段必须要填到表里。这个字段可以为你的产品指定产品标识符。你可以按下面的步骤来创建产品标识符：<br>  1.登入iTunes Connect, 点击主页面上的Manage Your Applications模块。<br>  2.进入Manage Your Apps 页面，你可以看到你所有的应用列表。选择你想要创建IAP的产品的app，在下个页面中点击Manage In-App Purchases按键，然后在点击创建。<br>  3.选择IAP产品的类型。iTunes Connect会带你进入IAP表单，在这个表单里有“保存”按键。完整填写Product ID以及表单里的其他字段。<br>  注意事项：产品标识符一旦创建无法修改，此外，如果应用审核没有通过，这个产品标识符也无法再次使用。</p>
 <h3 id="如何在app中如何使用产品标识符？"><a href="#如何在app中如何使用产品标识符？" class="headerlink" title="如何在app中如何使用产品标识符？"></a>如何在app中如何使用产品标识符？</h3><p>  首先创建SKProductsRequest，然后把产品标识符列表传至<code>initWithProductIdentifiers</code>来读取产品信息。</p>
@@ -292,8 +292,8 @@
   <p><span>发布时间:</span>2015年12月17日 - 00时00分</p>
   <p><span>最后更新:</span>2016年01月28日 - 17时58分</p>
   <p>
-    <span>原始链接:</span><a class="post-url" href="/2015/12/17/ios-appstore-question/" title="iOS开发之内购-内购时遇到的问题和解决办法-In App Purchase">http://yimouleng.com/2015/12/17/ios-appstore-question/</a>
-    <span class="copy-path" data-clipboard-text="原文: http://yimouleng.com/2015/12/17/ios-appstore-question/　　作者: Yi&#39;mouleng" title="点击复制文章链接">
+    <span>原始链接:</span><a class="post-url" href="/2015/12/17/ios-appstore-question/" title="iOS开发之内购-内购时遇到的问题和解决办法-In App Purchase">http://yimouleng.github.io/2015/12/17/ios-appstore-question/</a>
+    <span class="copy-path" data-clipboard-text="原文: http://yimouleng.github.io/2015/12/17/ios-appstore-question/　　作者: Yi&#39;mouleng" title="点击复制文章链接">
         <i class="fa fa-clipboard"></i>
     </span>
   </p>
@@ -306,18 +306,18 @@
 
 <nav id="article-nav">
   
-    <a href="/2015/12/20/ios-ReactiveCocoa/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2015/12/17/ios-AppStore/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption"><</strong>
       <div class="article-nav-title">
         
-          iOS开发-ReactiveCocoa(RAC)框架
+          iOS开发之内购-AppStore
         
       </div>
     </a>
   
   
-    <a href="/2015/12/17/ios-AppStore/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">iOS开发之内购-AppStore</div>
+    <a href="/2015/11/05/ios-javascript-OC/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">js(javascript)与OC(Objective-C)交互</div>
       <strong class="article-nav-caption">></strong>
     </a>
   

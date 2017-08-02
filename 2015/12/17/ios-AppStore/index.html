@@ -10,37 +10,37 @@
 基于Xcode7.1.1版本，模拟器iphone6，9.1系统。部分地方直接摘自网络，省时省心省力。多图预警！！！转载请注明出处@yimouleng">
 <meta property="og:type" content="article">
 <meta property="og:title" content="iOS开发之内购-AppStore">
-<meta property="og:url" content="http://yimouleng.com/2015/12/17/ios-AppStore/index.html">
+<meta property="og:url" content="http://yimouleng.github.io/2015/12/17/ios-AppStore/index.html">
 <meta property="og:site_name" content="Yi'mouleng-即便世界与我为敌，只要心还透明，就能折射希望。">
 <meta property="og:description" content="前言  本文会给大家详细介绍iOS内购，虽然之前网上也有内购的教程，但是还不够详细，我重新整理出一份教程，希望对大家有所帮助。
 
 基于Xcode7.1.1版本，模拟器iphone6，9.1系统。部分地方直接摘自网络，省时省心省力。多图预警！！！转载请注明出处@yimouleng">
-<meta property="og:image" content="http://yimouleng.com/image/appStore1.png">
-<meta property="og:image" content="http://yimouleng.com/image/appStore2.png">
-<meta property="og:image" content="http://yimouleng.com/image/appStore6.png">
-<meta property="og:image" content="http://yimouleng.com/image/appStore3.png">
-<meta property="og:image" content="http://yimouleng.com/image/appStore4.png">
-<meta property="og:image" content="http://yimouleng.com/image/appStore7.png">
-<meta property="og:image" content="http://yimouleng.com/image/appStore8.png">
-<meta property="og:image" content="http://yimouleng.com/image/appStore9.png">
-<meta property="og:image" content="http://yimouleng.com/image/appStore10.png">
-<meta property="og:image" content="http://yimouleng.com/image/appStore11.png">
-<meta property="og:image" content="http://yimouleng.com/image/appStore12.png">
-<meta property="og:image" content="http://yimouleng.com/image/appStore13.png">
-<meta property="og:image" content="http://yimouleng.com/image/appStore14.png">
-<meta property="og:image" content="http://yimouleng.com/image/appStore15.png">
-<meta property="og:image" content="http://yimouleng.com/image/appStore19.png">
-<meta property="og:image" content="http://yimouleng.com/image/appStore20.png">
-<meta property="og:image" content="http://yimouleng.com/image/appStore18.png">
-<meta property="og:image" content="http://yimouleng.com/image/appStore17.png">
-<meta property="og:image" content="http://yimouleng.com/image/appStore16.png">
+<meta property="og:image" content="http://yimouleng.github.io/image/appStore1.png">
+<meta property="og:image" content="http://yimouleng.github.io/image/appStore2.png">
+<meta property="og:image" content="http://yimouleng.github.io/image/appStore6.png">
+<meta property="og:image" content="http://yimouleng.github.io/image/appStore3.png">
+<meta property="og:image" content="http://yimouleng.github.io/image/appStore4.png">
+<meta property="og:image" content="http://yimouleng.github.io/image/appStore7.png">
+<meta property="og:image" content="http://yimouleng.github.io/image/appStore8.png">
+<meta property="og:image" content="http://yimouleng.github.io/image/appStore9.png">
+<meta property="og:image" content="http://yimouleng.github.io/image/appStore10.png">
+<meta property="og:image" content="http://yimouleng.github.io/image/appStore11.png">
+<meta property="og:image" content="http://yimouleng.github.io/image/appStore12.png">
+<meta property="og:image" content="http://yimouleng.github.io/image/appStore13.png">
+<meta property="og:image" content="http://yimouleng.github.io/image/appStore14.png">
+<meta property="og:image" content="http://yimouleng.github.io/image/appStore15.png">
+<meta property="og:image" content="http://yimouleng.github.io/image/appStore19.png">
+<meta property="og:image" content="http://yimouleng.github.io/image/appStore20.png">
+<meta property="og:image" content="http://yimouleng.github.io/image/appStore18.png">
+<meta property="og:image" content="http://yimouleng.github.io/image/appStore17.png">
+<meta property="og:image" content="http://yimouleng.github.io/image/appStore16.png">
 <meta property="og:updated_time" content="2016-01-28T09:58:10.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="iOS开发之内购-AppStore">
 <meta name="twitter:description" content="前言  本文会给大家详细介绍iOS内购，虽然之前网上也有内购的教程，但是还不够详细，我重新整理出一份教程，希望对大家有所帮助。
 
 基于Xcode7.1.1版本，模拟器iphone6，9.1系统。部分地方直接摘自网络，省时省心省力。多图预警！！！转载请注明出处@yimouleng">
-<meta name="twitter:image" content="http://yimouleng.com/image/appStore1.png">
+<meta name="twitter:image" content="http://yimouleng.github.io/image/appStore1.png">
   
     <link rel="alternative" href="/atom.xml" title="Yi&#39;mouleng-即便世界与我为敌，只要心还透明，就能折射希望。" type="application/atom+xml">
   
@@ -259,7 +259,7 @@
         
         <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>  本文会给大家详细介绍iOS内购，虽然之前网上也有内购的教程，但是还不够详细，我重新整理出一份教程，希望对大家有所帮助。</p>
 <blockquote>
-<p>基于Xcode7.1.1版本，模拟器iphone6，9.1系统。<br>部分地方直接摘自网络，省时省心省力。<br><strong>多图预警！！！</strong><br>转载请注明出处<a href="http://yimouleng.com/">@yimouleng</a><br><a id="more"></a></p>
+<p>基于Xcode7.1.1版本，模拟器iphone6，9.1系统。<br>部分地方直接摘自网络，省时省心省力。<br><strong>多图预警！！！</strong><br>转载请注明出处<a href="http://yimouleng.com/" target="_blank" rel="external">@yimouleng</a><br><a id="more"></a></p>
 </blockquote>
 <h2 id="一-创建测试App"><a href="#一-创建测试App" class="headerlink" title="一. 创建测试App"></a>一. 创建测试App</h2><h3 id="创建App-1"><a href="#创建App-1" class="headerlink" title="创建App-1"></a>创建App-1</h3><p>首先你需要登录 <a href="https://itunesconnect.apple.com/itc/static/login?view=1&amp;path=%2FWebObjects%2FiTunesConnect.woa%3F" target="_blank" rel="external">App的ItunesConnection</a>，你会看到如下界面</p>
 <p><img src="/image/appStore1.png" alt=""></p>
@@ -345,7 +345,7 @@
 <p><img src="/image/appStore17.png" alt=""></p>
 <p>最后师打印输出日志</p>
 <p><img src="/image/appStore16.png" alt=""></p>
-<p>到这里，我们的内购则全部完成了。<br>如还有不懂得请留言，或者 加群67784110联系我。<br>本文所写的Demo可在我的GITHUB下载，<a href="https://github.com/yimouleng/PayDemo" target="_blank" rel="external">点此链接</a>。<br>内购时遇到的问题和解决办法，我放在下一篇文章中，点此<a href="http://yimouleng.com/2015/12/17/ios-appstore-question/">内购时遇到的问题和解决办法</a>。</p>
+<p>到这里，我们的内购则全部完成了。<br>如还有不懂得请留言，或者 加群67784110联系我。<br>本文所写的Demo可在我的GITHUB下载，<a href="https://github.com/yimouleng/PayDemo" target="_blank" rel="external">点此链接</a>。<br>内购时遇到的问题和解决办法，我放在下一篇文章中，点此<a href="http://yimouleng.com/2015/12/17/ios-appstore-question/" target="_blank" rel="external">内购时遇到的问题和解决办法</a>。</p>
 
       
     </div>
@@ -359,8 +359,8 @@
   <p><span>发布时间:</span>2015年12月17日 - 00时00分</p>
   <p><span>最后更新:</span>2016年01月28日 - 17时58分</p>
   <p>
-    <span>原始链接:</span><a class="post-url" href="/2015/12/17/ios-AppStore/" title="iOS开发之内购-AppStore">http://yimouleng.com/2015/12/17/ios-AppStore/</a>
-    <span class="copy-path" data-clipboard-text="原文: http://yimouleng.com/2015/12/17/ios-AppStore/　　作者: Yi&#39;mouleng" title="点击复制文章链接">
+    <span>原始链接:</span><a class="post-url" href="/2015/12/17/ios-AppStore/" title="iOS开发之内购-AppStore">http://yimouleng.github.io/2015/12/17/ios-AppStore/</a>
+    <span class="copy-path" data-clipboard-text="原文: http://yimouleng.github.io/2015/12/17/ios-AppStore/　　作者: Yi&#39;mouleng" title="点击复制文章链接">
         <i class="fa fa-clipboard"></i>
     </span>
   </p>
@@ -373,18 +373,18 @@
 
 <nav id="article-nav">
   
-    <a href="/2015/12/17/ios-appstore-question/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2015/12/20/ios-ReactiveCocoa/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption"><</strong>
       <div class="article-nav-title">
         
-          iOS开发之内购-内购时遇到的问题和解决办法-In App Purchase
+          iOS开发-ReactiveCocoa(RAC)框架
         
       </div>
     </a>
   
   
-    <a href="/2015/11/05/ios-javascript-OC/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">js(javascript)与OC(Objective-C)交互</div>
+    <a href="/2015/12/17/ios-appstore-question/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">iOS开发之内购-内购时遇到的问题和解决办法-In App Purchase</div>
       <strong class="article-nav-caption">></strong>
     </a>
   
